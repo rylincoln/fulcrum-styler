@@ -4,7 +4,6 @@ module.exports = function(grunt) {
   grunt.initConfig({
     clean: [
       '_site/assets/css',
-      '_site/assets/data',
       '_site/assets/img',
       '_site/assets/js',
       '_site/assets/ui'
@@ -22,13 +21,6 @@ module.exports = function(grunt) {
         },{
           cwd: 'assets/libs/bootstrap-slider/img/',
           dest: '_site/img/',
-          expand: true,
-          src: [
-            '**/*'
-          ]
-        },{
-          cwd: 'assets/data/',
-          dest: '_site/data/',
           expand: true,
           src: [
             '**/*'
