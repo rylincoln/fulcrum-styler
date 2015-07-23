@@ -50,10 +50,11 @@
           callback();
         }
       };
+      
+      if (!NPMap.baseLayers){
+        NPMap.baseLayers = ['cartodb-positron'];
+      }
 
-      debugger;
-
-      NPMap.baseLayers = ['cartodb-positron'];
       
       (function() {
         var s = document.createElement('script'); 

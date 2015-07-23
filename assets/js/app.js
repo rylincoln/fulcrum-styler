@@ -1493,15 +1493,6 @@ if (App.mapId === null) {
   var msg = 'The specified map could not be loaded. Please refresh the page.';
 } else {
   NPMap = {
-    baseLayers: [{
-      clickable: false,
-      id: 'nps.7j7nxwde',
-      type: 'mapbox'
-    }],
-    center: {
-      lat: 39.37,
-      lng: -105.7
-    },
     div: 'map',
     overlays: [{
       type: 'geojson',
