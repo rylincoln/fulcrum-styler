@@ -1,0 +1,40 @@
+<div id="modal-createDataset" class="modal" role="dialog" aria-describedby="" aria-labelledby="modal-createDataset-title">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 id="modal-createDataset-title" class="modal-title">Create a Dataset&nbsp;<img src="assets/img/help@2x.png" style="height:18px;" rel="tooltip" title="Create a dataset to use in your map. We will host it so you can use it in your maps." data-placement="bottom"></h4>
+      </div>
+      <div class="modal-body">
+        <p>Fill out the form to create a new dataset and add it to your map. You can (optionally) "seed" the dataset by uploading a KML, CSV, or GeoJSON file from your computer. You will be able to edit the contents of the dataset once it has been added to the map.</p>
+        <div class="form-group">
+          <label for="create-dataset-name">Name</label>
+          <input id="create-dataset-name" type="text" class="form-control" required></input>
+          <span class="help-block">The name of your dataset should be short and memorable.</span>
+        </div>
+        <div class="form-group">
+          <label for="create-dataset-description">Description</label>
+          <textarea id="create-dataset-description" class="form-control" rows="3" required></textarea>
+        </div>
+        <div class="form-group input-append" style="width:75%;">
+          <label for="create-dataset-file">Upload</label>
+          <input id="create-dataset-file" type="file">
+        </div>
+        <label style="display:block;margin-top:20px;">
+          <div class="checkbox">
+            <input id="create-dataset-public" type="checkbox" checked disabled></input>Is it ok for this dataset to be public?
+          </div>
+        </label>
+        <label style="display:block;" style="margin-bottom:0;">
+          <div class="checkbox">
+            <input id="create-dataset-share" type="checkbox" checked disabled></input>Do you want to share this dataset with others?
+          </div>
+        </label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Create and Add</button>
+      </div>
+    </div>
+  </div>
+</div>

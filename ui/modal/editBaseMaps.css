@@ -1,0 +1,30 @@
+#modal-editBaseMaps .modal-body {
+  overflow: auto;
+}
+#modal-editBaseMaps .modal-footer {
+  margin-top: 0;
+}
+#modal-editBaseMaps .well:last-child {
+  margin-bottom: 0;
+}
+#modal-editBaseMaps .well h5 {
+  font-size: 20px;
+  margin-top: 0;
+}
+#modal-editBaseMaps .well .row {
+  margin-bottom: 10px;
+}
+  #modal-editBaseMaps .well .row p {
+    background-color: #000;
+    color: #fff;
+    margin-right: 20px;
+    padding: 8px 10px;
+    position: absolute;
+    margin-bottom: 0;
+  }
+  #modal-editBaseMaps .well .row:last-child {
+    margin-bottom: 0;
+  }
+  #modal-editBaseMaps .well .row div:nth-child(n+4) {
+    margin-top: 20px;
+  }

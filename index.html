@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="description" content="A responsive web mapping application for viewing Fulcrum Data Shares">
+    <meta name="author" content="Katrina Engelsted">
+    <title name="title">Fulcrum Share Maps</title>
+    
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="//cdn.leafletjs.com/leaflet-0.7.3/leaflet.css">
+    <link rel="stylesheet" href="assets/libs/alertify/css/alertify-core.css">
+    <link rel="stylesheet" href="assets/libs/alertify/css/alertify-bootstrap.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/libs/bootstrap-editable/css/bootstrap-editable.css">
+    <link rel="stylesheet" href="assets/libs/bootstrap-select/css/bootstrap-select.css">
+    <link rel="stylesheet" href="assets/libs/bootstrap-colorpickersliders/bootstrap.colorpickersliders.css">
+    <link rel="stylesheet" href="assets/libs/bootstrap-slider/css/bootstrap-slider.css">
+    <link rel="stylesheet" href="assets/libs/typeahead/typeahead.css">
+    <link rel="stylesheet" href="assets/libs/share/css/share.css">
+    <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/favicon-76.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="assets/img/favicon-120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="assets/img/favicon-152.png">
+    <link rel="icon" sizes="196x196" href="assets/img/favicon-196.png">
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+  </head>
+   <body>
+    <header>
+      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <div class="navbar-icon-container">
+              <a href="#" class="navbar-icon pull-right visible-xs" id="nav-btn"><i class="fa fa-bars fa-lg white"></i></a>
+            </div>
+            <a class="navbar-brand" href="#" name="title" id="fulcrum-zoom navbar-title"><img src="assets/img/fulcrum-small.png">Fulcrum Styler</a>
+          </div>
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="button-filterLayer"><i class="fa fa-pencil"></i>&nbsp;&nbsp;Filter Layer</a></li>
+              <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.clickLayerConfigureInteractivity(this);" id="popup"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Popups</a></li>
+              <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.clickLayerChangeStyle(this);"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;Style Your Layer</a></li>
+              <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="button-addAnotherLayer"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;Add Another Layer</a></li>
+              <!-- <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="button-addAnotherLayer"><i class="fa fa-map-marker white"></i>&nbsp;&nbsp;Style Other Layer</a></li> -->
+              <li class="dropdown">
+                  <a class="dropdown-toggle" id="downloadDrop" href="#" role="button" data-toggle="dropdown"><i class="fa fa-refresh white"></i><b class="caret"></b></a>
+                  <ul class="dropdown-menu dropdown-menu-form">
+                    <li><a href="#" id="refresh-btn" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-refresh"></i>&nbsp;&nbsp;Refresh Now</a></li>
+                    <li class="dropdown-input"><input type="checkbox" id="auto-refresh">&nbsp;&nbsp;Auto Refresh (every minute)</li>
+                  </ul>
+              </li>
+              <li class="hidden-xs"><a class="button save"><i class="fa fa-save white"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+    <section>
+      <div class="content">
+        <h3 class="panel-title">Map Center & Zoom</h3>
+          <a href="#" class="setup buttons" id="fulcrum-zoom">Zoom to Fulcrum Layer</a>
+          <a href="#" class="setup buttons">Set Center to <span id="current-lat">39.00</span>, <span id="current-lng">-96.00</span></a>
+          <a href="#" class="setup buttons">Set Zoom to <span id="current-zoom">4</span></a>
+          <a href="#" class="setup buttons">Set Center & Zoom</a>
+          <a href="#" class="setup buttons">Restrict Bounds</a>
+        <div class="centering">
+          <p class="help-block" style="margin:20px 0 0 0;">Initial Center: <span class="lat">39.00</span>, <span class="lng">-96.00</span><br>Initial Zoom: <span class="zoom">4</span></p>
+          <h5 style="font-weight:bold;">Min and Max Zoom Levels</h5>
+          <p class="help-block" style="margin-bottom:20px;">Use the slider to restrict the map to a range of zoom levels. The map's zooms will be limited to the two zooms you befine here:</p>
+          <input type="text" id="set-zoom" class="form-control" required>
+          <a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" class="setup buttons" id="button-editBaseMaps"><i class="fa fa-edit"></i>&nbsp;&nbsp;Change Basemaps</a>
+          <form class="clearfix">
+            <fieldset>
+              <h3>Tools on the Map</h3>
+              <div class="checkbox">
+                <label><input type="checkbox" value="editControl">Drawing Tools</label>
+              </div>
+              <div class="checkbox">
+                <label><input type="checkbox" value="fullscreenControl">Fullscreen Bar</label>
+              </div>
+              <div class="checkbox">
+                <label><input type="checkbox" value="geocoderControl">Geocoder Bar</label>
+              </div>
+              <div class="checkbox">
+                <label><input type="checkbox" value="hashControl">URL Location Hash</label>
+              </div>
+              <div class="checkbox">
+                <label><input type="checkbox" value="homeControl" checked="checked">Home Button</label>
+              </div>
+              <div class="checkbox">
+                <label><input type="checkbox" value="locateControl">User Location</label>
+              </div>
+              <div class="checkbox">
+                <label><input type="checkbox" value="measureControl">Measuring Tools</label>
+              </div>
+              <div class="checkbox">
+                <label><input type="checkbox" value="overviewControl">Overview Map</label>
+              </div>
+              <div class="checkbox">
+                <label><input type="checkbox" value="printControl">Print Button</label>
+              </div>
+              <div class="checkbox">
+                <label><input type="checkbox" value="scaleControl">Scale</label>
+              </div>
+              <div class="checkbox">
+                <label><input type="checkbox" value="smallzoomControl" checked="checked">Zoom Buttons</label>
+              </div>
+              <div class="checkbox">
+                <label><input type="checkbox" value="zoomdisplayControl">Zoom Display</label>
+              </div>
+            </fieldset>
+          </form>
+          <form>
+            <fieldset>
+              <h3>Behavior for the Map</h3>
+              <div class="checkbox">
+                <label><input type="checkbox" value="dragging" checked="checked">Draggable</label>
+              </div>
+              <div class="checkbox">
+                <label><input type="checkbox" value="doubleClickZoom" checked="checked">Double-click Zoom</label>
+              </div>
+              <div class="checkbox">
+                <label><input type="checkbox" value="scrollWheelZoom" checked="checked">Scroll Wheel Zoom</label>
+              </div>
+              <div class="checkbox">
+                <label><input type="checkbox" value="boxZoom" checked="checked">Box Zoom</label>
+              </div>
+              <div class="checkbox">
+                <label><input type="checkbox" value="touchZoom" checked="checked">Touch Zoom (Touchscreen)</label>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+      <div id="map">
+        <iframe id="iframe-map"></iframe>
+      </div>
+      <i class="fa fa-arrow-right fa-5x" style="color:#AAA;"></i>
+      <div class="export-panel">
+        <div id="error" class="hide"></div>
+        <div class="ssk-group ssk-count">
+          <a href="" class="buttons ssk ssk-facebook"></a>
+          <a href="" class="buttons ssk ssk-twitter"></a>
+          <a href="" class="buttons ssk ssk-google-plus"></a>
+          <a href="" class="buttons ssk ssk-linkedin"></a>
+          <a href="" class="buttons ssk ssk-email"></a>
+          <a href="" class="buttons ssk ssk-whatsapp"></a>
+          <a href="#" id="embed" class="buttons ssk ssk-embed" data-nofollow="">Embed</a>
+          <div id="share-code" class="hide">
+            <p>Copy and paste the following HTML:</p>
+            <textarea id="generate-result"></textarea>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div id="loading">
+      <div class="progress-bar" role="progressbar" aria-valuemax="100" aria-valuemin="100" aria-valuenow="100" style="width:100%;"></div>
+    </div>
+    <div id="mask" class="modal-backdrop in"></div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.js"></script>
+    <script src="http://www.nps.gov/lib/bootstrap/3.3.2/js/nps-bootstrap.js"></script>
+    <script src="assets/libs/share/js/share.js"></script>
+    <script src="assets/libs/alertify/js/alertify.js"></script>
+    <script src="assets/libs/bootstrap-colorpickersliders/bootstrap.colorpickersliders.js"></script>
+    <script src="assets/libs/bootstrap-editable/js/bootstrap-editable.js"></script>
+    <script src="assets/libs/bootstrap-filestyle/js/bootstrap-filestyle.js"></script>
+    <script src="assets/libs/bootstrap-select/js/bootstrap-select.js"></script>
+    <script src="assets/libs/bootstrap-slider/js/bootstrap-slider.js"></script>
+    <script src="assets/libs/dropzone.js"></script>
+    <script src="assets/libs/jquery-nestable/js/jquery-nestable.js"></script>
+    <script src="assets/libs/moment.js"></script>
+    <script src="assets/libs/typeahead/typeahead.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <!-- // <script src="//cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script> -->
+    <script src="assets/js/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <base target="_parent">
+    <link href="http://www.nps.gov/lib/bootstrap/3.3.2/css/nps-bootstrap.css" rel="stylesheet">
+    <style>
+      html, body, #map {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+      }
+      #map {
+        left: 0;
+        position: absolute;
+        top: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      var NPMap = JSON.parse(JSON.stringify(parent.NPMap));
+
+      NPMap.hooks = {
+        init: function(callback) {
+          var $ = window.parent.$,
+            $currentLat = $('#current-lat'),
+            $currentLng = $('#current-lng'),
+            $currentZoom = $('#current-zoom'),
+            map = NPMap.config.L,
+            zoom = $('#fulcrum-zoom');
+
+          function updateCurrent() {
+            var latLng = map.getCenter();
+
+            $currentLat.html(latLng.lat.toFixed(2));
+            $currentLng.html(latLng.lng.toFixed(2));
+            $currentZoom.html(map.getZoom());
+          }
+
+          zoom.on('click', function() {
+            map.fitBounds(NPMap.config.overlays[0].L.getBounds());
+            return false;
+          });
+
+          map.on('moveend', updateCurrent);
+          updateCurrent();
+          callback();
+        }
+      };
+
+      NPMap.baseLayers = ['cartodb-positron'];
+      
+      (function() {
+        var s = document.createElement('script'); 
+        s.src = 'http://www.nps.gov/lib/npmap.js/2.0.0/npmap-bootstrap.js';
+        document.body.appendChild(s);
+      })();
+    </script>
+  </body>
+</html>

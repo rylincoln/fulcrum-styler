@@ -1,0 +1,29 @@
+#modal-addLayer .modal-body {
+  padding: 0;
+}
+#modal-addLayer-description {
+  margin-bottom: 15px;
+}
+#modal-addLayer .modal-body {
+  overflow: auto;
+  padding: 15px;
+}
+#modal-addLayer .modal-footer {
+  margin-top: 0;
+}
+  /*
+  #modal-addLayer .tab-content .modal-addLayer-search-type {
+    font-size: 18px;
+    margin: 5px 0;
+    padding-left: 10px;
+  }
+  */
+#cartodb, #csv, #geojson, #github, #kml, #mapbox, #spot, #tiled, #wms {
+  display: none;
+}
+#layerDescription {
+  resize: vertical;
+}
+#modal-addLayer .slider.slider-horizontal {
+  width: 50%;
+}

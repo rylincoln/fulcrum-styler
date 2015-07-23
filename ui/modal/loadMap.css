@@ -1,0 +1,12 @@
+#modal-loadMap-code {
+  resize: none;
+}
+#modal-loadMap form {
+  bottom: 0;
+  position: absolute;
+  top: 65px;
+  width: 605px;
+}
+#modal-loadMap form .form-group, #modal-loadMap form .form-group textarea {
+  height: 100%;
+}
