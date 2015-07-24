@@ -674,7 +674,7 @@ function ready() {
                 if (t) {
                   popup.title = escapeHtml(t);
                 }
-
+                 debugger;
                 if (!popup.description && !popup.title && typeof popup.max !== 'number' && typeof popup.min !== 'number') {
                   delete overlay.popup;
                 } else {
@@ -872,21 +872,21 @@ function ready() {
                   $el.popover('toggle');
                 } else {
                   var overlay = NPMap.overlays[0], //getLayerIndexFromButton(el)
-                    // name = overlay.name.split(' ').join('_'),
+                    name = overlay.name.split(' ').join('_'),
                     supportsTooltips = (overlay.type === 'cartodb' || overlay.type === 'csv' || overlay.type === 'geojson' || overlay.type === 'kml' || overlay.type === 'mapbox'),
                     html;
-
+                    debugger;
                   html = '' +
                     // Checkbox here "Display all fields in a table?" should be checked on by default.
-                    '<form class="configure-interactivity" id="' + mapId + '_layer-configure-interactivity" role="form">' +
+                    '<form class="configure-interactivity" id="' + name + '_layer-configure-interactivity" role="form">' +
                       '<fieldset>' +
                         '<div class="form-group">' +
-                          '<span><label for="' + mapId + '_title">Title</label><a href="https://github.com/nationalparkservice/npmap-FulcrumStyler/wiki/Popups-and-Tooltips" target="_blank"><img data-container="body" data-placement="bottom" rel="tooltip" src="assets/img/help@2x.png" style="cursor:pointer;float:right;height:18px;" title="The title will display in bold at the top of the popup. HTML and Handlebars templates are allowed. Click for more info."></a></span>' +
-                          '<input class="form-control" id="' + mapId + '_title" rows="3" type="text"></input>' +
+                          '<span><label for="' + name + '_title">Title</label><a href="/help.html" target="_blank"><img data-container="body" data-placement="bottom" rel="tooltip" src="assets/img/help@2x.png" style="cursor:pointer;float:right;height:18px;" title="The title will display in bold at the top of the popup. HTML and Handlebars templates are allowed. Click for more info."></a></span>' +
+                          '<input class="form-control" id="' + name + '_title" rows="3" type="text"></input>' +
                         '</div>' +
                         '<div class="form-group">' +
-                          '<span><label for="' + mapId + '_description">Description</label><a href="https://github.com/nationalparkservice/npmap-FulcrumStyler/wiki/Popups-and-Tooltips" target="_blank"><img data-container="body" data-placement="bottom" rel="tooltip" src="assets/img/help@2x.png" style="cursor:pointer;float:right;height:18px;" title="The description will display underneath the title. HTML and Handlebars templates are allowed. Click for more info."></a></span>' +
-                          '<textarea class="form-control" id="' + mapId + '_description" rows="4"></textarea>' +
+                          '<span><label for="' + name + '_description">Description</label><a href="/help.html" target="_blank"><img data-container="body" data-placement="bottom" rel="tooltip" src="assets/img/help@2x.png" style="cursor:pointer;float:right;height:18px;" title="The description will display underneath the title. HTML and Handlebars templates are allowed. Click for more info."></a></span>' +
+                          '<textarea class="form-control" id="' + name + '_description" rows="4"></textarea>' +
                         '</div>' +
                         (supportsTooltips ? '' +
                           '<div class="checkbox">' +
@@ -895,8 +895,8 @@ function ready() {
                             '</label>' +
                           '</div>' +
                           '<div class="form-group">' +
-                            '<span><label for="' + mapId + '_tooltip">Tooltip</label><a href="https://github.com/nationalparkservice/npmap-FulcrumStyler/wiki/Popups-and-Tooltips" target="_blank"><img data-container="body" data-placement="bottom" rel="tooltip" src="assets/img/help@2x.png" style="cursor:pointer;float:right;height:18px;" title="Tooltips display when the cursor moves over a shape. HTML and Handlebars templates are allowed. Click for more info."></a></span>' +
-                            '<input class="form-control" id="' + mapId + '_tooltip" type="text" disabled></input>' +
+                            '<span><label for="' + name + '_tooltip">Tooltip</label><a href="/help.html" target="_blank"><img data-container="body" data-placement="bottom" rel="tooltip" src="assets/img/help@2x.png" style="cursor:pointer;float:right;height:18px;" title="Tooltips display when the cursor moves over a shape. HTML and Handlebars templates are allowed. Click for more info."></a></span>' +
+                            '<input class="form-control" id="' + name + '_tooltip" type="text" disabled></input>' +
                           '</div>' +
                         '' : '') +
                       '</fieldset>' +
@@ -921,7 +921,7 @@ function ready() {
                     .on('shown.bs.popover', function() {
                       var config;
 
-                      overlay = NPMap.overlays[getLayerIndexFromButton(el)];
+                      overlay = NPMap.overlays[0],  //NPMap.overlays[getLayerIndexFromButton(el)];
                       config = overlay.popup;
                       $activeConfigureInteractivityButton = $el;
                       $('#mask').show();
@@ -1101,13 +1101,50 @@ function ready() {
               });
               $('#button-filterLayer, #button-filterLayerAgain').on('click', function() {
                 debugger;
-                if ($modalfilterLayer) {
-                  $modalfilterLayer.modal('show');
-                } else {
-                  loadModule('FulcrumStyler.ui.modal.filterLayer', function() {
-                    $modalfilterLayer = $('#modal-filterLayer');
-                  });
+                var username = $("input#username").val();
+                var password = $("input#password").val();  
+
+                function make_base_auth(user, password) {
+                  var tok = user + ':' + pass;
+                  var hash = Base64.encode(tok);
+                  return "Basic " + hash;
                 }
+
+                $.ajax({
+                  type: "GET",
+                  url: "https://api.fulcrumapp.com/api/v2/records.json",
+                  dataType: 'json',
+                  async: false,
+                  data: '{"username": "' + username + '", "password" : "' + password + '"}',
+                  success: function (){
+                    console.log(data);
+                    alert('Thanks for your comment!'); 
+                  }
+                });
+                
+
+                // $.ajax({
+                //   type: "GET",
+                //   url: "https://api.fulcrumapp.com/api/v2/records.json",
+                //   data: {form_id: "my-form-id"},
+                //   contentType: "application/json",
+                //   dataType: "json",
+                //   headers: {
+                //     "X-ApiToken": "my-api-key"
+                //   },
+                //   success: function (data) {
+                //     // do something!
+                //     console.log(data);
+                //   }
+                // });
+
+                // if ($modalfilterLayer) {
+                //   $modalfilterLayer.modal('show');
+                // } else {
+                //   loadModule('FulcrumStyler.ui.modal.filterLayer', function() {
+                //     $modalfilterLayer = $('#modal-filterLayer');
+                //   });
+                // }
               });
             },
             load: function() {
@@ -1185,9 +1222,9 @@ function ready() {
           },
           setCenterAndZoom: {
             init: function() {
-              var buttonBlocks = $('#set-center-and-zoom .btn-block');
+              var buttonBlocks = $('#set-center-and-zoom a');
 
-              $(buttonBlocks[0]).on('click', function() {
+              $(buttonBlocks[1]).on('click', function() {
                 var center = getLeafletMap().getCenter();
 
                 NPMap.center = {
@@ -1197,12 +1234,12 @@ function ready() {
                 updateInitialCenterAndZoom();
                 FulcrumStyler.updateMap();
               });
-              $(buttonBlocks[1]).on('click', function() {
+              $(buttonBlocks[2]).on('click', function() {
                 NPMap.zoom = getLeafletMap().getZoom();
                 updateInitialCenterAndZoom();
                 FulcrumStyler.updateMap();
               });
-              $(buttonBlocks[2]).on('click', function() {
+              $(buttonBlocks[3]).on('click', function() {
                 var map = getLeafletMap(),
                   center = map.getCenter();
 
@@ -1215,7 +1252,7 @@ function ready() {
                 updateInitialCenterAndZoom();
                 FulcrumStyler.updateMap();
               });
-              $(buttonBlocks[3]).on('click', function() {
+              $(buttonBlocks[4]).on('click', function() {
                 var $this = $(this);
 
                 if ($this.hasClass('active')) {
@@ -1361,7 +1398,7 @@ function ready() {
                 $modalViewConfig = $('#modal-viewConfig');
               });
             });
-            // debugger;
+           
             $('.fa.fa-arrow-right').on('click', function() {
               $('.content')[0].style.display = 'none';
               $('.fa.fa-arrow-right').style.display = 'none';
@@ -1496,7 +1533,8 @@ if (App.mapId === null) {
     div: 'map',
     overlays: [{
       type: 'geojson',
-      url: 'https://web.fulcrumapp.com/shares/' + App.mapId + '.geojson'
+      url: 'https://web.fulcrumapp.com/shares/' + App.mapId + '.geojson',
+      name: 'Fulcum data'
     }],
     homeControl: {
       position: 'topright'
