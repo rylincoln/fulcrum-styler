@@ -41,10 +41,10 @@
           </div>
           <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="button-filterLayer"><i class="fa fa-pencil"></i>&nbsp;&nbsp;Filter Layer</a></li>
-              <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.clickLayerConfigureInteractivity(this);" id="popup"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Popups</a></li>
-              <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.clickLayerChangeStyle(this);"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;Style Your Layer</a></li>
-              <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="button-addAnotherLayer"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;Add Another Layer</a></li>
+              <li class="hidden-xs"><a href="" data-toggle="collapse" data-target=".navbar-collapse.in" id="button-filterLayer"><i class="fa fa-pencil"></i>&nbsp;&nbsp;Filter Layer</a></li>
+              <li class="hidden-xs"><a href="" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.clickLayerConfigureInteractivity(this);" id="popup"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Popups</a></li>
+              <li class="hidden-xs"><a href="" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.clickLayerChangeStyle(this);"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;Style Your Layer</a></li>
+              <li class="hidden-xs"><a href="" data-toggle="collapse" data-target=".navbar-collapse.in" id="button-addAnotherLayer"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;Add Another Layer</a></li>
               <!-- <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="button-addAnotherLayer"><i class="fa fa-map-marker white"></i>&nbsp;&nbsp;Style Other Layer</a></li> -->
               <li class="dropdown">
                   <a class="dropdown-toggle" id="downloadDrop" href="#" role="button" data-toggle="dropdown"><i class="fa fa-refresh white"></i><b class="caret"></b></a>
@@ -62,11 +62,13 @@
     <section>
       <div class="content">
         <h3 class="panel-title">Map Center & Zoom</h3>
+        <div class="set-center-and-zoom btn-block">
           <a href="#" class="setup buttons" id="fulcrum-zoom">Zoom to Fulcrum Layer</a>
           <a href="#" class="setup buttons">Set Center to <span id="current-lat">39.00</span>, <span id="current-lng">-96.00</span></a>
           <a href="#" class="setup buttons">Set Zoom to <span id="current-zoom">4</span></a>
           <a href="#" class="setup buttons">Set Center & Zoom</a>
           <a href="#" class="setup buttons">Restrict Bounds</a>
+        </div>
         <div class="centering">
           <p class="help-block" style="margin:20px 0 0 0;">Initial Center: <span class="lat">39.00</span>, <span class="lng">-96.00</span><br>Initial Zoom: <span class="zoom">4</span></p>
           <!-- <h5 style="font-weight:bold;">Min and Max Zoom Levels</h5>
@@ -74,8 +76,8 @@
           <input type="text" id="set-zoom" class="form-control" required> -->
         </div>
         <a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" class="setup buttons" id="button-editBaseMaps"><i class="fa fa-edit"></i>&nbsp;&nbsp;Change Basemaps</a>
-        <div class="centering">
-          <form class="clearfix">
+        <div class="pull-left" style="margin-left:10px">
+          <form>
             <fieldset>
               <h3>Tools on the Map</h3>
               <div class="checkbox">
