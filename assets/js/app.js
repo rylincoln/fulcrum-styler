@@ -1484,14 +1484,7 @@ var App = {
   mapId: decodeURI((RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1])
 }
 
-if (App.mapId === 'null' || App.mapId === null) {
-  document.getElementById('iframe-map').contentWindow.NPMap = {
-    center: {
-    lat: 39.37,
-    lng: -105.7
-    },
-    div: 'map'
-  };
+if (App.mapId === 'null' || App.mapId === 'fulcrum-data-id') {
   $('#mask').show();
   alertify.error('Please enter your fulcrum data share id at the end of the URL: \'?id=<i>data-share number</i>\'');
 } else if (App.mapId) {
