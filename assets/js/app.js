@@ -382,8 +382,8 @@ function ready() {
           '</ul>' +
           '<div class="tab-content">' +
             createPanel('point') +
-            createPanel('line') +
-            createPanel('polygon') +
+            // createPanel('line') +
+            // createPanel('polygon') +
           '</div>' +
         '</form>' +
       '';
@@ -1485,15 +1485,15 @@ var App = {
 }
 
 if (App.mapId === 'null' || App.mapId === null) {
-  $('#mask').show();
-  NPMap = {
+  document.getElementById('iframe-map').contentWindow.NPMap = {
     center: {
-      lat: 39.37,
-      lng: -105.7
+    lat: 39.37,
+    lng: -105.7
     },
     div: 'map'
   };
-  alertify.error('Please enter your fulcrum data share id into the URL. \'?id=<i>id number</i>\'');
+  $('#mask').show();
+  alertify.error('Please enter your fulcrum data share id at the end of the URL: \'?id=<i>data-share number</i>\'');
 } else if (App.mapId) {
   alertify.success('Welcome to the Styler.  Zoom to your Fulcrum layer and begin styling!');
   NPMap = {
