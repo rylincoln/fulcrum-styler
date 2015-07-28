@@ -1484,10 +1484,18 @@ var App = {
   mapId: decodeURI((RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1])
 }
 
-if (App.mapId === null) {
+if (App.mapId === 'null' || App.mapId === null) {
   $('#mask').show();
-  var msg = 'The specified map could not be loaded. Please refresh the page.';
-} else {
+  NPMap = {
+    center: {
+      lat: 39.37,
+      lng: -105.7
+    },
+    div: 'map'
+  };
+  alertify.error('Please enter your fulcrum data share id into the URL. \'?id=<i>id number</i>\'');
+} else if (App.mapId) {
+  alertify.success('Welcome to the Styler.  Zoom to your Fulcrum layer and begin styling!');
   NPMap = {
     center: {
       lat: 39.37,
@@ -1495,6 +1503,9 @@ if (App.mapId === null) {
     },
     div: 'map',
     overlays: [{
+      cluster: {
+        clusterIcon: '#6c6c6c'
+      },
       type: 'geojson',
       url: 'https://web.fulcrumapp.com/shares/' + App.mapId + '.geojson'
     }],
