@@ -9,20 +9,20 @@
     <meta name="description" content="A responsive web mapping application for viewing Fulcrum Data Shares">
     <meta name="author" content="Katrina Engelsted">
     <title name="title">Fulcrum Share Maps</title>
-    
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css">
-    <link rel="stylesheet" href="//cdn.leafletjs.com/leaflet-0.7.3/leaflet.css">
-    <link rel="stylesheet" href="assets/libs/alertify/css/alertify-core.css">
-    <link rel="stylesheet" href="assets/libs/alertify/css/alertify-bootstrap.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/libs/bootstrap-editable/css/bootstrap-editable.css">
-    <link rel="stylesheet" href="assets/libs/bootstrap-select/css/bootstrap-select.css">
-    <link rel="stylesheet" href="assets/libs/bootstrap-colorpickersliders/bootstrap.colorpickersliders.css">
-    <link rel="stylesheet" href="assets/libs/bootstrap-slider/css/bootstrap-slider.css">
-    <link rel="stylesheet" href="assets/libs/typeahead/typeahead.css">
-    <link rel="stylesheet" href="assets/libs/share/css/share.css">
-    <link rel="stylesheet" href="assets/css/app.css">
+
+    <link rel="stylesheet" type="css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="css" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css">
+    <link rel="stylesheet" type="css" href="//cdn.leafletjs.com/leaflet-0.7.3/leaflet.css">
+    <link rel="stylesheet" type="css" href="assets/libs/alertify/css/alertify-core.css">
+    <link rel="stylesheet" type="css" href="assets/libs/alertify/css/alertify-bootstrap.css">
+    <link rel="stylesheet" type="css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="css" href="assets/libs/bootstrap-editable/css/bootstrap-editable.css">
+    <link rel="stylesheet" type="css" href="assets/libs/bootstrap-select/css/bootstrap-select.css">
+    <link rel="stylesheet" type="css" href="assets/libs/bootstrap-colorpickersliders/bootstrap.colorpickersliders.css">
+    <link rel="stylesheet" type="css" href="assets/libs/bootstrap-slider/css/bootstrap-slider.css">
+    <link rel="stylesheet" type="css" href="assets/libs/typeahead/typeahead.css">
+    <link rel="stylesheet" type="css" href="assets/libs/share/css/share.css">
+    <link rel="stylesheet" type="css" href="assets/css/app.css">
     <link rel="apple-touch-icon" sizes="76x76" href="assets/img/favicon-76.png">
     <link rel="apple-touch-icon" sizes="120x120" href="assets/img/favicon-120.png">
     <link rel="apple-touch-icon" sizes="152x152" href="assets/img/favicon-152.png">
@@ -41,10 +41,10 @@
           </div>
           <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="hidden-xs"><a href="" data-toggle="collapse" data-target=".navbar-collapse.in" id="button-filterLayer"><i class="fa fa-pencil"></i>&nbsp;&nbsp;Filter Layer</a></li>
-              <li class="hidden-xs"><a href="" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.clickLayerConfigureInteractivity(this);" id="popup"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Popups</a></li>
-              <li class="hidden-xs"><a href="" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.clickLayerChangeStyle(this);"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;Style Your Layer</a></li>
-              <li class="hidden-xs"><a href="" data-toggle="collapse" data-target=".navbar-collapse.in" id="button-addAnotherLayer"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;Add Another Layer</a></li>
+              <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="button-filterLayer"><i class="fa fa-pencil"></i>&nbsp;&nbsp;Filter Layer</a></li>
+              <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.clickLayerConfigureInteractivity(this);" id="popup"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Popups</a></li>
+              <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.clickLayerChangeStyle(this);"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;Style Your Layer</a></li>
+              <!-- <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="button-addAnotherLayer"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;Add Another Layer</a></li> -->
               <!-- <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="button-addAnotherLayer"><i class="fa fa-map-marker white"></i>&nbsp;&nbsp;Style Other Layer</a></li> -->
               <li class="dropdown">
                   <a class="dropdown-toggle" id="downloadDrop" href="#" role="button" data-toggle="dropdown"><i class="fa fa-refresh white"></i><b class="caret"></b></a>
@@ -61,22 +61,23 @@
     </header>
     <section>
       <div class="content">
+        <h3 class="panel-title">Map Base</h3>
+          <a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" class="setup buttons" id="editBaseMaps"><i class="fa fa-edit"></i>&nbsp;&nbsp;Change Basemaps</a>
+          <a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" class="setup buttons" id="addAnotherLayer"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;Add Another Layer</a>
+          <br>
         <h3 class="panel-title">Map Center & Zoom</h3>
-        <div id="set-center-and-zoom" class="btn-block">
           <a href="#" class="setup buttons" id="fulcrum-zoom">Zoom to Fulcrum Layer</a>
           <a href="#" class="setup buttons">Set Center to <span id="current-lat">39.00</span>, <span id="current-lng">-96.00</span></a>
           <a href="#" class="setup buttons">Set Zoom to <span id="current-zoom">4</span></a>
           <a href="#" class="setup buttons">Set Center & Zoom</a>
           <a href="#" class="setup buttons">Restrict Bounds</a>
-        </div>
         <div class="centering">
           <p class="help-block" style="margin:20px 0 0 0;">Initial Center: <span class="lat">39.00</span>, <span class="lng">-96.00</span><br>Initial Zoom: <span class="zoom">4</span></p>
-          <!-- <h5 style="font-weight:bold;">Min and Max Zoom Levels</h5>
+          <h5 style="font-weight:bold;">Min and Max Zoom Levels</h5>
           <p class="help-block" style="margin-bottom:20px;">Use the slider to restrict the map to a range of zoom levels. The map's zooms will be limited to the two zooms you befine here:</p>
-          <input type="text" id="set-zoom" class="form-control" required> -->
+          <input type="text" id="set-zoom" class="form-control" required>
         </div>
-        <a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" class="setup buttons" id="button-editBaseMaps"><i class="fa fa-edit"></i>&nbsp;&nbsp;Change Basemaps</a>
-        <div class="pull-left" style="margin-left:10px">
+        <div class="pull=left" style="margin-left:10px;">
           <form>
             <fieldset>
               <h3>Tools on the Map</h3>

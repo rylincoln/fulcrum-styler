@@ -282,9 +282,6 @@ input[type="radio"], input[type="checkbox"] {
 /*.npmap .leaflet-container a.leaflet-popup-close-button {
   background: #A5A3A3 !important;
 }*/
-.panel-body{
-  overflow-y: auto;
-}
 .panel-title{
   padding: 10px 0;
   text-align: center;

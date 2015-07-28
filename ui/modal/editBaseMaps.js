@@ -8,7 +8,7 @@ FulcrumStyler.ui.modal.editBaseMaps = (function() {
   var $checkbox = $('#modal-editBaseMaps input'),
     baseMaps = document.getElementById('iframe-map').contentWindow.L.npmap.preset.baselayers,
     html = [];
-
+debugger;
   function createThumbnail(map, provider, providerPretty) {
     var id = provider + '-' + map,
       thumbnail = '' +
