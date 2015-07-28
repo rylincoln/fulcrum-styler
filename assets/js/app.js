@@ -9,7 +9,7 @@ function ready() {
       $buttonAddAnotherLayer = $('#button-addAnotherLayer'),
       $buttonCreateDatasetAgain = $('#button-createDatasetAgain'),
       $buttonEditBaseMapsAgain = $('#button-editBaseMapsAgain'),
-      $buttonExport = $('.buttons.embed'),
+      $buttonExport = $('#embed'),
       $mapSize = $('.change-size'),
       $buttonSave = $('#button-save'),
       $iframe = $('#iframe-map'),
@@ -1315,26 +1315,17 @@ function ready() {
             }
           },
           init: function() {
+            var $container = $('<div></div>');
+            $container.append('<script async src="//localhost:1777/embed.js" charset="utf-8"></script>');
+
             $buttonExport.on('click', function() {
-                $('#share-code')[0].style.display = 'block';
-              });
-
-            $mapSize.on('click', function() {
-              var width = $('#map-width').val(),
-                  height = $('#map-height').val();
-
-                // this.model.set('mapWidth',width);
-                // this.model.set('mapHeight',height);
-
-                $('#map-wrapper').css({
-                  'width' : width,
-                  'height': height
-                });
-
-                this.map.dimensions.x = width;
-                this.map.dimensions.y = height;
-                this.map.center();
-                this.map.draw();
+              if ( $('#sharing-code').is(':hidden') ) {
+                $('#sharing-code').slideDown('fast');
+                debugger;
+                $('#generate-result').val('$container.html()').select();
+              } else {
+                $('#sharing-code').hide();
+              }
             });
 
               if ($(this).text().indexOf('Save') === -1) {
@@ -1352,12 +1343,12 @@ function ready() {
                   }
                 });
               }
-            $('#button-config').on('click', function() {
-              loadModule('FulcrumStyler.ui.modal.viewConfig', function() {
-                $modalViewConfig = $('#modal-viewConfig');
-              });
-            });
-            // debugger;
+            // $('#button-config').on('click', function() {
+            //   loadModule('FulcrumStyler.ui.modal.viewConfig', function() {
+            //     $modalViewConfig = $('#modal-viewConfig');
+            //   });
+            // });
+
             $('.fa.fa-arrow-right').on('click', function() {
               $('.content')[0].style.display = 'none';
               $('.fa.fa-arrow-right').style.display = 'none';
@@ -1368,31 +1359,31 @@ function ready() {
               FulcrumStyler.updateMap(null, true);
             });
             $('#button-save').on('click', saveMap);
-            $('#button-settings').on('click', function() {
-              var $this = $(this),
-                $span = $($this.children('span')[2]);
-
-              if ($this.hasClass('active')) {
-                $span.popover('hide');
-                $this.removeClass('active');
-              } else {
-                $span.popover('show');
-                $this.addClass('active');
-              }
-            });
-            $($('#button-settings span')[2]).popover({
-              animation: false,
-              container: '#metadata .buttons',
-              content: '<div class="checkbox"><label><input type="checkbox" value="public" checked="checked" disabled>Is this map public?</label></div><div class="checkbox"><label><input type="checkbox" value="shared" checked="checked" disabled>Share this map with others?</label></div><div style="text-align:center;"><button type="button" class="btn btn-primary" onclick="FulcrumStyler.ui.toolbar.handlers.clickSettings(this);">Acknowledge</button></div>',
-              html: true,
-              placement: 'bottom',
-              trigger: 'manual'
-            })
-              .on('shown.bs.popover', function() {
-                if (settingsSet) {
-                  $('#metadata .buttons .popover .btn-primary').hide();
-                }
-              });
+            // $('#button-settings').on('click', function() {
+            //   var $this = $(this),
+            //     $span = $($this.children('span')[2]);
+            //
+            //   if ($this.hasClass('active')) {
+            //     $span.popover('hide');
+            //     $this.removeClass('active');
+            //   } else {
+            //     $span.popover('show');
+            //     $this.addClass('active');
+            //   }
+            // });
+            // $($('#button-settings span')[2]).popover({
+            //   animation: false,
+            //   container: '#metadata .buttons',
+            //   content: '<div class="checkbox"><label><input type="checkbox" value="public" checked="checked" disabled>Is this map public?</label></div><div class="checkbox"><label><input type="checkbox" value="shared" checked="checked" disabled>Share this map with others?</label></div><div style="text-align:center;"><button type="button" class="btn btn-primary" onclick="FulcrumStyler.ui.toolbar.handlers.clickSettings(this);">Acknowledge</button></div>',
+            //   html: true,
+            //   placement: 'bottom',
+            //   trigger: 'manual'
+            // })
+            //   .on('shown.bs.popover', function() {
+            //     if (settingsSet) {
+            //       $('#metadata .buttons .popover .btn-primary').hide();
+            //     }
+            //   });
           }
         }
       },

@@ -114,6 +114,13 @@ html, body {
   width: 100%;
   overflow: hidden;
 }
+header {
+  height: 50px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
 .navbar-inverse{
   background-color: #AAA;
   border-color: #B0B0B0;
@@ -121,12 +128,30 @@ html, body {
 .navbar-inverse .navbar-nav>li>a {
   color: #000000;
 }
-header {
+.navbar .navbar-brand {
+  font-weight: bold;
+  font-size: 30px;
+  color: #FFFFFF;
+}
+.navbar-brand img {
+  height: 100%;
+  margin-top: -5px;
+  margin-right: 15px;
+  display: inline;
+}
+.navbar-header .navbar-icon-container {
+  margin-right: 15px;
+}
+.navbar-header .navbar-icon {
+  line-height: 50px;
   height: 50px;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 100%;
+}
+.navbar-header a.navbar-icon {
+  margin-left: 22px;
+}
+.dropdown-input {
+  padding: 3px 20px;
+  white-space: nowrap;
 }
 section {
   bottom: 0px;
@@ -202,47 +227,6 @@ i.fa.fa-arrow-right:hover{
 #embed{
   padding: 30px !important;
 }
-/*#edit-marker fieldset {
-  padding: 10px 0;
-}
-#edit-marker label {
-  color: #868989;
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-#edit-marker label.left {
-  float: left;
-  width: 90px;
-}
-#edit-marker select {
-  float: right;
-  width: 180px;
-}
-#edit-marker textarea {
-  width: 100%;
-  margin-bottom: 20px;
-}
-#edit-marker textarea {
-  font-size: 14px;
-  outline: none;
-  box-shadow: none;
-  height: 80px;
-  line-height: 20px;
-  padding: 8px;
-}
-#edit-marker .button {
-  display: inline-block;
-}
-#edit-marker #delete-marker {
-  float: left;
-  width: 90px;
-}
-#edit-marker #save-marker {
-  float: right;
-  width: 180px;
-}*/
-
 .buttons {
   background: #ddd;
   text-decoration: none !important;
@@ -258,22 +242,21 @@ i.fa.fa-arrow-right:hover{
   background: rgba(59,178,208,1);
   color: white !important;
 }
-#share-code {
-  margin: 20px 0;
+#sharing-code {
+    width: 200px;
+    height: 40px;
+    display: none;
+    float: left;
+    margin: 20px 10px;
 }
-#share-code p {
-  font-size: 12px;
+#sharing-code p {
+  font-size: 15px;
   margin: 0;
 }
-#share-code textarea {
+#sharing-code textarea {
   color: #666;
-  height: 80px;
+  height: 80px !important;
   width: 100%;
-}
-.change-size{
-  width:75px;
-  margin: 5px;
-  text-align: center;
 }
 
 input[type="radio"], input[type="checkbox"] {
@@ -287,37 +270,11 @@ input[type="radio"], input[type="checkbox"] {
   text-align: center;
   text-transform:
 }
-.panel-title: after{
+.panel-title: after, .panel-title: before{
   content: "<hr>";
 }
 .help-block{
   font-size: 10px;
-}
-
-.navbar .navbar-brand {
-  font-weight: bold;
-  font-size: 30px;
-  color: #FFFFFF;
-}
-.navbar-brand img {
-  height: 100%;
-  margin-top: -5px;
-  margin-right: 15px;
-  display: inline;
-}
-.navbar-header .navbar-icon-container {
-  margin-right: 15px;
-}
-.navbar-header .navbar-icon {
-  line-height: 50px;
-  height: 50px;
-}
-.navbar-header a.navbar-icon {
-  margin-left: 22px;
-}
-.dropdown-input {
-  padding: 3px 20px;
-  white-space: nowrap;
 }
 
 #mask {
