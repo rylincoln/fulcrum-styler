@@ -6,9 +6,8 @@ function ready() {
   FulcrumStyler = (function() {
     var $activeChangeStyleButton = null,
       $activeConfigureInteractivityButton = $('#popup'),
-      $buttonAddAnotherLayer = $('#button-addAnotherLayer'),
-      $buttonCreateDatasetAgain = $('#button-createDatasetAgain'),
-      $buttonEditBaseMapsAgain = $('#button-editBaseMapsAgain'),
+      $buttonAddAnotherLayer = $('#addAnotherLayer'),
+      $buttonEditBaseMapsAgain = $('#editBaseMapsAgain'),
       $buttonExport = $('#embed'),
       $mapSize = $('.change-size'),
       $buttonSave = $('#button-save'),
@@ -35,9 +34,9 @@ function ready() {
       settingsSet = false,
       settingsZ = null,
       stepLis = $('#steps li'),
-      title = null,
-      titleSet = false,
-      titleZ = null,
+      // title = null,
+      // titleSet = false,
+      // titleZ = null,
       $modalAddLayer, $modalEditBaseMaps, $modalExport, $modalViewConfig, $modalfilterLayer;
 
     function disableSave() {
@@ -1292,41 +1291,41 @@ function ready() {
             }
           },
           init: function() {
+            $('#export').on('click', function(){
+              $('.content').css('display', 'none')
+              $('#map').css('left','0px');
+              $('#map').css('right','230px');
+              $('#export-panel').css('display', 'block')
+            });
+            $('#goback').on('click', function(){
+              $('.content').css('display', 'block')
+              $('#map').css('left','266px');
+              $('#map').css('right','0px');
+              $('#export-panel').css('display', 'none')
+            });
+            // add Back arrow to undo
+
             $buttonExport.on('click', function() {
               if ( $('#sharing-code').is(':hidden') ) {
                 $('#sharing-code').slideDown('fast');
-                $('#generate-result').val(FulcrumStyler.ui.modal.export.html).select();
+                // $('#generate-result').val().select();
+                if ($modalExport) {
+                  $modalExport.modal('show');
+                } else {
+                  loadModule('FulcrumStyler.ui.modal.export', function() {
+                    $modalExport = $('#modal-export');
+                  });
+                }
               } else {
                 $('#sharing-code').hide();
               }
             });
 
-              if ($(this).text().indexOf('Save') === -1) {
-                // openExport();
-              } else {
-                saveMap(function(success) {
-                  if (mapId) {
-                    if (!success) {
-                      alertify.log('Because your map couldn\'t be saved, but was successfully saved at one point, any exports you do here will not include any changes made to the map since the last time it was saved.', 'error', 15000);
-                    }
-
-                    // openExport();
-                  } else {
-                    alertify.log('The map cannot be exported until it is saved. Please try again. If this error persists, please report an issue by clicking on "Submit Feedback" below.', 'error', 15000);
-                  }
-                });
-              }
             // $('#button-config').on('click', function() {
             //   loadModule('FulcrumStyler.ui.modal.viewConfig', function() {
             //     $modalViewConfig = $('#modal-viewConfig');
             //   });
             // });
-
-            $('.fa.fa-arrow-right').on('click', function() {
-              $('.content')[0].style.display = 'none';
-              $('.fa.fa-arrow-right').style.display = 'none';
-              $('.export-panel')[0].style.display = 'block';
-            })
 
             $('#button-refresh').on('click', function() {
               FulcrumStyler.updateMap(null, true);

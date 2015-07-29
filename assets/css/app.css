@@ -170,22 +170,14 @@ section {
   position: absolute;
   height: 100%;
   left: 268px;
-  right: 230px;
-  top: 0;
+  right: 0px;
+  /*right: 230px;*/
+  top: 50px;
 }
 iframe {
   height: 100%;
   width: 100%;
   border: none;
-}
-i.fa.fa-arrow-right{
-  bottom:20px;
-  position: absolute;
-  right:10px;
-  opacity: 0.6;
-}
-i.fa.fa-arrow-right:hover{
-  opacity:1;
 }
 .content {
   -webkit-box-shadow: 2px 0 2px rgba(0,0,0,.14);
@@ -204,16 +196,21 @@ i.fa.fa-arrow-right:hover{
   overflow-y: auto;
   position: absolute;
 }
+#addAnotherLayer, #editBaseMapsAgain {
+  display: none;
+}
 .centering{
   margin-left: 10px;
 }
-.export-panel{
+#export-panel{
   position: absolute;
+  display: none;
   right:0;
   bottom:0;
   height:100%;
   width:230px;
   background: #EFEFEF;
+  z-index: 9;
 }
 .export-content{
   border-left: 1px solid #aaa;
@@ -245,6 +242,11 @@ i.fa.fa-arrow-right:hover{
 .setup.buttons:hover {
   background: rgba(59,178,208,1);
   color: white !important;
+}
+.export.buttons{
+  padding: 20px;
+  background: rgba(59,178,208,1);
+  font-size: 20px;
 }
 #sharing-code {
     width: 200px;
@@ -321,7 +323,7 @@ input[type="radio"], input[type="checkbox"] {
     display: none !important;
   }
 }
-
+/*
 section div:first-child {
   display: block;
-}
+}*/
