@@ -153,6 +153,10 @@ header {
   padding: 3px 20px;
   white-space: nowrap;
 }
+.slider.slider-horizontal {
+  width: 100%;
+}
+
 section {
   bottom: 0px;
   left: 0;
@@ -316,4 +320,8 @@ input[type="radio"], input[type="checkbox"] {
   .leaflet-control-container {
     display: none !important;
   }
+}
+
+section div:first-child {
+  display: block;
 }

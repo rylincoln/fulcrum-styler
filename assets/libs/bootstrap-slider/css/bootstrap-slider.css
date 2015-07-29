@@ -116,14 +116,14 @@
      -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  background-color: #977d5c;
-  background-image: -moz-linear-gradient(top, #876c50, #977d5c);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#876c50), to(#977d5c));
-  background-image: -webkit-linear-gradient(top, #876c50, #977d5c);
-  background-image: -o-linear-gradient(top, #876c50, #977d5c);
-  background-image: linear-gradient(to bottom, #876c50, #977d5c);
+  background-color: #0A6ABD;
+  background-image: -moz-linear-gradient(top, #0EA1D7, #0A6ABD);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0EA1D7), to(#0A6ABD));
+  background-image: -webkit-linear-gradient(top, #0EA1D7, #0A6ABD);
+  background-image: -o-linear-gradient(top, #0EA1D7, #0A6ABD);
+  background-image: linear-gradient(to bottom, #0EA1D7, #0A6ABD);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff876c50', endColorstr='#ff977D5c', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0EA1D7', endColorstr='#ff977D5c', GradientType=0);
   position: absolute;
 }
 .slider-track {

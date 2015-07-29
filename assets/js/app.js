@@ -650,7 +650,7 @@ function ready() {
                   t = $('#' + elName + '_title').val(),
                   tooltip = $('#' + elName + '_tooltip').val(),
                   overlay = NPMap.overlays[0];
-                  debugger;
+                  
                 if (d) {
                   popup.description = escapeHtml(d);
                 }
@@ -662,7 +662,7 @@ function ready() {
                 if (!popup.description && !popup.title && typeof popup.max !== 'number' && typeof popup.min !== 'number') {
                   delete overlay.popup;
                 } else {
-                  debugger;
+  
                   overlay.popup = popup;
                 }
                 console.log(overlay.popup);
@@ -679,14 +679,6 @@ function ready() {
               clickApplyStyles: function(elName, overlayName) {
                 var updated = {},
                   i, overlay = NPMap.overlays[0];
-
-                // for (i = 0; i < NPMap.overlays.length; i++) {
-                //   var o = NPMap.overlays[i];
-                //   if (o.name === overlayName) {
-                //     overlay = o;
-                //     break;
-                //   }
-                // }
 
                 $.each($('#' + elName + '_layer-change-style input, #' + elName + '_layer-change-style select'), function(i, el) {
                   var $field = $(el),
@@ -948,7 +940,7 @@ function ready() {
                         }
 
                         config = overlay.tooltip;
-                        debugger;
+                       
                         if (config) {
                           $($('#' + name + '_layer-configure-interactivity .checkbox input')[0]).prop('checked', true).trigger('change');
                           $('#' + name + '_tooltip').val(unescapeHtml(config));
@@ -1166,9 +1158,9 @@ function ready() {
           },
           setCenterAndZoom: {
             init: function() {
-              var buttonBlocks = $('#set-center-and-zoom .btn-block');
-
-              $(buttonBlocks[0]).on('click', function() {
+              var buttonBlocks = $('#set-center-and-zoom .buttons');
+              
+              $(buttonBlocks[1]).on('click', function() {
                 var center = getLeafletMap().getCenter();
 
                 NPMap.center = {
@@ -1178,12 +1170,12 @@ function ready() {
                 updateInitialCenterAndZoom();
                 FulcrumStyler.updateMap();
               });
-              $(buttonBlocks[1]).on('click', function() {
+              $(buttonBlocks[2]).on('click', function() {
                 NPMap.zoom = getLeafletMap().getZoom();
                 updateInitialCenterAndZoom();
                 FulcrumStyler.updateMap();
               });
-              $(buttonBlocks[2]).on('click', function() {
+              $(buttonBlocks[3]).on('click', function() {
                 var map = getLeafletMap(),
                   center = map.getCenter();
 
@@ -1196,7 +1188,7 @@ function ready() {
                 updateInitialCenterAndZoom();
                 FulcrumStyler.updateMap();
               });
-              $(buttonBlocks[3]).on('click', function() {
+              $(buttonBlocks[4]).on('click', function() {
                 var $this = $(this);
 
                 if ($this.hasClass('active')) {
@@ -1219,8 +1211,8 @@ function ready() {
 
                 FulcrumStyler.updateMap();
               });
-              $('#set-zoom').slider({
-                center: 4,
+    
+              $('input#set-zoom').slider({
                 max: 19,
                 min: 0,
                 value: [typeof NPMap.minZoom === 'number' ? NPMap.minZoom : 0, typeof NPMap.maxZoom === 'number' ? NPMap.maxZoom : 19]
