@@ -23,9 +23,9 @@ FulcrumStyler.ui.modal.export = (function() {
   FulcrumStyler.buildTooltips();
   $cmsId.val(urlParams.id);
   $iframeCode.val('<iframe height="500px" frameBorder="0" width="100%" src="https://web.fulcrumapp.com/shares/' + urlParams.id + '"></iframe>');
-  // $('#modal-export-template img.template').click(function() {
-  //   window.open('http://www.nps.gov/maps/' + this.id.replace('template-', '') + '.html?urlParams.id=' + urlParams.id, '_blank');
-  // });
+  $('#modal-export-template img.template').click(function() {
+    window.open('https://web.fulcrumapp.com/shares/' + this.id.replace('template-', '') + '.html?urlParams.id=' + urlParams.id, '_blank');
+  });
   setHeight();
   $(window).resize(setHeight);
   $('#modal-export').modal();

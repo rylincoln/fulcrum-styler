@@ -90,7 +90,7 @@ function ready() {
           panel += '>';
 
           switch (id) {
-          case 'line':
+          case 'cluster':
             panel += '' +
               '<fieldset>' +
                 '<div class="form-group">' +
@@ -138,6 +138,7 @@ function ready() {
             '';
             break;
           case 'point':
+
             if (overlay.type === 'cartodb') {
               // TODO: Also stroke properties (surface to NPMap.js): stroke opacity, color, and weight.
               panel += '' +
@@ -377,13 +378,11 @@ function ready() {
         '<form class="change-style form-horizontal" id="' + name + '_layer-change-style" role="form">' +
           '<ul class="nav nav-tabs" style="padding-left:5px;">' +
             createTab('point', 'Point') +
-            createTab('line', 'Line') +
-            createTab('polygon', 'Polygon') +
+            createTab('cluster', 'Cluster') +
           '</ul>' +
           '<div class="tab-content">' +
             createPanel('point') +
-            // createPanel('line') +
-            // createPanel('polygon') +
+            createPanel('cluster') +
           '</div>' +
         '</form>' +
       '';
@@ -394,12 +393,6 @@ function ready() {
     function getLeafletMap() {
       // NPMap.config.L.fitBounds(NPMap.config.overlays[0].L.getBounds());
       return document.getElementById('iframe-map').contentWindow.NPMap.config.L;
-    }
-    function goToStep(from, to) {
-      $($stepSection[from]).hide();
-      $($stepSection[to]).show();
-      $(stepLis[from]).removeClass('active');
-      $(stepLis[to]).addClass('active');
     }
     function loadModule(module, callback) {
       module = module.replace('FulcrumStyler.', '').replace(/\./g,'/');
@@ -656,17 +649,8 @@ function ready() {
                   popup = {},
                   t = $('#' + elName + '_title').val(),
                   tooltip = $('#' + elName + '_tooltip').val(),
-                  overlay;
-
-                for (var i = 0; i < NPMap.overlays.length; i++) {
-                  var o = NPMap.overlays[i];
-
-                  if (o.name === overlayName) {
-                    overlay = o;
-                    break;
-                  }
-                }
-
+                  overlay = NPMap.overlays[0];
+                  debugger;
                 if (d) {
                   popup.description = escapeHtml(d);
                 }
@@ -678,9 +662,10 @@ function ready() {
                 if (!popup.description && !popup.title && typeof popup.max !== 'number' && typeof popup.min !== 'number') {
                   delete overlay.popup;
                 } else {
+                  debugger;
                   overlay.popup = popup;
                 }
-
+                console.log(overlay.popup);
                 if (tooltip) {
                   overlay.tooltip = escapeHtml(tooltip);
                 } else {
@@ -867,26 +852,26 @@ function ready() {
               },
               clickLayerConfigureInteractivity: function(el) {
                 var $el = $(el);
-
+                
                 if ($el.data('popover-created')) {
                   $el.popover('toggle');
                 } else {
                   var overlay = NPMap.overlays[0], //getLayerIndexFromButton(el)
-                    // name = overlay.name.split(' ').join('_'),
+                    name = overlay.name.split(' ').join('_'),
                     supportsTooltips = (overlay.type === 'cartodb' || overlay.type === 'csv' || overlay.type === 'geojson' || overlay.type === 'kml' || overlay.type === 'mapbox'),
                     html;
 
                   html = '' +
                     // Checkbox here "Display all fields in a table?" should be checked on by default.
-                    '<form class="configure-interactivity" id="' + mapId + '_layer-configure-interactivity" role="form">' +
+                    '<form class="configure-interactivity" id="' + name + '_layer-configure-interactivity" role="form">' +
                       '<fieldset>' +
                         '<div class="form-group">' +
-                          '<span><label for="' + mapId + '_title">Title</label><a href="https://github.com/nationalparkservice/npmap-FulcrumStyler/wiki/Popups-and-Tooltips" target="_blank"><img data-container="body" data-placement="bottom" rel="tooltip" src="assets/img/help@2x.png" style="cursor:pointer;float:right;height:18px;" title="The title will display in bold at the top of the popup. HTML and Handlebars templates are allowed. Click for more info."></a></span>' +
-                          '<input class="form-control" id="' + mapId + '_title" rows="3" type="text"></input>' +
+                          '<span><label for="' + name + '_title">Title</label><a href="https://github.com/nationalparkservice/npmap-FulcrumStyler/wiki/Popups-and-Tooltips" target="_blank"><img data-container="body" data-placement="bottom" rel="tooltip" src="assets/img/help@2x.png" style="cursor:pointer;float:right;height:18px;" title="The title will display in bold at the top of the popup. HTML and Handlebars templates are allowed. Click for more info."></a></span>' +
+                          '<input class="form-control" id="' + name + '_title" rows="3" type="text"></input>' +
                         '</div>' +
                         '<div class="form-group">' +
-                          '<span><label for="' + mapId + '_description">Description</label><a href="https://github.com/nationalparkservice/npmap-FulcrumStyler/wiki/Popups-and-Tooltips" target="_blank"><img data-container="body" data-placement="bottom" rel="tooltip" src="assets/img/help@2x.png" style="cursor:pointer;float:right;height:18px;" title="The description will display underneath the title. HTML and Handlebars templates are allowed. Click for more info."></a></span>' +
-                          '<textarea class="form-control" id="' + mapId + '_description" rows="4"></textarea>' +
+                          '<span><label for="' + name + '_description">Description</label><a href="https://github.com/nationalparkservice/npmap-FulcrumStyler/wiki/Popups-and-Tooltips" target="_blank"><img data-container="body" data-placement="bottom" rel="tooltip" src="assets/img/help@2x.png" style="cursor:pointer;float:right;height:18px;" title="The description will display underneath the title. HTML and Handlebars templates are allowed. Click for more info."></a></span>' +
+                          '<textarea class="form-control" id="' + name + '_description" rows="4"></textarea>' +
                         '</div>' +
                         (supportsTooltips ? '' +
                           '<div class="checkbox">' +
@@ -895,8 +880,8 @@ function ready() {
                             '</label>' +
                           '</div>' +
                           '<div class="form-group">' +
-                            '<span><label for="' + mapId + '_tooltip">Tooltip</label><a href="https://github.com/nationalparkservice/npmap-FulcrumStyler/wiki/Popups-and-Tooltips" target="_blank"><img data-container="body" data-placement="bottom" rel="tooltip" src="assets/img/help@2x.png" style="cursor:pointer;float:right;height:18px;" title="Tooltips display when the cursor moves over a shape. HTML and Handlebars templates are allowed. Click for more info."></a></span>' +
-                            '<input class="form-control" id="' + mapId + '_tooltip" type="text" disabled></input>' +
+                            '<span><label for="' + name + '_tooltip">Tooltip</label><a href="https://github.com/nationalparkservice/npmap-FulcrumStyler/wiki/Popups-and-Tooltips" target="_blank"><img data-container="body" data-placement="bottom" rel="tooltip" src="assets/img/help@2x.png" style="cursor:pointer;float:right;height:18px;" title="Tooltips display when the cursor moves over a shape. HTML and Handlebars templates are allowed. Click for more info."></a></span>' +
+                            '<input class="form-control" id="' + name + '_tooltip" type="text" disabled></input>' +
                           '</div>' +
                         '' : '') +
                       '</fieldset>' +
@@ -921,7 +906,7 @@ function ready() {
                     .on('shown.bs.popover', function() {
                       var config;
 
-                      overlay = NPMap.overlays[getLayerIndexFromButton(el)];
+                      overlay = NPMap.overlays[0], //getLayerIndexFromButton(el)];
                       config = overlay.popup;
                       $activeConfigureInteractivityButton = $el;
                       $('#mask').show();
@@ -963,7 +948,7 @@ function ready() {
                         }
 
                         config = overlay.tooltip;
-
+                        debugger;
                         if (config) {
                           $($('#' + name + '_layer-configure-interactivity .checkbox input')[0]).prop('checked', true).trigger('change');
                           $('#' + name + '_tooltip').val(unescapeHtml(config));
@@ -1315,14 +1300,10 @@ function ready() {
             }
           },
           init: function() {
-            var $container = $('<div></div>');
-            $container.append('<script async src="//localhost:1777/embed.js" charset="utf-8"></script>');
-
             $buttonExport.on('click', function() {
               if ( $('#sharing-code').is(':hidden') ) {
                 $('#sharing-code').slideDown('fast');
-                debugger;
-                $('#generate-result').val('$container.html()').select();
+                $('#generate-result').val(FulcrumStyler.ui.modal.export.html).select();
               } else {
                 $('#sharing-code').hide();
               }
@@ -1490,6 +1471,7 @@ if (App.mapId === 'null' || App.mapId === 'fulcrum-data-id') {
       cluster: {
         clusterIcon: '#6c6c6c'
       },
+      name: 'Fulcrum App',
       type: 'geojson',
       url: 'https://web.fulcrumapp.com/shares/' + App.mapId + '.geojson'
     }],
