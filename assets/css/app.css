@@ -237,9 +237,17 @@ iframe {
   padding:10px;
   margin:10px;
 }
+#fulcrum-zoom{
+  background: rgba(59,178,208,1);
+  color: #fff;
+}
 .setup.buttons:hover {
   background: rgba(59,178,208,1);
   color: white !important;
+}
+#fulcrum-zoom:hover{
+  background: #fff;
+  color: #000 !important;
 }
 .export.buttons{
   padding: 20px;
@@ -287,7 +295,14 @@ input[type="radio"], input[type="checkbox"] {
   display: none;
   z-index: 9;
 }
-
+.pull-down{
+  position: absolute;
+  top: 90%;
+  margin: 20px;
+}
+.center-block{
+  margin: 0 auto 0 35%;
+}
 @media (max-width: 992px) {
   .navbar .navbar-brand {
     font-size: 16px;
