@@ -1,67 +1,67 @@
-/* globals $, FulcrumStyler, NPMap */
+/* globals $, Builder, NPMap */
 /* jshint camelcase: false */
 
 $('head').append($('<link rel="stylesheet">').attr('href', 'ui/modal/addLayer.css'));
 
-FulcrumStyler.ui = FulcrumStyler.ui || {};
-FulcrumStyler.ui.modal = FulcrumStyler.ui.modal || {};
-FulcrumStyler.ui.modal.addLayer = (function() {
+Builder.ui = Builder.ui || {};
+Builder.ui.modal = Builder.ui.modal || {};
+Builder.ui.modal.addLayer = (function() {
   var $attribution = $('#layerAttribution'),
     $description = $('#layerDescription'),
-    $modal = $('#modal-addLayer'),
+    $modal = $('#addLayer'),
     $name = $('#layerName'),
     $type = $('#layerType'),
     hasNameError = false,
     types = {
-      arcgisserver: {
-        _tiled: false,
-        _url: null,
-        fields: {
-          $clickable: $('#arcgisserver-clickable'),
-          $layers: $('#arcgisserver-layers'),
-          $opacity: $('#arcgisserver-opacity'),
-          $url: $('#arcgisserver-url').bind('change paste keyup', function() {
-            var value = $(this).val(),
-              lower = value.toLowerCase();
+      // arcgisserver: {
+      //   _tiled: false,
+      //   _url: null,
+      //   fields: {
+      //     $clickable: $('#arcgisserver-clickable'),
+      //     $layers: $('#arcgisserver-layers'),
+      //     $opacity: $('#arcgisserver-opacity'),
+      //     $url: $('#arcgisserver-url').bind('change paste keyup', function() {
+      //       var value = $(this).val(),
+      //         lower = value.toLowerCase();
 
-            if (lower.indexOf('mapserver') === (value.length - 9) || lower.indexOf('mapserver/') === (value.length - 10)) {
-              $.ajax({
-                dataType: 'json',
-                success: function(response) {
-                  if (value !== types.arcgisserver._url) {
-                    types.arcgisserver.fields.$layers.find('option').remove();
-                    $.each(response.layers, function(i, layer) {
-                      types.arcgisserver.fields.$layers.append($('<option>', {
-                        value: layer.id
-                      }).text(layer.id + ': ' + layer.name));
-                    });
-                    types.arcgisserver.fields.$layers.prop('disabled', false);
-                    types.arcgisserver.fields.$layers.selectpicker('refresh');
-                    types.arcgisserver._tiled = response.singleFusedMapCache || false;
-                    types.arcgisserver._url = value;
-                  }
-                },
-                url: value + '?f=json&callback=?'
-              });
-            } else {
-              types.arcgisserver.fields.$layers.find('option').remove();
-              types.arcgisserver.fields.$layers.prop('disabled', true);
-              types.arcgisserver.fields.$layers.selectpicker('refresh');
-              types.arcgisserver._url = null;
-            }
-          })
-        },
-        reset: function() {
-          types.arcgisserver.fields.$clickable.prop('checked', 'checked');
-          types.arcgisserver.fields.$layers.find('option').remove();
-          types.arcgisserver.fields.$layers.prop('disabled', true);
-          types.arcgisserver.fields.$layers.selectpicker('refresh');
-          types.arcgisserver.fields.$opacity.slider('setValue', 100);
-          types.arcgisserver.fields.$url.val('');
-          types.arcgisserver._tiled = false;
-          types.arcgisserver._url = null;
-        }
-      },
+      //       if (lower.indexOf('mapserver') === (value.length - 9) || lower.indexOf('mapserver/') === (value.length - 10)) {
+      //         $.ajax({
+      //           dataType: 'json',
+      //           success: function(response) {
+      //             if (value !== types.arcgisserver._url) {
+      //               types.arcgisserver.fields.$layers.find('option').remove();
+      //               $.each(response.layers, function(i, layer) {
+      //                 types.arcgisserver.fields.$layers.append($('<option>', {
+      //                   value: layer.id
+      //                 }).text(layer.id + ': ' + layer.name));
+      //               });
+      //               types.arcgisserver.fields.$layers.prop('disabled', false);
+      //               types.arcgisserver.fields.$layers.selectpicker('refresh');
+      //               types.arcgisserver._tiled = response.singleFusedMapCache || false;
+      //               types.arcgisserver._url = value;
+      //             }
+      //           },
+      //           url: value + '?f=json&callback=?'
+      //         });
+      //       } else {
+      //         types.arcgisserver.fields.$layers.find('option').remove();
+      //         types.arcgisserver.fields.$layers.prop('disabled', true);
+      //         types.arcgisserver.fields.$layers.selectpicker('refresh');
+      //         types.arcgisserver._url = null;
+      //       }
+      //     })
+      //   },
+      //   reset: function() {
+      //     types.arcgisserver.fields.$clickable.prop('checked', 'checked');
+      //     types.arcgisserver.fields.$layers.find('option').remove();
+      //     types.arcgisserver.fields.$layers.prop('disabled', true);
+      //     types.arcgisserver.fields.$layers.selectpicker('refresh');
+      //     types.arcgisserver.fields.$opacity.slider('setValue', 100);
+      //     types.arcgisserver.fields.$url.val('');
+      //     types.arcgisserver._tiled = false;
+      //     types.arcgisserver._url = null;
+      //   }
+      // },
       cartodb: {
         fields: {
           $clickable: $('#cartodb-clickable'),
@@ -188,7 +188,7 @@ FulcrumStyler.ui.modal.addLayer = (function() {
     } else {
       if (NPMap.overlays && NPMap.overlays.length) {
         for (var i = 0; i < NPMap.overlays.length; i++) {
-          if (i !== FulcrumStyler.ui.modal.addLayer._editingIndex) {
+          if (i !== Builder.ui.modal.addLayer._editingIndex) {
             var overlay = NPMap.overlays[i];
 
             if (value === overlay.name) {
@@ -245,39 +245,40 @@ FulcrumStyler.ui.modal.addLayer = (function() {
       errors.push($name);
     }
 
-    if ($('#arcgisserver').is(':visible')) {
-      (function() {
-        var clickable = types.arcgisserver.fields.$clickable.prop('checked'),
-          layers = types.arcgisserver.fields.$layers.val(),
-          url = types.arcgisserver.fields.$url.val();
+    // if ($('#arcgisserver').is(':visible')) {
+    //   (function() {
+    //     var clickable = types.arcgisserver.fields.$clickable.prop('checked'),
+    //       layers = types.arcgisserver.fields.$layers.val(),
+    //       url = types.arcgisserver.fields.$url.val();
 
-        $.each(types.arcgisserver.fields, function(field) {
-          fields.push(field);
-        });
+    //     $.each(types.arcgisserver.fields, function(field) {
+    //       fields.push(field);
+    //     });
 
-        if (!layers) {
-          errors.push(types.arcgisserver.fields.$layers);
-        } else {
-          layers = layers.join(',');
-        }
+    //     if (!layers) {
+    //       errors.push(types.arcgisserver.fields.$layers);
+    //     } else {
+    //       layers = layers.join(',');
+    //     }
 
-        if (!url) {
-          errors.push(types.arcgisserver.fields.$url);
-        }
+    //     if (!url) {
+    //       errors.push(types.arcgisserver.fields.$url);
+    //     }
 
-        config = {
-          layers: layers,
-          opacity: parseInt(types.arcgisserver.fields.$opacity.val(), 10) / 100,
-          tiled: types.arcgisserver._tiled,
-          type: 'arcgisserver',
-          url: url
-        };
+    //     config = {
+    //       layers: layers,
+    //       opacity: parseInt(types.arcgisserver.fields.$opacity.val(), 10) / 100,
+    //       tiled: types.arcgisserver._tiled,
+    //       type: 'arcgisserver',
+    //       url: url
+    //     };
 
-        if (clickable === false) {
-          config.clickable = false;
-        }
-      })();
-    } else if ($('#cartodb').is(':visible')) {
+    //     if (clickable === false) {
+    //       config.clickable = false;
+    //     }
+    //   })();
+    // } else 
+    if ($('#cartodb').is(':visible')) {
       (function() {
         var clickable = types.cartodb.fields.$clickable.prop('checked'),
           detectRetina = types.cartodb.fields.$detectRetina.prop('checked'),
@@ -516,9 +517,9 @@ FulcrumStyler.ui.modal.addLayer = (function() {
       if (styles) {
         config.styles = styles;
       } else if (type === 'csv' || type === 'geojson' || type === 'kml' || type === 'spot') {
-        config.styles = $.extend(true, {}, FulcrumStyler._defaultStyles);
+        config.styles = $.extend(true, {}, Builder._defaultStyles);
       } else if (type === 'cartodb') {
-        config.styles = $.extend(true, {}, FulcrumStyler._defaultStylesCollapsed);
+        config.styles = $.extend(true, {}, Builder._defaultStylesCollapsed);
       }
 
       if (tooltip) {
@@ -538,7 +539,7 @@ FulcrumStyler.ui.modal.addLayer = (function() {
           });
           window.alert('The overlay could not be added to the map. The full error message is:\n\n' + error.message);
         } else {
-          if (FulcrumStyler.ui.modal.addLayer._editingIndex === -1) {
+          if (Builder.ui.modal.addLayer._editingIndex === -1) {
             if (config.styles) {
               var geometryTypes = validated._geometryTypes;
 
@@ -579,12 +580,12 @@ FulcrumStyler.ui.modal.addLayer = (function() {
               }
             }
 
-            FulcrumStyler.addOverlay(config);
+            Builder.addOverlay(config);
           } else {
-            var $li = $($layers.children()[FulcrumStyler.ui.modal.addLayer._editingIndex]),
+            var $li = $($layers.children()[Builder.ui.modal.addLayer._editingIndex]),
               $interactivity = $($li.find('.interactivity')[0]);
 
-            NPMap.overlays[FulcrumStyler.ui.modal.addLayer._editingIndex] = config;
+            NPMap.overlays[Builder.ui.modal.addLayer._editingIndex] = config;
             $($li.find('.name')[0]).text(config.name);
 
             if (config.description) {
@@ -600,7 +601,7 @@ FulcrumStyler.ui.modal.addLayer = (function() {
             }
           }
 
-          FulcrumStyler.updateMap();
+          Builder.updateMap();
           $modal.modal('hide');
         }
       });
@@ -663,11 +664,11 @@ FulcrumStyler.ui.modal.addLayer = (function() {
     }, 100);
   }
 
-  if (typeof FulcrumStyler._pendingLayerEditIndex !== 'undefined') {
-    var overlay = NPMap.overlays[FulcrumStyler._pendingLayerEditIndex],
+  if (typeof Builder._pendingLayerEditIndex !== 'undefined') {
+    var overlay = NPMap.overlays[Builder._pendingLayerEditIndex],
       type = overlay.type;
 
-    delete FulcrumStyler._pendingLayerEditIndex;
+    delete Builder._pendingLayerEditIndex;
 
     $type.val(type);
     $.each(types, function(prop) {
@@ -681,7 +682,7 @@ FulcrumStyler.ui.modal.addLayer = (function() {
     });
   }
 
-  FulcrumStyler.buildTooltips();
+  Builder.buildTooltips();
   setHeight();
   $name.bind('change click input keyup paste propertychange', onChangeName);
   $type.bind('change', onChangeType);
@@ -702,12 +703,12 @@ FulcrumStyler.ui.modal.addLayer = (function() {
           $formGroup.removeClass('has-error');
         }
       });
-      FulcrumStyler.ui.modal.addLayer._editingIndex = -1;
+      Builder.ui.modal.addLayer._editingIndex = -1;
       $('#layerType').removeAttr('disabled');
       $('#modal-addLayer-description-update').hide();
       $('#modal-addLayer-description-create').show();
-      $('#modal-addLayer-title').html('Add an Existing Overlay&nbsp;<img data-container="#modal-addLayer" data-original-title="You can add ArcGIS Online/ArcGIS Server, CartoDB, CSV, GeoJSON, KML, MapBox, SPOT, or Tiled overlays to your map." data-placement="bottom" rel="tooltip" src="img/help@2x.png" style="height:18px;" title="">');
-      FulcrumStyler.buildTooltips();
+      $('#modal-addLayer-title').html('Add an Existing Overlay&nbsp;<img data-container="#modal-addLayer" data-original-title="You can add ArcGIS Online/ArcGIS Server, CartoDB, CSV, GeoJSON, KML, MapBox, SPOT, or Tiled overlays to your map." data-placement="bottom" rel="tooltip" src="/assets/img/help@2x.png" style="height:18px;" title="">');
+      Builder.buildTooltips();
       $('#addLayer-add, #addLayer-cancel').each(function(i, button) {
         $(button).prop('disabled', false);
       });

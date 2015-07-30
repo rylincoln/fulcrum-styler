@@ -21,7 +21,7 @@ FulcrumStyler.ui.modal.editBaseMaps = (function() {
     },
     activeLink;
 
-  function createThumbnail(map, provider, providerPretty, parkTiles) {
+  function createThumbnail(map, provider, providerPretty, cartodb) {
     var id = provider + '-' + map,
       pretty = maps[map].name.replace(provider.toUpperCase() + ' ', '').replace(providerPretty + ' ', '');
 
@@ -74,10 +74,11 @@ FulcrumStyler.ui.modal.editBaseMaps = (function() {
             if ($link.html().indexOf('No') === -1) {
               var clone = $.extend({}, baseLayers.nps[id.replace('nps-', '')]);
 
-              clone.id += ',' + $link.attr('id').replace('parktiles-overlays-link-', '');
+              clone.id += ',' + $link.attr('id').replace('cartodb-overlays-link-', '');
               clone.popup = {
                 title: '{{name}}'
               };
+              debugger;
 
               if ($(inputs[1]).prop('checked')) {
                 layers.unshift(clone);
@@ -109,8 +110,9 @@ FulcrumStyler.ui.modal.editBaseMaps = (function() {
   function update() {
     $.each($('#modal-editBaseMaps div.basemap'), function(i, div) {
       var checked = false,
-        id = div.id,
-        link = $(div).find('.parktiles-overlays-link');
+        id = div.id;
+        link = $(div).find('.cartodb-overlays-link');
+      debugger;
 
       // TODO: Maybe you should store the overlays in the baselayers preset in NPMap.js?
 
@@ -120,17 +122,6 @@ FulcrumStyler.ui.modal.editBaseMaps = (function() {
           checked = true;
         }
       }
-
-      /*
-      if (!checked) {
-        // Now iterate through three Park Tiles basemaps, using the mapbox id, and check NPMap.baseLayers to see if they are objects
-        $.each(NPMap.baseLayers, function(i, baseLayer) {
-          if (typeof baseLayer === 'object') {
-            console.log(baseLayer);
-          }
-        });
-      }
-      */
 
       $($(div).find('input')[0]).prop('checked', checked);
 
@@ -150,20 +141,20 @@ FulcrumStyler.ui.modal.editBaseMaps = (function() {
     //     .prop('checked', true)
     //     .trigger('change');
     // } else {
-      var active;
+    var active;
 
-      for (var i = 0; i < NPMap.baseLayers.length; i++) {
-        var baseLayer = NPMap.baseLayers[i];
+    for (var i = 0; i < NPMap.baseLayers.length; i++) {
+      var baseLayer = NPMap.baseLayers[i];
 
-        if (typeof baseLayer.visible === 'undefined' || baseLayer.visible === true) {
-          active = baseLayer;
-          break;
-        }
+      if (typeof baseLayer.visible === 'undefined' || baseLayer.visible === true) {
+        active = baseLayer;
+        break;
       }
-
-      $($('#' + active).find('input')[0]).prop('disabled', true);
-      $($('#' + active).find('input')[1]).prop('checked', true);
     }
+
+    $($('#' + active).find('input')[0]).prop('disabled', true);
+    $($('#' + active).find('input')[1]).prop('checked', true);
+  } 
   // }
 
   for (var provider in baseLayers) {
@@ -175,38 +166,9 @@ FulcrumStyler.ui.modal.editBaseMaps = (function() {
 
       content += '<div class="well"><h5>' + providerPretty + '</h5><div class="row">';
 
-      // if (provider === 'nps') {
-      //   for (map in maps) {
-      //     if (map === 'parkTiles') {
-      //       content += createThumbnail(map, provider, providerPretty, true);
-      //       break;
-      //     }
-      //   }
-
-      //   for (map in maps) {
-      //     if (map === 'parkTilesImagery') {
-      //       content += createThumbnail(map, provider, providerPretty, true);
-      //       break;
-      //     }
-      //   }
-
-      //   for (map in maps) {
-      //     if (map === 'parkTilesSlate') {
-      //       content += createThumbnail(map, provider, providerPretty, true);
-      //       break;
-      //     }
-      //   }
-
-      //   for (map in maps) {
-      //     if (map !== 'darkStreets' && map.indexOf('parkTiles') === -1) {
-      //       content += createThumbnail(map, provider, providerPretty);
-      //     }
-      //   }
-      // } else {
         for (map in maps) {
           content += createThumbnail(map, provider, providerPretty);
         }
-      // }
 
       content += '</div></div>';
 
@@ -220,52 +182,8 @@ FulcrumStyler.ui.modal.editBaseMaps = (function() {
 
   $('#modal-editBaseMaps .btn-primary').on('click', submit);
   $('#modal-editBaseMaps .modal-body').append(html.join(''));
-  // $('#modal-editBaseMaps .parktiles-overlays-link')
-  //   .click(function() {
-  //     activeLink = $(this);
-  //     $(this).popover('show');
-  //   })
-  //   .popover({
-  //     container: 'body',
-  //     content: '' +
-  //       '<form id="parktiles-overlays-form" role="form" style="width:150px;">' +
-  //         '<div class="checkbox">' +
-  //           '<label><input type="checkbox">Points of Interest</label>' +
-  //         '</div>' +
-  //         '<div class="text-center">' +
-  //           '<button class="btn btn-default" style="margin-right:5px;">Cancel</button>' +
-  //           '<button class="btn btn-primary">Save</button>' +
-  //         '</div>' +
-  //       '</form>' +
-  //     '',
-  //     html: true,
-  //     trigger: 'manual'
-  //   })
-  //   .on('hide.bs.popover', function() {
-  //     $('#modal-editBaseMaps').css('z-index', 1050);
-  //   })
-  //   .on('show.bs.popover', function() {
-  //     $('#modal-editBaseMaps').css('z-index', 1);
-  //   })
-  //   .on('shown.bs.popover', function() {
-  //     if (activeLink.html().indexOf('No') === -1) {
-  //       $('#parktiles-overlays-form input').prop('checked', true);
-  //     }
-
-  //     $('#parktiles-overlays-form .btn').click(function() {
-  //       activeLink.popover('hide');
-  //       return false;
-  //     });
-  //     $('#parktiles-overlays-form .btn-primary').click(function() {
-  //       if ($('#parktiles-overlays-form input').prop('checked')) {
-  //         activeLink.html('1 overlay selected');
-  //       } else {
-  //         activeLink.html('No overlays selected');
-  //       }
-  //     });
-  //   });
   $('#modal-editBaseMaps .checkbox-inline input').change(function() {
-    var link = $(this).parent().parent().parent().parent().find('.parktiles-overlays-link');
+    var link = $(this).parent().parent().parent().parent().find('.cartodb-overlays-link');
 
     if (link) {
       if ($(this).is(':checked')) {
@@ -290,9 +208,10 @@ FulcrumStyler.ui.modal.editBaseMaps = (function() {
 
     if (!checked) {
       NPMap.baseLayers = [
-        'nps-parkTiles'
+        'cartodb-positron'
       ];
       update();
+      debugger;
     }
   });
   $modal

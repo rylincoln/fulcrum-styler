@@ -5,6 +5,20 @@ Filtering, styling, sharing and embedding are all important ways to get your har
 
 ![fulcrum styler dashboard](assets/img/screenshot.jpg)
 
+## View
+
+There are a few ways you can 
+
+## Build
+
+If you want to create a production build with minified and combined Javascript and CSS with Grunt:
+
+1. Install Node and NPM
+2. `npm install`
+3. `grunt`
+
+The build will be created in the `_site` directory.
+
 ## License
 Enjoy. MIT License, in other words:
 

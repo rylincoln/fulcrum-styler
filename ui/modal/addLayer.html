@@ -1,230 +1,221 @@
-<div id="modal-addLayer" class="modal" role="dialog" aria-describedby="modal-addLayer-description" aria-labelledby="modal-addLayer-title">
+<div id="modal-addLayer" class="modal" role="dialog" aria-describedby="modal-addLayer-title" aria-labelledby="modal-addLayer-title">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 id="modal-addLayer-title" class="modal-title">Add an Existing Overlay&nbsp;<img data-container="#modal-addLayer" data-original-title="You can add CartoDB, CSV, GeoJSON, KML, MapBox, SPOT, or Tiled overlays to your map." data-placement="bottom" rel="tooltip" src="assets/img/help@2x.png" style="height:18px;" title=""></h4>
+        <h4 id="modal-addLayer-title" class="modal-title">Add an Overlay&nbsp;<img data-container="#modal-addLayer" data-original-title="You can add CartoDB, CSV, GeoJSON, KML, MapBox, SPOT, or Tiled overlays to your map or you can create a dynamic overlay from a Places dataset." data-placement="bottom" rel="tooltip" src="/assets/img/help@2x.png" style="height:18px;" title=""></h4>
       </div>
       <div class="modal-body">
-        <p id="modal-addLayer-description">Type in information about a hosted dataset to overlay it on your map.</p>
-        <!--
-        <div id="catalog">
-          <form role="form">
-            <div class="form-group">
-              <label for="catalog-source">Select a Source</label>
-              <select id="catalog-source" class="form-control">
-                <option value="places">Places</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="overlays">Overlays</label>
-              <select id="overlays" class="form-control dropup selectpicker" data-selected-text-format="count" multiple required>
-                <option value="nps.jhd2e8lb">Points of Interest</option>
-              </select>
-            </div>
-          </form>
+       <!--  <div id="modal-addLayer-description-create">
+          <p>Click on a source system to select a preset overlay. (This will overwrite any information already in the form below.)</p>
+          <div class="text-center" style="padding-bottom:15px;">
+            <button class="btn btn-primary" id="button-preset-places" style="margin-top:5px;">Places</button>
+          </div>
+          <p>You can also manually fill out the form if you know the details of the overlay you'd like to add.</p>
+        </div> -->
+        <div id="modal-addLayer-description-update">
+          <p>Use the form below to update your overlay.</p>
         </div>
-        -->
-        <div id="hosted">
-          <form role="form">
+        <form>
+          <div class="form-group">
+            <label for="layerType">Type</label>
+            <select id="layerType" class="form-control" required>
+              <!-- <option value="arcgisserver">ArcGIS Server</option> -->
+              <option value="cartodb">CartoDB</option>
+              <option value="csv">CSV</option>
+              <option value="geojson">GeoJSON</option>
+              <option value="kml">KML</option>
+              <option value="mapbox">Mapbox</option>
+              <option value="spot">SPOT</option>
+              <option value="tiled">Tiled</option>
+            </select>
+          </div>
+          <div class="form-group has-feedback">
+            <label for="layerName">Name</label>
+            <input id="layerName" type="text" class="form-control" required></input>
+          </div>
+          <div class="form-group">
+            <label for="layerDescription">Description (optional)</label>
+            <textarea id="layerDescription" rows="3"  class="form-control"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="layerAttribution">Attribution (optional)</label>
+            <input id="layerAttribution" type="text" class="form-control"></input>
+          </div>
+          <!-- <div id="arcgisserver">
             <div class="form-group">
-              <label for="layerType">Type</label>
-              <select id="layerType" onchange="FulcrumStyler.ui.modal.addLayer._layerTypeOnChange(this.value);return false;" class="form-control" required>
-                <option value="cartodb">CartoDB</option>
-                <option value="csv">CSV</option>
-                <option value="geojson">GeoJSON</option>
-                <option value="kml">KML</option>
-                <option value="mapbox">Mapbox</option>
-                <option value="arcgisserver">Shapefile</option>
-                <option value="tiled">Tiled</option>
-              </select>
+              <label for="arcgisserver-url">URL</label>
+              <input id="arcgisserver-url" type="text" placeholder="Must end with 'MapServer'..." class="form-control" required></input>
             </div>
-            <div class="form-group has-feedback">
-              <label for="layerName">Name</label>
-              <input id="layerName" type="text" class="form-control" required></input>
-            </div>
-<!--             <div class="form-group">
-              <label for="layerDescription">Description (optional)</label>
-              <textarea id="layerDescription" rows="3"  class="form-control"></textarea>
-            </div> -->
             <div class="form-group">
-              <label for="layerAttribution">Attribution (optional)</label>
-              <input id="layerAttribution" type="text" class="form-control"></input>
+              <label for="arcgisserver-opacity" style="display:block;margin-bottom:-10px;">Opacity</label>
+              <input type="text" id="arcgisserver-opacity" required>
             </div>
-<!--             <div id="arcgisserver">
-              <div class="form-group">
-                <label for="arcgisserver-url">URL</label>
-                <input id="arcgisserver-url" type="text" placeholder="Must end with 'MapServer'..." class="form-control" required></input>
-              </div>
-              <div class="form-group">
-                <label for="arcgisserver-opacity" style="display:block;margin-bottom:-10px;">Opacity</label>
-                <input type="text" id="arcgisserver-opacity" required>
-              </div>
-              <div class="form-group">
-                <label for="arcgisserver-layers">Layers</label>
-                <select id="arcgisserver-layers" class="form-control dropup selectpicker" disabled="disabled" data-selected-text-format="count" multiple required></select>
-                <span class="help-block">All of the service's layers will appear here after you fill in the "URL" field above. Once loaded, you must choose at least one.</span>
-              </div>
-              <div class="checkbox">
-                <label>
-                  <input id="arcgisserver-clickable" type="checkbox" checked="checked"></input>Is this overlay clickable?
-                </label>
-              </div>
-            </div> -->
-            <div id="cartodb">
-              <div class="form-group">
-                <label for="cartodb-user">User Name</label>
-                <input id="cartodb-user" type="text" class="form-control" required></input>
-              </div>
-              <div class="form-group">
-                <label for="cartodb-table">Table Name</label>
-                <input id="cartodb-table" type="text" class="form-control" required></input>
-              </div>
-              <div class="form-group">
-                <label for="cartodb-sql">SQL (optional)</label>
-                <input id="cartodb-sql" type="text" class="form-control"></input>
-                <span class="help-block">Must be a full SELECT statement, e.g. SELECT * FROM parks WHERE unit_code = 'GRSM'</span>
-              </div>
-              <div class="form-group">
-                <label for="cartodb-opacity" style="display:block;margin-bottom:-10px;">Opacity</label>
-                <input type="text" id="cartodb-opacity" required>
-              </div>
-              <div class="checkbox">
-                <label>
-                  <input id="cartodb-retina" type="checkbox"></input> Detect retina?
-                </label>
-              </div>
-              <div class="checkbox">
-                <label>
-                  <input id="cartodb-clickable" type="checkbox" checked="checked"></input> Is this overlay clickable?
-                </label>
-              </div>
+            <div class="form-group">
+              <label for="arcgisserver-layers">Layers</label>
+              <select id="arcgisserver-layers" class="form-control dropup selectpicker" disabled="disabled" data-selected-text-format="count" multiple required></select>
+              <span class="help-block">All of the service's layers will appear here after you fill in the "URL" field above. Once loaded, you must choose at least one.</span>
             </div>
-            <div id="csv">
-              <div class="form-group">
-                <label for="csv-url">URL</label>
-                <input id="csv-url" type="text" placeholder="Must end with '.csv'..." class="form-control" required></input>
-              </div>
-              <div class="checkbox">
-                <label>
-                  <input id="csv-clickable" type="checkbox" checked="checked"></input> Is this overlay clickable?
-                </label>
-              </div>
-              <div class="checkbox">
-                <label>
-                  <input id="csv-cluster" type="checkbox"></input> Should points in this overlay be clustered?
-                </label>
-              </div>
-            </div>
-            <div id="geojson">
-              <div class="form-group">
-                <label for="geojson-url">URL</label>
-                <input id="geojson-url" type="text" placeholder="Must end with '.geojson', '.json', or '.topojson'..." class="form-control" required></input>
-              </div>
-              <div class="checkbox">
-                <label>
-                  <input id="geojson-clickable" type="checkbox" checked="checked"></input> Is this overlay clickable?
-                </label>
-              </div>
-              <div class="checkbox">
-                <label>
-                  <input id="geojson-cluster" type="checkbox"></input> Should points in this overlay be clustered?
-                </label>
-              </div>
-            </div>
-            <div id="kml">
-              <div class="form-group">
-                <label for="kml-url">URL</label>
-                <input id="kml-url" type="text" placeholder="Must end with '.kml'..." class="form-control" required></input>
-              </div>
-              <div class="checkbox">
-                <label>
-                  <input id="kml-clickable" type="checkbox" checked="checked"></input> Is this overlay clickable?
-                </label>
-              </div>
-              <div class="checkbox">
-                <label>
-                  <input id="kml-cluster" type="checkbox"></input> Should points in this overlay be clustered?
-                </label>
-              </div>
-            </div>
-            <div id="mapbox">
-              <div class="form-group">
-                <label for="mapbox-id">ID</label>
-                <input id="mapbox-id" type="text" placeholder="Must look something like this: 'nps.Air_Atlas_Monitors'..." class="form-control" required></input>
-              </div>
-              <div class="form-group">
-                <label for="mapbox-opacity" style="display:block;margin-bottom:-10px;">Opacity</label>
-                <input type="text" id="mapbox-opacity" required>
-              </div>
-              <div class="checkbox">
-                <label>
-                  <input id="mapbox-clickable" type="checkbox" checked="checked"></input> Is this overlay clickable?
-                </label>
-              </div>
-            </div>
-            <div id="spot">
-              <div class="form-group">
-                <label for="spot-id">ID</label>
-                <input id="spot-id" type="text" placeholder="The ID of your SPOT device..." class="form-control" required></input>
-              </div>
-              <div class="checkbox">
-                <label>
-                  <input id="spot-zoomToBounds" type="checkbox"></input> Automatically zoom to the bounds of the returned points?
-                </label>
-              </div>
-              <div class="checkbox">
-                <label>
-                  <input id="spot-clickable" type="checkbox" checked="checked"></input> Is this overlay clickable?
-                </label>
-              </div>
-              <div class="checkbox">
-                <label>
-                  <input id="spot-cluster" type="checkbox"></input> Should points in this overlay be clustered?
-                </label>
-              </div>
-            </div>
-            <div id="tiled">
-              <div class="form-group">
-                <label for="tiled-url">URL Template</label>
-                <input id="tiled-url" type="text" class="form-control" required></input>
-                <span class="help-block">The URL template can contain {s} (subdomain), {z} (zoom level), {x} (x tile coordinate), and {y} (y tile coordinate). X, Y, and Z are required. An example for OpenStreetMap: http://{s}.tile.osm.org/{z}/{x}/{y}.png.</span>
-              </div>
-              <div class="form-group">
-                <label for="tiled-opacity" style="display:block;margin-bottom:-10px;">Opacity</label>
-                <input type="text" id="tiled-opacity" required>
-              </div>
-            </div>
-            <div id="wms">
-              <div class="form-group">
-                <label for="wms-url">URL</label>
-                <input id="wms-url" type="text" class="form-control" required></input>
-                <span class="help-block">Enter the WMS service's URL here, and the form below will autopopulate so you can choose the dependent properties.</span>
-              </div>
-              <div class="form-group">
-                <label for="wms-format">Format</label>
-                <select id="wms-format" class="form-control" disabled="disabled" required></select>
-              </div>
-              <div class="form-group">
-                <label for="wms-layers">Format</label>
-                <select id="wms-layers" class="form-control dropup selectpicker" disabled="disabled" data-selected-text-format="count" multiple required></select>
-              </div>
-              <div class="form-group">
-                <label for="wms-opacity" style="display:block;margin-bottom:-10px;">Opacity</label>
-                <input type="text" id="wms-opacity" required>
-              </div>
-              <label style="display:block;">
-                <div class="checkbox">
-                  <input id="wms-transparent" type="checkbox"></input>Do you want the service to return transparent tiles?
-                </div>
+            <div class="checkbox">
+              <label>
+                <input id="arcgisserver-clickable" type="checkbox" checked="checked"></input>Is this overlay clickable?
               </label>
             </div>
-            
-          </form>
-        </div>
+          </div> -->
+          <div id="cartodb">
+            <div class="form-group">
+              <label for="cartodb-user">User Name</label>
+              <input id="cartodb-user" type="text" class="form-control" required></input>
+            </div>
+            <div class="form-group">
+              <label for="cartodb-table">Table Name</label>
+              <input id="cartodb-table" type="text" class="form-control" required></input>
+            </div>
+            <div class="form-group">
+              <label for="cartodb-sql">SQL (optional)</label>
+              <input id="cartodb-sql" type="text" class="form-control"></input>
+              <span class="help-block">Must be a full SELECT statement, e.g. SELECT * FROM parks WHERE unit_code = 'GRSM'</span>
+            </div>
+            <div class="form-group">
+              <label for="cartodb-opacity" style="display:block;margin-bottom:-10px;">Opacity</label>
+              <input type="text" id="cartodb-opacity" required>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input id="cartodb-retina" type="checkbox"></input> Detect retina?
+              </label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input id="cartodb-clickable" type="checkbox" checked="checked"></input> Is this overlay clickable?
+              </label>
+            </div>
+          </div>
+          <div id="csv">
+            <div class="form-group">
+              <label for="csv-url">URL</label>
+              <input id="csv-url" type="text" placeholder="Must end with '.csv'..." class="form-control" required></input>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input id="csv-clickable" type="checkbox" checked="checked"></input> Is this overlay clickable?
+              </label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input id="csv-cluster" type="checkbox"></input> Should points in this overlay be clustered?
+              </label>
+            </div>
+          </div>
+          <div id="geojson">
+            <div class="form-group">
+              <label for="geojson-url">URL</label>
+              <input id="geojson-url" type="text" placeholder="Must end with '.geojson', '.json', or '.topojson'..." class="form-control" required></input>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input id="geojson-clickable" type="checkbox" checked="checked"></input> Is this overlay clickable?
+              </label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input id="geojson-cluster" type="checkbox"></input> Should points in this overlay be clustered?
+              </label>
+            </div>
+          </div>
+          <div id="kml">
+            <div class="form-group">
+              <label for="kml-url">URL</label>
+              <input id="kml-url" type="text" placeholder="Must end with '.kml'..." class="form-control" required></input>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input id="kml-clickable" type="checkbox" checked="checked"></input> Is this overlay clickable?
+              </label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input id="kml-cluster" type="checkbox"></input> Should points in this overlay be clustered?
+              </label>
+            </div>
+          </div>
+          <div id="mapbox">
+            <div class="form-group">
+              <label for="mapbox-id">ID</label>
+              <input id="mapbox-id" type="text" placeholder="Must look something like this: 'nps.Air_Atlas_Monitors'..." class="form-control" required></input>
+            </div>
+            <div class="form-group">
+              <label for="mapbox-opacity" style="display:block;margin-bottom:-10px;">Opacity</label>
+              <input type="text" id="mapbox-opacity" required>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input id="mapbox-clickable" type="checkbox" checked="checked"></input> Is this overlay clickable?
+              </label>
+            </div>
+          </div>
+          <div id="spot">
+            <div class="form-group">
+              <label for="spot-id">ID</label>
+              <input id="spot-id" type="text" placeholder="The ID of your SPOT device..." class="form-control" required></input>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input id="spot-zoomToBounds" type="checkbox"></input> Automatically zoom to the bounds of the returned points?
+              </label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input id="spot-clickable" type="checkbox" checked="checked"></input> Is this overlay clickable?
+              </label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input id="spot-cluster" type="checkbox"></input> Should points in this overlay be clustered?
+              </label>
+            </div>
+          </div>
+          <div id="tiled">
+            <div class="form-group">
+              <label for="tiled-url">URL Template</label>
+              <input id="tiled-url" type="text" class="form-control" required></input>
+              <span class="help-block">The URL template can contain {s} (subdomain), {z} (zoom level), {x} (x tile coordinate), and {y} (y tile coordinate). X, Y, and Z are required. An example for OpenStreetMap: http://{s}.tile.osm.org/{z}/{x}/{y}.png.</span>
+            </div>
+            <div class="form-group">
+              <label for="tiled-opacity" style="display:block;margin-bottom:-10px;">Opacity</label>
+              <input type="text" id="tiled-opacity" required>
+            </div>
+          </div>
+          <!--
+          <div id="wms">
+            <div class="form-group">
+              <label for="wms-url">URL</label>
+              <input id="wms-url" type="text" class="form-control" required></input>
+              <span class="help-block">Enter the WMS service's URL here, and the form below will autopopulate so you can choose the dependent properties.</span>
+            </div>
+            <div class="form-group">
+              <label for="wms-format">Format</label>
+              <select id="wms-format" class="form-control" disabled="disabled" required></select>
+            </div>
+            <div class="form-group">
+              <label for="wms-layers">Format</label>
+              <select id="wms-layers" class="form-control dropup selectpicker" disabled="disabled" data-selected-text-format="count" multiple required></select>
+            </div>
+            <div class="form-group">
+              <label for="wms-opacity" style="display:block;margin-bottom:-10px;">Opacity</label>
+              <input type="text" id="wms-opacity" required>
+            </div>
+            <label style="display:block;">
+              <div class="checkbox">
+                <input id="wms-transparent" type="checkbox"></input>Do you want the service to return transparent tiles?
+              </div>
+            </label>
+          </div>
+          -->
+        </form>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-default" id="addLayer-cancel" data-dismiss="modal" type="button">Cancel</button>
+        <button class="btn btn-default" data-dismiss="modal" id="addLayer-cancel" type="button">Cancel</button>
         <button class="btn btn-primary" id="addLayer-add" type="button">Add to Map</button>
       </div>
     </div>

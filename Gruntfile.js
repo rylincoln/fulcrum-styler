@@ -3,11 +3,12 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     clean: [
-      '_site/assets/css',
-      '_site/assets/img',
-      '_site/assets/js',
-      '_site/assets/ui'
-      '_site/assets/iframe.html'
+      '_site/css',
+      '_site/data',
+      '_site/img',
+      '_site/js',
+      '_site/ui',
+      '_site/iframe.html'
     ],
     copy: {
       site: {
@@ -26,14 +27,21 @@ module.exports = function(grunt) {
             '**/*'
           ]
         },{
-          cwd: 'assets/img/',
+          cwd: 'data/',
+          dest: '_site/data/',
+          expand: true,
+          src: [
+            '**/*'
+          ]
+        },{
+          cwd: 'img/',
           dest: '_site/img/',
           expand: true,
           src: [
             '**/*'
           ]
         },{
-          cwd: 'assets/ui/',
+          cwd: 'ui/',
           dest: '_site/ui/',
           expand: true,
           src: [
@@ -53,7 +61,7 @@ module.exports = function(grunt) {
             'assets/libs/bootstrap-colorpickersliders/bootstrap.colorpickersliders.css',
             'assets/libs/bootstrap-slider/css/bootstrap-slider.css',
             'assets/libs/typeahead/typeahead.css',
-            'assets/css/app.css'
+            'css/app.css'
           ]
         }
       }
@@ -91,7 +99,7 @@ module.exports = function(grunt) {
             'assets/libs/jquery-nestable/js/jquery-nestable.js',
             'assets/libs/moment.js',
             'assets/libs/typeahead/typeahead.js',
-            'assets/js/app.js'
+            'js/app.js'
           ]
         }
       }

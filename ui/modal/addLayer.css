@@ -1,8 +1,12 @@
 #modal-addLayer .modal-body {
   padding: 0;
 }
-#modal-addLayer-description {
+#modal-addLayer-description-create,
+#modal-addLayer-description-update {
   margin-bottom: 15px;
+}
+#modal-addLayer-description-update {
+  display: none;
 }
 #modal-addLayer .modal-body {
   overflow: auto;
@@ -11,14 +15,15 @@
 #modal-addLayer .modal-footer {
   margin-top: 0;
 }
-  /*
-  #modal-addLayer .tab-content .modal-addLayer-search-type {
-    font-size: 18px;
-    margin: 5px 0;
-    padding-left: 10px;
-  }
-  */
-#cartodb, #csv, #geojson, #github, #kml, #mapbox, #spot, #tiled, #wms {
+#cartodb,
+#csv,
+#geojson,
+/*#github,*/
+#kml,
+#mapbox,
+#spot,
+#tiled,
+#wms {
   display: none;
 }
 #layerDescription {

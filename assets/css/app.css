@@ -156,7 +156,6 @@ header {
 .slider.slider-horizontal {
   width: 100%;
 }
-
 section {
   bottom: 0px;
   left: 0;
@@ -171,8 +170,7 @@ section {
   height: 100%;
   left: 268px;
   right: 0px;
-  /*right: 230px;*/
-  top: 50px;
+  top: 0px;
 }
 iframe {
   height: 100%;
@@ -247,6 +245,7 @@ iframe {
   padding: 20px;
   background: rgba(59,178,208,1);
   font-size: 20px;
+  color: #fff;
 }
 #sharing-code {
     width: 200px;
@@ -264,7 +263,6 @@ iframe {
   height: 80px !important;
   width: 100%;
 }
-
 input[type="radio"], input[type="checkbox"] {
   margin: 0;
 }
@@ -282,7 +280,6 @@ input[type="radio"], input[type="checkbox"] {
 .help-block{
   font-size: 10px;
 }
-
 #mask {
   position:absolute;
   height: 800px;
@@ -323,7 +320,3 @@ input[type="radio"], input[type="checkbox"] {
     display: none !important;
   }
 }
-/*
-section div:first-child {
-  display: block;
-}*/
