@@ -38,13 +38,13 @@
             <div class="navbar-icon-container">
               <a href="#" class="navbar-icon pull-right visible-xs" id="nav-btn"><i class="fa fa-bars fa-lg white"></i></a>
             </div>
-            <a class="navbar-brand" href="#" name="title" id="fulcrum-zoom navbar-title"><img src="assets/img/fulcrum-small.png">Fulcrum Styler</a>
+            <a class="navbar-brand" href="#" name="title" id="navbar-title"><img src="assets/img/fulcrum-small.png">Fulcrum Styler</a>
           </div>
           <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="button-filterLayer"><i class="fa fa-pencil"></i>&nbsp;&nbsp;Filter Layer</a></li>
+              <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.clickLayerChangeStyle(this);"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;Style Layer</a></li>
               <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.clickLayerConfigureInteractivity(this);" id="popup"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Popups</a></li>
-              <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.clickLayerChangeStyle(this);"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;Style Your Layer</a></li>
+            <!--   <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="button-filterLayer"><i class="fa fa-pencil"></i>&nbsp;&nbsp;Filter Layer</a></li> -->
               <li class="hidden-xs"><a class="button-refresh"><i class="fa fa-refresh"></i></a></li>
               <li class="hidden-xs"><a class="button-save"><i class="fa fa-save"></i></a></li>
             </ul>

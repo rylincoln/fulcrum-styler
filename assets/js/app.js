@@ -164,8 +164,8 @@ function ready() {
                     '<div class="col-sm-6">' +
                       '<select class="form-control marker-library" id="' + getName('marker-library', 'point') + '" onchange="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.changeMarkerLibrary(this);return false;">' +
                         '<option value="letters">Letters</option>' +
-                        '<option value="maki">Maki</option>' +
-                        '<option value="npmaki">NPMaki</option>' +
+                        '<option value="maki">Popular Icons</option>' +
+                        '<option value="npmaki">Park Icons</option>' +
                         '<option value="numbers">Numbers</option>' +
                       '</select>' +
                     '</div>' +

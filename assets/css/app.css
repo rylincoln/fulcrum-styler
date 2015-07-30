@@ -298,7 +298,7 @@ input[type="radio"], input[type="checkbox"] {
 .pull-down{
   position: absolute;
   top: 90%;
-  margin: 20px;
+  margin: 25px;
 }
 .center-block{
   margin: 0 auto 0 35%;
