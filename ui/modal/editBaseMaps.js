@@ -32,7 +32,7 @@ FulcrumStyler.ui.modal.editBaseMaps = (function() {
         '<div id="' + id + '" class="basemap col-xs-4 col-sm-4 col-md-4 col-lg-4">' +
           '<div class="thumbnail">' +
             '<p>' + pretty + '</p>' +
-            '<img alt="Screenshot of ' + pretty + ' basemap." src="/assets/img/base-maps/' + id + '.png" style="height:152px;width:152px;">' +
+            '<img alt="Screenshot of ' + pretty + ' basemap." src="assets/img/base-maps/' + id + '.png" style="height:152px;width:152px;">' +
             '<div class="caption">' +
               '<div class="checkbox-inline">' +
                 '<label style="font-weight:normal;margin-bottom:0;">' +

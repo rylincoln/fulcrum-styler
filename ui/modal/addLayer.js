@@ -707,7 +707,7 @@ Builder.ui.modal.addLayer = (function() {
       $('#layerType').removeAttr('disabled');
       $('#modal-addLayer-description-update').hide();
       $('#modal-addLayer-description-create').show();
-      $('#modal-addLayer-title').html('Add an Existing Overlay&nbsp;<img data-container="#modal-addLayer" data-original-title="You can add ArcGIS Online/ArcGIS Server, CartoDB, CSV, GeoJSON, KML, MapBox, SPOT, or Tiled overlays to your map." data-placement="bottom" rel="tooltip" src="/assets/img/help@2x.png" style="height:18px;" title="">');
+      $('#modal-addLayer-title').html('Add an Existing Overlay&nbsp;<img data-container="#modal-addLayer" data-original-title="You can add ArcGIS Online/ArcGIS Server, CartoDB, CSV, GeoJSON, KML, MapBox, SPOT, or Tiled overlays to your map." data-placement="bottom" rel="tooltip" src="assets/img/help@2x.png" style="height:18px;" title="">');
       Builder.buildTooltips();
       $('#addLayer-add, #addLayer-cancel').each(function(i, button) {
         $(button).prop('disabled', false);
