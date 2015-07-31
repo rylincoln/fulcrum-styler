@@ -1,4 +1,4 @@
-.ssk-affix {
+/*.ssk-affix {
     position: fixed;
     top:50px;
     left:0px;
@@ -52,7 +52,7 @@
     background-position: -64px -77px;
 }
 
-
+*/
 
 
 
@@ -237,12 +237,6 @@ iframe {
   width: 100%;
   border: none;
 }
-#my-div{
-  width:230px;
-  height:80px;
-  position:absolute;
-  top: 100px;
-}
 .content {
   -webkit-box-shadow: 2px 0 2px rgba(0,0,0,.14);
   -moz-box-shadow: 2px 0 2px rgba(0,0,0,.14);
@@ -291,6 +285,7 @@ iframe {
 }
 #embed{
   padding: 30px !important;
+  font-size: 20px;
 }
 .buttons {
   background: #ddd;
@@ -307,7 +302,8 @@ iframe {
   background: rgba(59,178,208,1);
   color: #fff;
 }
-.setup.buttons:hover {
+
+.setup.buttons:hover, .buttons.embed:hover {
   background: rgba(59,178,208,1);
   color: white !important;
 }
