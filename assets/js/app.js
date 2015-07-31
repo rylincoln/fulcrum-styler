@@ -1306,11 +1306,7 @@ function ready() {
               $('#map').css('left','0px');
               $('#map').css('right','230px');
               $('#export-panel').css('display', 'block');
-              $('#my-div').ssk({
-                urlToShare: 'Look at the data that we have collected: ',
-                affix: 'right center',
-                networks: ['facebook','twitter','email']
-              });
+              $('#my-div').ssk({});
             });
             $('#goback').on('click', function(){
               $('.content').css('display', 'block')
