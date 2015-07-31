@@ -1,9 +1,9 @@
-.share-affix {
+.ssk-affix {
     position: fixed;
     top:50px;
     left:0px;
 }
-.share-icon {
+.ssk-icon {
     background-repeat: no-repeat;
     background-image:url('../img/social-icons.png');
     height:40px;
@@ -14,16 +14,16 @@
     opacity: .9;
     filter:Alpha(Opacity=9);
 }
-.share-icon-email {
+.ssk-icon-email {
     background-position: -614px 0;
 }
-.share-icon-facebook {
+.ssk-icon-facebook {
     background-position: -131px 0;
 }
-.share-icon-twitter {
+.ssk-icon-twitter {
     background-position: -174px 0;
 }
-.share-square {
+.ssk-square {
     -moz-transition: all 0.2s linear 0s;
     background: url("images/social-icons.png") no-repeat scroll left top transparent;
     display: inline-block;
@@ -32,23 +32,23 @@
     margin: 2px;
     width: 32px;
 }
-.share-square-email {
+.ssk-square-email {
     background-position: -674px -44px;
 }
-.share-square-email:hover {
+.ssk-square-email:hover {
     background-position: -674px -77px;
 }
-.share-square-facebook {
+.ssk-square-facebook {
     background-position: -384px -44px;
 }
-.share-square-facebook:hover {
+.ssk-square-facebook:hover {
     background-position: -384px -77px;
 }
 
-.share-square-twitter {
+.ssk-square-twitter {
     background-position: -64px -44px;
 }
-.share-square-twitter:hover {
+.ssk-square-twitter:hover {
     background-position: -64px -77px;
 }
 
