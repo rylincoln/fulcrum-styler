@@ -89,7 +89,7 @@ function ready() {
           panel += '>';
 
           switch (id) {
-          case 'cluster':
+          case 'line':
             panel += '' +
               '<fieldset>' +
                 '<div class="form-group">' +
@@ -137,7 +137,6 @@ function ready() {
             '';
             break;
           case 'point':
-
             if (overlay.type === 'cartodb') {
               // TODO: Also stroke properties (surface to NPMap.js): stroke opacity, color, and weight.
               panel += '' +
@@ -162,10 +161,10 @@ function ready() {
                   '<div class="form-group">' +
                     '<label class="col-sm-6 control-label" for="' + getName('marker-library', 'point') + '">Library</label>' +
                     '<div class="col-sm-6">' +
-                      '<select class="form-control marker-library" id="' + getName('marker-library', 'point') + '" onchange="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.changeMarkerLibrary(this);return false;">' +
+                      '<select class="form-control marker-library" id="' + getName('marker-library', 'point') + '" onchange="Builder.ui.steps.addAndCustomizeData.handlers.changeMarkerLibrary(this);return false;">' +
                         '<option value="letters">Letters</option>' +
-                        '<option value="maki">Popular Icons</option>' +
-                        '<option value="npmaki">Park Icons</option>' +
+                        '<option value="maki">Maki</option>' +
+                        '<option value="npmaki">NPMaki</option>' +
                         '<option value="numbers">Numbers</option>' +
                       '</select>' +
                     '</div>' +
@@ -196,6 +195,18 @@ function ready() {
               '';
             }
 
+            break;
+          case 'cluster':
+          debugger;
+            panel += '' +
+              '<fieldset>' +
+                '<div class="form-group">' +
+                    '<div class="checkbox">'+
+                    '<label>'
+                    '<input id="geojson-cluster" type="checkbox"></input> Should points in this overlay be clustered?'+
+                  '</label>'+
+                '</div>'+
+              '<fieldset>';
             break;
           case 'polygon':
             panel += '' +
@@ -274,7 +285,7 @@ function ready() {
         }
       }
       function createTab(id, text) {
-        var disabled = geometryTypes.indexOf(id) === -1,
+        var disabled = geometryTypes.indexOf(id) === -1 && id !== "cluster",
           active = !disabled && !activeTabSet,
           tab = '<li class="';
 
@@ -302,7 +313,6 @@ function ready() {
         }
 
         tab += '>' + text + '</a></li>';
-
         return tab;
       }
       function sort(a, b) {
@@ -1295,15 +1305,19 @@ function ready() {
               $('.content').css('display', 'none')
               $('#map').css('left','0px');
               $('#map').css('right','230px');
-              $('#export-panel').css('display', 'block')
+              $('#export-panel').css('display', 'block');
+              $('#my-div').share({
+                urlToShare: 'Look at the data that we have collected: ',
+                affix: 'right center',
+                networks: ['facebook','twitter','email']
+              });
             });
             $('#goback').on('click', function(){
               $('.content').css('display', 'block')
               $('#map').css('left','266px');
               $('#map').css('right','0px');
-              $('#export-panel').css('display', 'none')
+              $('#export-panel').css('display', 'none');
             });
-            // add Back arrow to undo
 
             $buttonExport.on('click', function() {
               if ( $('#sharing-code').is(':hidden') ) {

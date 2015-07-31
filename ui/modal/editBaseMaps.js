@@ -1,4 +1,5 @@
 /* globals $, FulcrumStyler, NPMap */
+// http://leaflet-extras.github.io/leaflet-providers/preview/
 
 $('head').append($('<link rel="stylesheet">').attr('href', 'ui/modal/editBaseMaps.css'));
 
@@ -78,7 +79,7 @@ FulcrumStyler.ui.modal.editBaseMaps = (function() {
               clone.popup = {
                 title: '{{name}}'
               };
-              debugger;
+              // debugger;
 
               if ($(inputs[1]).prop('checked')) {
                 layers.unshift(clone);
@@ -112,7 +113,6 @@ FulcrumStyler.ui.modal.editBaseMaps = (function() {
       var checked = false,
         id = div.id;
         link = $(div).find('.cartodb-overlays-link');
-      debugger;
 
       // TODO: Maybe you should store the overlays in the baselayers preset in NPMap.js?
 

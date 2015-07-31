@@ -1,3 +1,63 @@
+.share-affix {
+    position: fixed;
+    top:50px;
+    left:0px;
+}
+.share-icon {
+    background-repeat: no-repeat;
+    background-image:url('../img/social-icons.png');
+    height:40px;
+    width:40px;
+    display: inline-block;
+    text-indent: -99999px;
+    margin:2px;
+    opacity: .9;
+    filter:Alpha(Opacity=9);
+}
+.share-icon-email {
+    background-position: -614px 0;
+}
+.share-icon-facebook {
+    background-position: -131px 0;
+}
+.share-icon-twitter {
+    background-position: -174px 0;
+}
+.share-square {
+    -moz-transition: all 0.2s linear 0s;
+    background: url("images/social-icons.png") no-repeat scroll left top transparent;
+    display: inline-block;
+    height: 32px;
+    line-height: 0;
+    margin: 2px;
+    width: 32px;
+}
+.share-square-email {
+    background-position: -674px -44px;
+}
+.share-square-email:hover {
+    background-position: -674px -77px;
+}
+.share-square-facebook {
+    background-position: -384px -44px;
+}
+.share-square-facebook:hover {
+    background-position: -384px -77px;
+}
+
+.share-square-twitter {
+    background-position: -64px -44px;
+}
+.share-square-twitter:hover {
+    background-position: -64px -77px;
+}
+
+
+
+
+
+
+
 /* latin-ext */
 @font-face {
   font-family: 'Lato';
@@ -176,6 +236,12 @@ iframe {
   height: 100%;
   width: 100%;
   border: none;
+}
+#my-div{
+  width:230px;
+  height:80px;
+  position:absolute;
+  top: 100px;
 }
 .content {
   -webkit-box-shadow: 2px 0 2px rgba(0,0,0,.14);

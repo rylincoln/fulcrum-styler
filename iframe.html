@@ -58,9 +58,9 @@
           callback();
         }
       };
-      
-      if (!NPMap.baseLayers){
-        NPMap.baseLayers = ['cartodb-positron'];
+
+      if (NPMap.baseLayers === undefined || NPMap.baseLayers.length === 0){
+        NPMap.baseLayers = ['cartodb-positron']; 
       };
 
       (function() {
