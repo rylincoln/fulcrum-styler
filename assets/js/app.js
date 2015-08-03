@@ -15,7 +15,6 @@ function ready() {
       $lat = $('.lat'),
       $lng = $('.lng'),
       $layers = $('#layers'),
-      // $modalConfirm = $('#modal-confirm'),
       $ul = $('#layers'),
       $zoom = $('.zoom'),
       abcs = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'],
@@ -426,17 +425,17 @@ function ready() {
       $this.blur();
       $.ajax({
         data: {
-          description: description,
-          isPublic: true,
-          isShared: true,
+          // description: description,
+          // isPublic: true,
+          // isShared: true,
           json: JSON.stringify(NPMap),
           mapId: mapId || null,
-          name: title
+          // name: title
         },
         dataType: 'json',
         error: function() {
           FulcrumStyler.hideLoading();
-          alertify.error('You must be connected to the National Park Service network to save a map.');
+          alertify.error('You must provide you Fulcrum data share id to save the map.');
 
           if (typeof callback === 'function') {
             callback(false);
@@ -453,7 +452,7 @@ function ready() {
               if (!mapId && window.history.replaceState) {
                 var location = window.location,
                   url = location.protocol + '//' + location.host + location.pathname + '?mapId=' + response.mapId;
-
+                  console.log(url);
                 window.history.replaceState({
                   path: url
                 }, '', url);
@@ -481,7 +480,7 @@ function ready() {
           }
         },
         type: 'POST',
-        url: '/FulcrumStyler/save/'
+        url: 'https://web.fulcrumapp.com/shares/'
       });
     }
     function unescapeHtml(unsafe) {
@@ -1430,15 +1429,12 @@ function ready() {
     };
   })();
 
-  // FulcrumStyler.ui.app.init();
-  // FulcrumStyler.ui.metadata.init();
   FulcrumStyler.ui.steps.addAndCustomizeData.init();
   FulcrumStyler.ui.steps.setCenterAndZoom.init();
   FulcrumStyler.ui.steps.init();
   FulcrumStyler.ui.toolbar.init();
 
   if (mapId) {
-    // FulcrumStyler.ui.metadata.load();
     FulcrumStyler.ui.steps.addAndCustomizeData.load();
     FulcrumStyler.ui.steps.load();
     FulcrumStyler.ui.steps.setCenterAndZoom.load();
