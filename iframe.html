@@ -17,7 +17,6 @@
         top: 0;
       }
     </style>
-  <script src="https://www.promisejs.org/polyfills/promise-done-7.0.1.min.js"></script>
   </head>
   <body>
     <div id="map"></div>
@@ -41,16 +40,15 @@
             $currentZoom.html(map.getZoom());
           }
 
-          zoom.on('click', function() {
+          zoom.on('click', function() { 
+            map.fitBounds(NPMap.config.overlays[0].L.getBounds());
+            return false;
             // NPMap.config.overlays[0].L.eachLayer( function(layer){
             //   if (layer._latlng.lat === 0) {
             //     map.removeLayer(layer);
             //     layer.clearLayers
             //   }
             // });
-           
-            map.fitBounds(NPMap.config.overlays[0].L.getBounds());
-            return false;
           });
 
           map.on('moveend', updateCurrent);
