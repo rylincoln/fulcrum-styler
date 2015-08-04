@@ -39,8 +39,8 @@ function ready() {
       $modalAddLayer, $modalEditBaseMaps, $modalExport, $modalViewConfig, $modalfilterLayer;
 
     function disableSave() {
-    //   $buttonSave.prop('disabled', true);
-    //   $buttonExport.text('Export Map');
+      $buttonSave.prop('disabled', true);
+      $buttonExport.text('SHare Map');
     }
     function enableSave() {
       $buttonSave.prop('disabled', false);
@@ -384,13 +384,13 @@ function ready() {
       // TODO: If the overlay is clustered, add a "Cluster" tab.
       return '' +
         '<form class="change-style form-horizontal" id="' + name + '_layer-change-style" role="form">' +
-          '<ul class="nav nav-tabs" style="padding-left:5px;">' +
-            createTab('point', 'Point') +
-            createTab('cluster', 'Cluster') +
-          '</ul>' +
+          // '<ul class="nav nav-tabs" style="padding-left:5px;">' +
+            // createTab('point', 'Point') +
+            // createTab('cluster', 'Cluster') +
+          // '</ul>' +
           '<div class="tab-content">' +
             createPanel('point') +
-            createPanel('cluster') +
+            // createPanel('cluster') +
           '</div>' +
         '</form>' +
       '';
@@ -399,7 +399,6 @@ function ready() {
       return $.inArray($(el).parent().parent().parent().prev().text(), abcs);
     }
     function getLeafletMap() {
-      // NPMap.config.L.fitBounds(NPMap.config.overlays[0].L.getBounds());
       return document.getElementById('iframe-map').contentWindow.NPMap.config.L;
     }
     function loadModule(module, callback) {
