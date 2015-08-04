@@ -422,65 +422,71 @@ function ready() {
 
       FulcrumStyler.showLoading();
       $this.blur();
-      $.ajax({
-        data: {
-          // description: description,
-          // isPublic: true,
-          // isShared: true,
-          json: JSON.stringify(NPMap),
-          mapId: mapId || null,
-          // name: title
-        },
-        dataType: 'json',
-        error: function() {
-          FulcrumStyler.hideLoading();
-          alertify.error('You must provide you Fulcrum data share id to save the map.');
 
-          if (typeof callback === 'function') {
-            callback(false);
-          }
-        },
-        success: function(response) {
-          var error = 'Sorry, there was an unhandled error while saving your map. Please try again.',
-            success = false;
-
-          FulcrumStyler.hideLoading();
-
-          if (response) {
-            if (response.success === true) {
-              if (!mapId && window.history.replaceState) {
-                var location = window.location,
-                  url = location.protocol + '//' + location.host + location.pathname + '?mapId=' + response.mapId;
-                  console.log(url);
-                window.history.replaceState({
-                  path: url
-                }, '', url);
-              }
-
-              mapId = response.mapId;
-              updateSaveStatus(response.modified);
-              alertify.success('Your map was saved!');
-              success = true;
-            } else if (response.success === false && response.error) {
-              if (response.type === 'login') {
-                $modalSignIn.modal('show');
-              } else {
-                alertify.error(response.error);
-              }
-            } else {
-              alertify.error(error);
-            }
-          } else {
-            alertify.error(error);
-          }
-
-          if (typeof callback === 'function') {
-            callback(success);
-          }
-        },
-        type: 'POST',
-        url: 'https://web.fulcrumapp.com/shares/'
+      var github = new Github({
+        username: "mappingkat",
+        password: "taktak22GITHUB",
+        auth: "basic"
       });
+      // $.ajax({
+      //   data: {
+      //     // description: description,
+      //     // isPublic: true,
+      //     // isShared: true,
+      //     json: JSON.stringify(NPMap),
+      //     mapId: mapId || null,
+      //     // name: title
+      //   },
+      //   dataType: 'json',
+      //   error: function() {
+      //     FulcrumStyler.hideLoading();
+      //     alertify.error('You must provide you Fulcrum data share id to save the map.');
+
+      //     if (typeof callback === 'function') {
+      //       callback(false);
+      //     }
+      //   },
+      //   success: function(response) {
+      //     var error = 'Sorry, there was an unhandled error while saving your map. Please try again.',
+      //       success = false;
+
+      //     FulcrumStyler.hideLoading();
+
+      //     if (response) {
+      //       if (response.success === true) {
+      //         if (!mapId && window.history.replaceState) {
+      //           var location = window.location,
+      //             url = location.protocol + '//' + location.host + location.pathname + '?mapId=' + response.mapId;
+      //             console.log(url);
+      //           window.history.replaceState({
+      //             path: url
+      //           }, '', url);
+      //         }
+
+      //         mapId = response.mapId;
+      //         updateSaveStatus(response.modified);
+      //         alertify.success('Your map was saved!');
+      //         success = true;
+      //       } else if (response.success === false && response.error) {
+      //         if (response.type === 'login') {
+      //           $modalSignIn.modal('show');
+      //         } else {
+      //           alertify.error(response.error);
+      //         }
+      //       } else {
+      //         alertify.error(error);
+      //       }
+      //     } else {
+      //       alertify.error(error);
+      //     }
+
+      //     if (typeof callback === 'function') {
+      //       callback(success);
+      //     }
+      //   },
+      //   type: 'POST',
+      //   url: 'https://web.fulcrumapp.com/shares/'
+      // });
     }
     function unescapeHtml(unsafe) {
       return unsafe
@@ -865,11 +871,11 @@ function ready() {
                     '<form class="configure-interactivity" id="' + name + '_layer-configure-interactivity" role="form">' +
                       '<fieldset>' +
                         '<div class="form-group">' +
-                          '<span><label for="' + name + '_title">Title</label><a href="https://github.com/nationalparkservice/npmap-FulcrumStyler/wiki/Popups-and-Tooltips" target="_blank"><img data-container="body" data-placement="bottom" rel="tooltip" src="assets/img/help@2x.png" style="cursor:pointer;float:right;height:18px;" title="The title will display in bold at the top of the popup. HTML and Handlebars templates are allowed. Click for more info."></a></span>' +
+                          '<span><label for="' + name + '_title">Title</label><a href="https://fulcrumapp.github.io/fulcrum-styler/popups-and-tooltips.html" target="_blank"><img data-container="body" data-placement="bottom" rel="tooltip" src="assets/img/help@2x.png" style="cursor:pointer;float:right;height:18px;" title="The title will display in bold at the top of the popup. HTML and Handlebars templates are allowed. Click for more info."></a></span>' +
                           '<input class="form-control" id="' + name + '_title" rows="3" type="text"></input>' +
                         '</div>' +
                         '<div class="form-group">' +
-                          '<span><label for="' + name + '_description">Description</label><a href="https://github.com/nationalparkservice/npmap-FulcrumStyler/wiki/Popups-and-Tooltips" target="_blank"><img data-container="body" data-placement="bottom" rel="tooltip" src="assets/img/help@2x.png" style="cursor:pointer;float:right;height:18px;" title="The description will display underneath the title. HTML and Handlebars templates are allowed. Click for more info."></a></span>' +
+                          '<span><label for="' + name + '_description">Description</label><a href="https://fulcrumapp.github.io/fulcrum-styler/popups-and-tooltips.html" target="_blank"><img data-container="body" data-placement="bottom" rel="tooltip" src="assets/img/help@2x.png" style="cursor:pointer;float:right;height:18px;" title="The description will display underneath the title. HTML and Handlebars templates are allowed. Click for more info."></a></span>' +
                           '<textarea class="form-control" id="' + name + '_description" rows="4"></textarea>' +
                         '</div>' +
                         (supportsTooltips ? '' +
@@ -879,7 +885,7 @@ function ready() {
                             '</label>' +
                           '</div>' +
                           '<div class="form-group">' +
-                            '<span><label for="' + name + '_tooltip">Tooltip</label><a href="https://github.com/nationalparkservice/npmap-FulcrumStyler/wiki/Popups-and-Tooltips" target="_blank"><img data-container="body" data-placement="bottom" rel="tooltip" src="assets/img/help@2x.png" style="cursor:pointer;float:right;height:18px;" title="Tooltips display when the cursor moves over a shape. HTML and Handlebars templates are allowed. Click for more info."></a></span>' +
+                            '<span><label for="' + name + '_tooltip">Tooltip</label><a href="https://fulcrumapp.github.io/fulcrum-styler/popups-and-tooltips.html" target="_blank"><img data-container="body" data-placement="bottom" rel="tooltip" src="assets/img/help@2x.png" style="cursor:pointer;float:right;height:18px;" title="Tooltips display when the cursor moves over a shape. HTML and Handlebars templates are allowed. Click for more info."></a></span>' +
                             '<input class="form-control" id="' + name + '_tooltip" type="text" disabled></input>' +
                           '</div>' +
                         '' : '') +
@@ -1248,31 +1254,31 @@ function ready() {
                   var checked = $(this).prop('checked'),
                     value = this.value;
 
-                  if (value === 'overviewControl') {
-                    if (checked) {
-                      NPMap[value] = {
-                        layer: (function() {
-                          for (var i = 0; i < NPMap.baseLayers.length; i++) {
-                            var baseLayer = NPMap.baseLayers[0];
+                    if (value === 'overviewControl') {
+                      if (checked) {
+                        NPMap[value] = {
+                          layer: (function() {
+                            for (var i = 0; i < NPMap.baseLayers.length; i++) {
+                              var baseLayer = NPMap.baseLayers[0];
 
-                            if (typeof baseLayer.visible === 'undefined' || baseLayer.visible === true) {
-                              return baseLayer;
+                              if (typeof baseLayer.visible === 'undefined' || baseLayer.visible === true) {
+                                return baseLayer;
+                              }
                             }
-                          }
-                        })()
-                      };
+                          })()
+                        };
+                      } else {
+                        NPMap[value] = false;
+                      }
                     } else {
-                      NPMap[value] = false;
+                      NPMap[value] = checked;
                     }
-                  } else {
-                    NPMap[value] = checked;
-                  }
 
-                  FulcrumStyler.updateMap();
+                    FulcrumStyler.updateMap();
+                  });
                 });
               });
-            });
-          },
+            },
           load: function() {
             $.each($('form'), function(i, form) {
               $.each($(form).find('input'), function(j, input) {
@@ -1458,6 +1464,9 @@ if (App.mapId === 'null' || App.mapId === 'fulcrum-data-id') {
 } else if (App.mapId) {
   alertify.success('Welcome to the Styler.  Zoom to your Fulcrum layer and begin styling!');
   NPMap = {
+    baseLayers: [
+      'cartodb-positron'
+    ],
     center: {
       lat: 39.37,
       lng: -105.7
