@@ -13,19 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta name="author" content="Katrina Engelsted">
     <title name="title">Fulcrum Styler</title>
-
-    <link rel="stylesheet" type="css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="css" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css">
-    <link rel="stylesheet" type="css" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css">
-    <link rel="stylesheet" type="css" href="assets/libs/alertify/css/alertify-core.css">
-    <link rel="stylesheet" type="css" href="assets/libs/alertify/css/alertify-bootstrap.css">
     <link rel="stylesheet" type="css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <link rel="stylesheet" type="css" href="assets/libs/bootstrap-editable/css/bootstrap-editable.css">
-    <link rel="stylesheet" type="css" href="assets/libs/bootstrap-select/css/bootstrap-select.css">
-    <link rel="stylesheet" type="css" href="assets/libs/bootstrap-colorpickersliders/bootstrap.colorpickersliders.css">
-    <link rel="stylesheet" type="css" href="assets/libs/bootstrap-slider/css/bootstrap-slider.css">
-    <link rel="stylesheet" type="css" href="assets/libs/typeahead/typeahead.css">
-    <link rel="stylesheet" type="css" href="assets/libs/share/css/share.css">
     <link rel="stylesheet" type="css" href="assets/css/app.css">
 
     <link rel="apple-touch-icon" sizes="76x76" href="assets/img/favicon-76.png">
@@ -39,8 +27,154 @@
 <![endif]-->
   </head>
     <body>
-      <header>
-      </header>
-      
-    </body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <div class="navbar-icon-container">
+            <a href="#" class="navbar-icon pull-right visible-xs" id="nav-btn"><i class="fa fa-bars fa-lg white"></i></a>
+          </div>
+          <a class="navbar-brand" href="#" name="title" id="navbar-title"><img src="assets/img/fulcrum-small.png">Fulcrum Styler</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <h1>Popups and Tooltips</h1>
+      <strong>Popups</strong> appear when interactive features on your map are clicked. <strong>Tooltips</strong> are similar, but they are not enabled by default and they only appear when you hover the mouse over an interactive feature.
+      <strong>Learning Goals:</strong>
+      <ul>
+        <li><a href="#handlebars">Understand the Handlebars templating language</a></li>
+        <li><a href="#html">Learn the basics of HTML</a></li>
+      </ul>
+      When you first add an overlay to your map, popups default to showing all of the fields that are available for an overlay.</p>
+      <img alt="By default, Builder displays all of an overlay's available fields." class="img-responsive" src="assets/img/19-default-popups.jpg" style="width:400px;">
+      By clicking on an interactive feature to view its default popup, you can determine which fields are available to use when configuring your overlay's popups and tooltips. It is a good idea to make note of the exact field names you want to use before you start configuring popups and tooltips for an overlay.
+      <h2 id="handlebars">Handlebars</h2>
+      You can use the <a href="http://handlebarsjs.com/">Handlebars</a> templating library to configure your popups and tooltips. To display the value of an overlay's field in a popup or tooltip, type the name of the field surrounded by ``. So if an overlay has two fields, "Name" and "Description", a popup configuration may look something like this:
+      <img alt="A look at popups" class="img-responsive" src="assets/img/20-popup.jpg" style="width:300px">
+      A few Handlebars tips:
+      <ul>
+        <li>Field names are <strong>case-sensitive</strong>, so make sure you type them in exactly how they are stored in the original dataset.</li>
+        <li>Attributes that have spaces in the names must be wrapped in square brackets: e.g. <code>{{ [Resource Name] }}</code>.</li>
+        <li>If you are using HTML, use double quotes for the HTML tags because single quotes will cause errors. For example, do this: <code>&lt;img src="https://www.flickr.com/photos/nationalparkservice/{{image}}"&gt;</code> and <em>not</em> this: <code>&lt;img src='https://www.flickr.com/photos/nationalparkservice/{{image}}'&gt;</code>.</li>
+      </ul>
+
+      <h3>Conditionals</h3>
+      <p>You can use Handlebars to add logic to an overlay's popups and tooltips by using conditional statements, such as:
+      <code>{{#each}}{{/each}}</code>,
+      <code>{{#if}}{{/if}}</code> and
+      <code>{{#unless}}{{/unless}}</code> .</p>
+
+        <p>Conditionals are useful if you only want certain attributes to display. For example, if you want to display a string of text if a feature's elevation value is over 1500 meters, you can use the if conditional:</p>
+
+        <p><code>{{#if elevation &gt; 1500}}Elevation is greater than 1500 meters!{{/if}}</code></p>
+
+      <p>Adding logic to popups and tooltips can be a daunting task. If you are confused or have any questions about how to use Handlebars' helpers, feel free to email the NPMap team (<a href="&#109;&#x61;&#105;&#x6c;&#116;&#111;&#58;&#x6e;&#112;&#x6d;&#x61;&#112;&#64;&#110;&#112;&#115;&#x2e;&#103;&#111;&#x76;">&#x6e;&#112;&#x6d;&#x61;&#x70;&#x40;&#x6e;&#112;&#115;&#46;&#103;&#x6f;&#x76;</a>) or get in touch on Twitter (<a href="http://twitter.com/npmap">@npmap</a>).</p>
+
+      <h2 id="html">HTML</h2>
+
+      <p>You can combine valid HTML with Handlebars templates to customize the display of an overlay's popups and tooltips.</p>
+
+      <h3>Headers</h3>
+
+      <p>For instance, you can change the semantic importance of fields by using different header tags:</p>
+
+      <p><code>&lt;h1&gt;{{unit_name}}&lt;/h1&gt;</code><br>
+      <code>&lt;h2&gt;{{unit_designation}}&lt;/h2&gt;</code></p>
+
+      <h3>Emphasis</h3>
+
+      <p>Or you can change the importance and/or strength of a string of text by using bold or italics:</p>
+
+    <table>
+      <tr>
+        <td style="width: 300px"> <code>&lt;strong&gt;{{unit_name}}&lt;/strong&gt;</code></td><td><strong>Mt. Rainier</strong></td>
+      </tr>
+      <tr>
+        <td> <code>&lt;em&gt;{{unit_designation}}&lt;/em&gt;</code></td><td><em>Mt. Rainier</em></td>
+      </tr>
+    </table>
+    <h3 style="margin-top:10px;">Lists</h3>
+    If you need to add structure to the way your data is displayed, you can add an ordered list, an unordered list, or even a table:
+    <code><pre>&lt;ul&gt;
+    &lt;li&gt;Name: Acadia&lt;/li&gt;
+    &lt;li&gt;Designation: National Park&lt;/li&gt;
+    &lt;/ul&gt;</pre></code>
+
+      <h3>Links</h3>
+
+          If you would like to add links to your popups (they aren't supported for tooltips), you can create an <code>&lt;a&gt;</code> element:
+
+          <code>&lt;a src="http://www.nps.gov/acad/" target="_blank"&gt;Acadia National Park&lt;/a&gt;</code>
+
+          The <code>target="_blank"</code> property lets the browser know it should open the link in a new tab or window.
+
+          <h3>Reference</h3>
+
+          Here is a table of the HTML elements you can use when configuring your popups and tooltips.
+
+            <table class="table table-bordered table-condensed">
+              <thead>
+                <tr>
+                  <th style="width:200px;">Tag</th>
+                  <th style="width:300px">Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>&lt;h1&gt;</code>, <code>&lt;h2&gt;</code>, <code>&lt;h3&gt;</code>, <code>&lt;h4&gt;</code>, <code>&lt;h5&gt;</code>, and <code>&lt;h6&gt;</code></td>
+                  <td>Headings</td>
+                </tr>
+                <tr>
+                  <td><code>&lt;strong&gt;</code></td>
+                  <td>Strong text, displayed as bold text in most browsers</td>
+                </tr>
+                <tr>
+                  <td><code>&lt;em&gt;</code></td>
+                  <td>Emphasis, displayed as italics in most browsers</td>
+                </tr>
+                <tr>
+                  <td><code>&lt;u&gt;</code></td>
+                  <td>Underlined text</td>
+                </tr>
+                <tr>
+                  <td><code>&lt;sup&gt;</code></td>
+                  <td>Superscript text</td>
+                </tr>
+                <tr>
+                  <td><code>&lt;sub&gt;</code></td>
+                  <td>Subscript text</td>
+                </tr>
+                <tr>
+                  <td><code>&lt;ol&gt;&lt;li&gt;&lt;/li&gt;&lt;li&gt;&lt;/li&gt;&lt;/ol&gt;</code></td>
+                  <td>Ordered list with two list elements</td>
+                </tr>
+                <tr>
+                  <td><code>&lt;ul&gt;&lt;li&gt;&lt;/li&gt;&lt;li&gt;&lt;/li&gt;&lt;/ul&gt;</code></td>
+                  <td>Unordered list with two list elements</td>
+                </tr>
+                <tr>
+                  <td><code>&lt;a&gt;</code></td>
+                  <td>Links</td>
+                </tr>
+                <tr>
+                  <td><code>&lt;img&gt;</code></td>
+                  <td>Images</td>
+                </tr>
+                <tr>
+                  <td><code>&lt;iframe&gt;</code></td>
+                  <td>Iframes</td>
+                </tr>
+                <tr>
+                  <td><code>&lt;video&gt;</code></td>
+                  <td>Videos</td>
+                </tr>
+                <tr>
+                  <td><code>&lt;audio&gt;</code></td>
+                  <td>Audio files</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+    </div>
+  </body>
 </html>

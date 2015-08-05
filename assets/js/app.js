@@ -43,6 +43,11 @@ function ready() {
       $buttonExport.text('SHare Map');
     }
     function enableSave() {
+      var iframe = document.getElementById('iframe-map'),
+              bottom = iframe.contentDocument.getElementsByClassName('leaflet-control-attribution')[0], 
+              disclaimer = bottom.getElementsByTagName('a')[0];
+              disclaimer.innerHTML = '';
+
       $buttonSave.prop('disabled', false);
     }
     function escapeHtml(unsafe) {
@@ -51,7 +56,6 @@ function ready() {
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;');
-        //.replace(/'/g, '&#039;');
     }
     function generateLayerChangeStyle(name, overlay) {
       var activePanelSet = false,
@@ -195,18 +199,18 @@ function ready() {
             }
 
             break;
-          case 'cluster':
-          debugger;
-            panel += '' +
-              '<fieldset>' +
-                '<div class="form-group">' +
-                    '<div class="checkbox">'+
-                    '<label>'
-                    '<input id="geojson-cluster" type="checkbox"></input> Should points in this overlay be clustered?'+
-                  '</label>'+
-                '</div>'+
-              '<fieldset>';
-            break;
+          // case 'cluster':
+          // debugger;
+          //   panel += '' +
+          //     '<fieldset>' +
+          //       '<div class="form-group">' +
+          //           '<div class="checkbox">'+
+          //           '<label>'
+          //           '<input id="geojson-cluster" type="checkbox"></input> Should points in this overlay be clustered?'+
+          //         '</label>'+
+          //       '</div>'+
+          //     '<fieldset>';
+          //   break;
           case 'polygon':
             panel += '' +
               '<fieldset>' +
@@ -382,6 +386,7 @@ function ready() {
       }
 
       // TODO: If the overlay is clustered, add a "Cluster" tab.
+      //if fulcrum overlay then cluster, point
       return '' +
         '<form class="change-style form-horizontal" id="' + name + '_layer-change-style" role="form">' +
           // '<ul class="nav nav-tabs" style="padding-left:5px;">' +
@@ -418,16 +423,57 @@ function ready() {
       });
     }
     function saveMap(callback) {
-      var $this = $(this);
+      var $this = $(this),
+        id = App.mapId,
+        datum = {
+          "description": "the mapping config",
+          "public": true,
+          "files": {
+            id: {
+              "content": JSON.stringify(NPMap)
+            }
+          }
+        };
 
       FulcrumStyler.showLoading();
       $this.blur();
 
-      var github = new Github({
-        username: "mappingkat",
-        password: "taktak22GITHUB",
-        auth: "basic"
+      $.ajax({
+        url: 'https://api.github.com/gists',
+        type: 'POST',
+        dataType: 'json',
+        data: JSON.stringify(datum),
+        public: false
+      })
+      .success( function(response) {
+        // success = false;
+
+        FulcrumStyler.hideLoading();
+
+        if (window.history.replaceState) {
+          var location = window.location,
+            url = response.url
+          window.history.replaceState({
+            path: url
+          }, '', url);
+        }
+        debugger;
+
+        App.id = response.id;
+        updateSaveStatus(response.modified);
+        alertify.success('Your map was saved!');
+        success = true;
+
+
+        if (typeof callback === 'function') {
+          callback(success);
+        }
+      })
+      .error( function(e) {
+        var error = 'Sorry, there was an unhandled error while saving your map. Please try again.';
+        alertify.error(error);
       });
+
       // $.ajax({
       //   data: {
       //     // description: description,
@@ -1104,44 +1150,44 @@ function ready() {
               }
             },
             overlayToLi: function(overlay) {
-            //   var interactive = (overlay.type !== 'tiled' && (typeof overlay.clickable === 'undefined' || overlay.clickable === true)),
-            //     styleable = (overlay.type === 'cartodb' || overlay.type === 'csv' || overlay.type === 'geojson' || overlay.type === 'kml' || overlay.type === 'spot'),
-            //     index;
+              var interactive = (overlay.type !== 'tiled' && (typeof overlay.clickable === 'undefined' || overlay.clickable === true)),
+                styleable = (overlay.type === 'cartodb' || overlay.type === 'csv' || overlay.type === 'geojson' || overlay.type === 'kml' || overlay.type === 'spot'),
+                index;
 
-            //   if (!$layers.is(':visible')) {
-            //     $layers.prev().hide();
-            //     $('#customize .content').css({
-            //       padding: 0
-            //     });
-            //     $layers.show();
-            //   }
+              if (!$layers.is(':visible')) {
+                $layers.prev().hide();
+                $('#customize .content').css({
+                  padding: 0
+                });
+                $layers.show();
+              }
 
-            //   index = $layers.children().length;
-              // $layers.append($('<li class="dd-item">').html('' +
-              //   '<div class="letter">' + abcs[index] + '</div>' +
-              //   '<div class="details">' +
-              //     '<span class="name">' + overlay.name + '</span>' +
-              //     '<span class="description">' + (overlay.description || '') + '</span>' +
-              //     '<div class="actions">' +
-              //       '<div style="float:left;">' +
-              //         '<button class="btn btn-default btn-xs" data-container="section" onclick="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.clickLayerEdit(this);" type="button">' +
-              //           '<span class="fa fa-edit"> Edit</span>' +
-              //         '</button>' +
-              //       '</div>' +
-              //       '<div style="float:right;">' +
-              //         '<button class="btn btn-default btn-xs interactivity" data-container="section" data-placement="bottom" onclick="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.clickLayerConfigureInteractivity(this);" rel="tooltip" style="' + (interactive ? '' : 'display:none;') + 'margin-right:5px;" title="Configure Interactivity" type="button">' +
-              //           '<span class="fa fa-comment"></span>' +
-              //         '</button>' +
-              //         '<button class="btn btn-default btn-xs" data-container="section" data-placement="bottom" onclick="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.clickLayerChangeStyle(this);" rel="tooltip" style="' + (styleable ? '' : 'display:none;') + 'margin-right:5px;" title="Change Style" type="button">' +
-              //           '<span class="fa fa-map-marker"></span>' +
-              //         '</button>' +
-              //         '<button class="btn btn-default btn-xs" data-container="section" data-placement="bottom" onclick="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.clickLayerRemove(this);" rel="tooltip" title="Delete Overlay" type="button">' +
-              //           '<span class="fa fa-trash-o"></span>' +
-              //         '</button>' +
-              //       '</div>' +
-              //     '</div>' +
-              //   '</div>' +
-              // ''));
+              index = $layers.children().length;
+              $layers.append($('<li class="dd-item">').html('' +
+                '<div class="letter">' + abcs[index] + '</div>' +
+                '<div class="details">' +
+                  '<span class="name">' + overlay.name + '</span>' +
+                  '<span class="description">' + (overlay.description || '') + '</span>' +
+                  '<div class="actions">' +
+                    '<div style="float:left;">' +
+                      '<button class="btn btn-default btn-xs" data-container="section" onclick="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.clickLayerEdit(this);" type="button">' +
+                        '<span class="fa fa-edit"> Edit</span>' +
+                      '</button>' +
+                    '</div>' +
+                    '<div style="float:right;">' +
+                      '<button class="btn btn-default btn-xs interactivity" data-container="section" data-placement="bottom" onclick="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.clickLayerConfigureInteractivity(this);" rel="tooltip" style="' + (interactive ? '' : 'display:none;') + 'margin-right:5px;" title="Configure Interactivity" type="button">' +
+                        '<span class="fa fa-comment"></span>' +
+                      '</button>' +
+                      '<button class="btn btn-default btn-xs" data-container="section" data-placement="bottom" onclick="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.clickLayerChangeStyle(this);" rel="tooltip" style="' + (styleable ? '' : 'display:none;') + 'margin-right:5px;" title="Change Style" type="button">' +
+                        '<span class="fa fa-map-marker"></span>' +
+                      '</button>' +
+                      '<button class="btn btn-default btn-xs" data-container="section" data-placement="bottom" onclick="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.clickLayerRemove(this);" rel="tooltip" title="Delete Overlay" type="button">' +
+                        '<span class="fa fa-trash-o"></span>' +
+                      '</button>' +
+                    '</div>' +
+                  '</div>' +
+                '</div>' +
+              ''));
               FulcrumStyler.ui.steps.addAndCustomizeData.refreshUl();
             },
             refreshUl: function() {
@@ -1273,7 +1319,6 @@ function ready() {
                     } else {
                       NPMap[value] = checked;
                     }
-
                     FulcrumStyler.updateMap();
                   });
                 });
@@ -1416,16 +1461,25 @@ function ready() {
 
           if (npmap && npmap.config && npmap.config.L) {
             clearInterval(interval);
-
+              
             if (typeof callback === 'function') {
               callback(npmap.config);
             }
+            var iframe = document.getElementById('iframe-map'),
+              bottom = iframe.contentDocument.getElementsByClassName('leaflet-control-attribution')[0], 
+              disclaimer = bottom.getElementsByTagName('a')[0];
+              disclaimer.innerHTML = '';
 
             if (!manualRefresh) {
               if (firstLoad) {
                 firstLoad = false;
               } else {
+
                 enableSave();
+                var iframe = document.getElementById('iframe-map'),
+              bottom = iframe.contentDocument.getElementsByClassName('leaflet-control-attribution')[0], 
+              disclaimer = bottom.getElementsByTagName('a')[0];
+              disclaimer.innerHTML = '';
               }
             }
           }
@@ -1455,7 +1509,9 @@ function ready() {
 }
 
 var App = {
-  mapId: decodeURI((RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1])
+  id: '',
+  mapId: decodeURI((RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]),
+  export: 'https://api.github.com/gists/' + this.id
 }
 
 if (App.mapId === 'null' || App.mapId === 'fulcrum-data-id') {
