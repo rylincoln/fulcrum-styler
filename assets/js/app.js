@@ -435,7 +435,7 @@ function ready() {
               'document.body.appendChild(s);'
             },
             'index.html': {
-              'content': '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"><title> Examples | NPMap.js</title><link rel=\"stylesheet\" href=\"style.css\"></head><body><div id=\"map\" /><script src=\"app.js\"></script></body></html>'
+              'content': '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"><title>Fulcrum Data Collection</title><link rel=\"stylesheet\" href=\"style.css\"></head><body><div id=\"map\" /><script src=\"app.js\"></script></body></html>'
             },
             'style.css': {
               'content': 'body {margin: 0;padding: 0;} #map {bottom: 0;position: absolute;top: 0;width: 100%;}'
@@ -454,7 +454,7 @@ function ready() {
         public: false
       })
       .success( function(response) {
-        App.id = response.id;
+        window.App.id = response.id;
         console.log(response);
         FulcrumStyler.hideLoading();
 
@@ -1287,7 +1287,15 @@ function ready() {
               $('#map').css('left','0px');
               $('#map').css('right','230px');
               $('#export-panel').css('display', 'block');
-              $('#my-div').ssk({});
+
+              $('.ssk').click(function(){
+                $('.ssk-facebook')[0].href = 'http://www.facebook.com/share.php?u=http%3A%2F%2Fbl.ocks.org%2Fanonymous%2Fraw%2F' + App.id;
+                https://twitter.com/intent/tweet?text=Fulcrum%20Styler&url=http%3A%2F%2Fbl.ocks.org%2Fanonymous%2F&original_referer=
+                $('.ssk-twitter')[0].href = 'https://twitter.com/intent/tweet?text=This%20is%20the%20data%20we%20have%20collected:&url=http%3A%2F%2Fbl.ocks.org%2Fanonymous%2Fraw%2F' + App.id;
+                $('.ssk-email').href = 'mailto:?subject=|Data collected with Fulcrum|';
+                window.open($(this).attr('href'),'Data collected with Fulcrum','toolbar=0,resizable=1,status=0,width=640,height=528');
+                return false;
+              });
             });
             $('#goback').on('click', function(){
               $('.content').css('display', 'block')
@@ -1441,8 +1449,7 @@ function ready() {
 }
 
 var App = {
-  id: '',
-  mapId: decodeURI((RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]),
+  mapId: decodeURI((RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1])
 }
 
 if (App.mapId === 'null' || App.mapId === 'fulcrum-data-id') {
