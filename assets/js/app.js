@@ -435,7 +435,7 @@ function ready() {
               '<link href="http://1.usa.gov/1JMcjrO" rel="stylesheet">'+
               '<style>html,body,#map{height:100%;margin:0;padding:0;width:100%;}#map{left:0;position:absolute;top:0;}</style>'+
               '</head><body><div id="map"></div><script>' +
-              JSON.stringify(NPMap) +
+              'var NPMap = ' + JSON.stringify(NPMap) +
               '(function() {var s = document.createElement("script");s.src = "http://1.usa.gov/1NagnRs";document.body.appendChild(s);})();'+
               '</script></body></html>'
             }
@@ -1375,7 +1375,7 @@ function ready() {
             $buttonExport.on('click', function() {
               if ( $('#sharing-code').is(':hidden') ) {
                 $('#sharing-code').slideDown('fast');
-                $('#generate-result').val('<iframe height="500px" frameBorder="0" width="100%" src="https://bl.ocks.org/' + App.id + '"></iframe>').select();
+                $('#generate-result').val('<iframe height="500px" frameBorder="0" width="100%" src="http://bl.ocks.org/' + App.id + '"></iframe>').select();
                 if ($modalExport) {
                   $modalExport.modal('show');
                 } else {
