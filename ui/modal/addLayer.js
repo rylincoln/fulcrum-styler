@@ -1,11 +1,11 @@
-/* globals $, Builder, NPMap */
+/* globals $, FulcrumStyler, NPMap */
 /* jshint camelcase: false */
 
 $('head').append($('<link rel="stylesheet">').attr('href', 'ui/modal/addLayer.css'));
 
-Builder.ui = Builder.ui || {};
-Builder.ui.modal = Builder.ui.modal || {};
-Builder.ui.modal.addLayer = (function() {
+FulcrumStyler.ui = FulcrumStyler.ui || {};
+FulcrumStyler.ui.modal = FulcrumStyler.ui.modal || {};
+FulcrumStyler.ui.modal.addLayer = (function() {
   var $attribution = $('#layerAttribution'),
     $description = $('#layerDescription'),
     $modal = $('#addLayer'),
@@ -188,7 +188,7 @@ Builder.ui.modal.addLayer = (function() {
     } else {
       if (NPMap.overlays && NPMap.overlays.length) {
         for (var i = 0; i < NPMap.overlays.length; i++) {
-          if (i !== Builder.ui.modal.addLayer._editingIndex) {
+          if (i !== FulcrumStyler.ui.modal.addLayer._editingIndex) {
             var overlay = NPMap.overlays[i];
 
             if (value === overlay.name) {
@@ -517,9 +517,9 @@ Builder.ui.modal.addLayer = (function() {
       if (styles) {
         config.styles = styles;
       } else if (type === 'csv' || type === 'geojson' || type === 'kml' || type === 'spot') {
-        config.styles = $.extend(true, {}, Builder._defaultStyles);
+        config.styles = $.extend(true, {}, FulcrumStyler._defaultStyles);
       } else if (type === 'cartodb') {
-        config.styles = $.extend(true, {}, Builder._defaultStylesCollapsed);
+        config.styles = $.extend(true, {}, FulcrumStyler._defaultStylesCollapsed);
       }
 
       if (tooltip) {
@@ -539,7 +539,7 @@ Builder.ui.modal.addLayer = (function() {
           });
           window.alert('The overlay could not be added to the map. The full error message is:\n\n' + error.message);
         } else {
-          if (Builder.ui.modal.addLayer._editingIndex === -1) {
+          if (FulcrumStyler.ui.modal.addLayer._editingIndex === -1) {
             if (config.styles) {
               var geometryTypes = validated._geometryTypes;
 
@@ -580,12 +580,12 @@ Builder.ui.modal.addLayer = (function() {
               }
             }
 
-            Builder.addOverlay(config);
+            FulcrumStyler.addOverlay(config);
           } else {
-            var $li = $($layers.children()[Builder.ui.modal.addLayer._editingIndex]),
+            var $li = $($layers.children()[FulcrumStyler.ui.modal.addLayer._editingIndex]),
               $interactivity = $($li.find('.interactivity')[0]);
 
-            NPMap.overlays[Builder.ui.modal.addLayer._editingIndex] = config;
+            NPMap.overlays[FulcrumStyler.ui.modal.addLayer._editingIndex] = config;
             $($li.find('.name')[0]).text(config.name);
 
             if (config.description) {
@@ -601,7 +601,7 @@ Builder.ui.modal.addLayer = (function() {
             }
           }
 
-          Builder.updateMap();
+          FulcrumStyler.updateMap();
           $modal.modal('hide');
         }
       });
@@ -664,11 +664,11 @@ Builder.ui.modal.addLayer = (function() {
     }, 100);
   }
 
-  if (typeof Builder._pendingLayerEditIndex !== 'undefined') {
-    var overlay = NPMap.overlays[Builder._pendingLayerEditIndex],
+  if (typeof FulcrumStyler._pendingLayerEditIndex !== 'undefined') {
+    var overlay = NPMap.overlays[FulcrumStyler._pendingLayerEditIndex],
       type = overlay.type;
 
-    delete Builder._pendingLayerEditIndex;
+    delete FulcrumStyler._pendingLayerEditIndex;
 
     $type.val(type);
     $.each(types, function(prop) {
@@ -682,7 +682,7 @@ Builder.ui.modal.addLayer = (function() {
     });
   }
 
-  Builder.buildTooltips();
+  FulcrumStyler.buildTooltips();
   setHeight();
   $name.bind('change click input keyup paste propertychange', onChangeName);
   $type.bind('change', onChangeType);
@@ -703,12 +703,12 @@ Builder.ui.modal.addLayer = (function() {
           $formGroup.removeClass('has-error');
         }
       });
-      Builder.ui.modal.addLayer._editingIndex = -1;
+      FulcrumStyler.ui.modal.addLayer._editingIndex = -1;
       $('#layerType').removeAttr('disabled');
       $('#modal-addLayer-description-update').hide();
       $('#modal-addLayer-description-create').show();
       $('#modal-addLayer-title').html('Add an Existing Overlay&nbsp;<img data-container="#modal-addLayer" data-original-title="You can add ArcGIS Online/ArcGIS Server, CartoDB, CSV, GeoJSON, KML, MapBox, SPOT, or Tiled overlays to your map." data-placement="bottom" rel="tooltip" src="assets/img/help@2x.png" style="height:18px;" title="">');
-      Builder.buildTooltips();
+      FulcrumStyler.buildTooltips();
       $('#addLayer-add, #addLayer-cancel').each(function(i, button) {
         $(button).prop('disabled', false);
       });

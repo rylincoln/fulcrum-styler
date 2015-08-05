@@ -27,5 +27,5 @@ Enjoy. MIT License, in other words:
 
 ## Contributions and Special Thanks
 
-This dashboard relies on [NPMap.js](https://github.com/nationalparkservice/npmap.js/), a Leaflet plugin that Nate Irwin created for the National Park Service.  There is also some features from the [NPMap-Builder](https://github.com/nationalparkservice/npmap-builder) sprinkled in there.  Thanks so much to the @NPMap team for creating such useful tools and open-sourcing it.  You all are doing excellent work and leading the nation with government initiatives. 
+This dashboard relies on [NPMap.js](https://github.com/nationalparkservice/npmap.js/), a Leaflet plugin that Nate Irwin created for the National Park Service.  There is also some features from the [NPMap-Builder](https://github.com/nationalparkservice/npmap-Builder) sprinkled in there.  Thanks so much to the @NPMap team for creating such useful tools and open-sourcing it.  You all are doing excellent work and leading the nation with government initiatives. 
 

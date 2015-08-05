@@ -163,7 +163,7 @@ function ready() {
                   '<div class="form-group">' +
                     '<label class="col-sm-6 control-label" for="' + getName('marker-library', 'point') + '">Library</label>' +
                     '<div class="col-sm-6">' +
-                      '<select class="form-control marker-library" id="' + getName('marker-library', 'point') + '" onchange="Builder.ui.steps.addAndCustomizeData.handlers.changeMarkerLibrary(this);return false;">' +
+                      '<select class="form-control marker-library" id="' + getName('marker-library', 'point') + '" onchange="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.changeMarkerLibrary(this);return false;">' +
                         '<option value="letters">Letters</option>' +
                         '<option value="maki">Maki</option>' +
                         '<option value="npmaki">NPMaki</option>' +
@@ -425,11 +425,19 @@ function ready() {
       var $this = $(this),
         id = App.mapId,
         datum = {
-          "description": "the mapping config",
-          "public": true,
-          "files": {
-            id: {
-              "content": JSON.stringify(NPMap)
+          'description': 'the mapping config',
+          'public': true,
+          'files': {
+            'index.html': {
+              'content': '<!DOCTYPE html>'+
+              '<head><meta charset="utf-8">'+
+              '<base target="_parent">'+
+              '<link href="http://1.usa.gov/1JMcjrO" rel="stylesheet">'+
+              '<style>html,body,#map{height:100%;margin:0;padding:0;width:100%;}#map{left:0;position:absolute;top:0;}</style>'+
+              '</head><body><div id="map"></div><script>' +
+              JSON.stringify(NPMap) +
+              '(function() {var s = document.createElement("script");s.src = "http://1.usa.gov/1NagnRs";document.body.appendChild(s);})();'+
+              '</script></body></html>'
             }
           }
         };
@@ -576,7 +584,7 @@ function ready() {
           'marker-color': '#000000',
           'marker-library': 'maki',
           'marker-size': 'medium',
-          'marker-symbol': null
+          'marker-symbol': 'star'
         },
         polygon: {
           'fill': '#d39800',
@@ -1350,6 +1358,7 @@ function ready() {
           },
           init: function() {
             $('#export').on('click', function(){
+              savemap();
               $('.content').css('display', 'none')
               $('#map').css('left','0px');
               $('#map').css('right','230px');
@@ -1366,7 +1375,7 @@ function ready() {
             $buttonExport.on('click', function() {
               if ( $('#sharing-code').is(':hidden') ) {
                 $('#sharing-code').slideDown('fast');
-                $('#generate-result').val('<iframe height="500px" frameBorder="0" width="100%" src="https://gist.github.com/anonymous/' + App.id + '"></iframe>').select();
+                $('#generate-result').val('<iframe height="500px" frameBorder="0" width="100%" src="https://bl.ocks.org/' + App.id + '"></iframe>').select();
                 if ($modalExport) {
                   $modalExport.modal('show');
                 } else {
