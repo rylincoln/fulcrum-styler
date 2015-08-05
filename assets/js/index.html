@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<head>
+	<title>Fulcrum Data Collection</title>
+	<meta charset="utf-8">
+	<link href="http://1.usa.gov/1JMcjrO" rel="stylesheet">
+	<style>html,body,#map{height:100%;margin:0;padding:0;width:100%;}#map{left:0;position:absolute;top:0;}</style>
+</head>
+<body>
+	<div id="map"></div>
+	<script>
+
+	var NPMap = {
+		"baseLayers":["cartodb-positron"],
+		"center":{"lat":39.78157002102496,"lng":-105.023457},
+		"div":"map",
+		"overlays":[{
+			"cluster":{"clusterIcon":"#6c6c6c"},
+			"name":"Fulcrum App",
+			"type":"geojson",
+			"url":"https://web.fulcrumapp.com/shares/433a922c585d89c2.geojson",
+			"styles":{
+				"point":{
+					"marker-library":"npmaki",
+					"marker-symbol":"letter-f-black",
+					"marker-color":"#fff4ad",
+					"marker-size":"small"
+				}
+			}
+		}],
+		"homeControl":{"position":"topright"},
+		"smallzoomControl":{"position":"topright"},
+		"zoom":11
+	}
+	(function() {var s = document.createElement("script");
+		s.src = "http://1.usa.gov/1NagnRs";document.body.appendChild(s);})();
+	</script>
+</body>
+</html>

@@ -428,16 +428,17 @@ function ready() {
           'description': 'the mapping config',
           'public': true,
           'files': {
+            'app.js': {
+              'content': 'var NPMap = '+ JSON.stringify(NPMap) + ';' +
+              'var s = document.createElement(\"script\");'+
+              's.src = \"http://www.nps.gov/npmap/npmap.js/2.0.0/npmap-bootstrap.min.js\";'+
+              'document.body.appendChild(s);'
+            },
             'index.html': {
-              'content': '<!DOCTYPE html>'+
-              '<head><meta charset="utf-8">'+
-              '<base target="_parent">'+
-              '<link href="http://1.usa.gov/1JMcjrO" rel="stylesheet">'+
-              '<style>html,body,#map{height:100%;margin:0;padding:0;width:100%;}#map{left:0;position:absolute;top:0;}</style>'+
-              '</head><body><div id="map"></div><script>' +
-              'var NPMap = ' + JSON.stringify(NPMap) +
-              '(function() {var s = document.createElement("script");s.src = "http://1.usa.gov/1NagnRs";document.body.appendChild(s);})();'+
-              '</script></body></html>'
+              'content': '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"><title> Examples | NPMap.js</title><link rel=\"stylesheet\" href=\"style.css\"></head><body><div id=\"map\" /><script src=\"app.js\"></script></body></html>'
+            },
+            'style.css': {
+              'content': 'body {margin: 0;padding: 0;} #map {bottom: 0;position: absolute;top: 0;width: 100%;}'
             }
           }
         };
@@ -454,7 +455,7 @@ function ready() {
       })
       .success( function(response) {
         // success = false;
-
+        console.log(response);
         FulcrumStyler.hideLoading();
         App.id = response.id;
          // = '?id=' + App.id;
@@ -471,6 +472,7 @@ function ready() {
         updateSaveStatus(response.modified);
         alertify.success('Your map was saved!');
         success = true;
+        // window.open('https://web.fulcrumapp.com/shares/' + this.id.replace('template-', '') + '.html?urlParams.id=' + urlParams.id, '_blank');
 
         if (typeof callback === 'function') {
           callback(success);
