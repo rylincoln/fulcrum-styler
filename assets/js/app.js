@@ -40,7 +40,6 @@ function ready() {
 
     function disableSave() {
       $buttonSave.prop('disabled', true);
-      $buttonExport.text('SHare Map');
     }
     function enableSave() {
       var iframe = document.getElementById('iframe-map'),
@@ -449,21 +448,21 @@ function ready() {
         // success = false;
 
         FulcrumStyler.hideLoading();
-
-        if (window.history.replaceState) {
-          var location = window.location,
-            url = response.url
-          window.history.replaceState({
-            path: url
-          }, '', url);
-        }
-        debugger;
-
         App.id = response.id;
+         // = '?id=' + App.id;
+        // if (window.history.replaceState) {
+        //   var location = window.location,
+        //     url = location.search;
+        //     debugger;
+        //   window.history.replaceState({
+        //     path: url
+        //   }, '', url);
+        // }
+        // debugger;
+
         updateSaveStatus(response.modified);
         alertify.success('Your map was saved!');
         success = true;
-
 
         if (typeof callback === 'function') {
           callback(success);
@@ -1367,7 +1366,7 @@ function ready() {
             $buttonExport.on('click', function() {
               if ( $('#sharing-code').is(':hidden') ) {
                 $('#sharing-code').slideDown('fast');
-                // $('#generate-result').val().select();
+                $('#generate-result').val('<iframe height="500px" frameBorder="0" width="100%" src="https://gist.github.com/anonymous/' + App.id + '"></iframe>').select();
                 if ($modalExport) {
                   $modalExport.modal('show');
                 } else {
