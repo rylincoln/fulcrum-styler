@@ -1358,7 +1358,7 @@ function ready() {
           },
           init: function() {
             $('#export').on('click', function(){
-              savemap();
+              saveMap();
               $('.content').css('display', 'none')
               $('#map').css('left','0px');
               $('#map').css('right','230px');
