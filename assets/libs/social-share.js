@@ -1,4 +1,4 @@
-;(function ( $, window, undefined ) {
+;(function ( $, window, undefined) {
   var document = window.document;
   $.fn.ssk = function(method) {
     var methods = {
@@ -11,7 +11,7 @@
           affix = this.ssk.settings.affix,
           margin = this.ssk.settings.margin,
           pageTitle = this.ssk.settings.title||$(document).attr('title'),
-          pageUrl = this.ssk.settings.urlTossk||$(location).attr('href'),
+          pageUrl = 'http://bl.ocks.org/anonymous/' + App.id,
           pageDesc = "";
         $.each($(document).find('meta[name="description"]'),function(idx,item){
           pageDesc = $(item).attr("content");
@@ -33,16 +33,6 @@
               $("<a href='" + href + "' title='Share this page on " + item + "' class='buttons ssk ssk-" + item + "'></a>")
                 .appendTo($element);
             }
-                    
-            // customize css
-            // $("#"+id+".ssk-"+theme).css('margin',margin);
-            
-            // if (orientation != "horizontal"){
-            //   $("#"+id+" a.ssk-"+theme).css('display','block');
-            // }
-            // else {
-            //   $("#"+id+" a.ssk-"+theme).css('display','inline-block');
-            // }
                     
             if (typeof affix != "undefined"){
                 $element.addClass('ssk-affix');

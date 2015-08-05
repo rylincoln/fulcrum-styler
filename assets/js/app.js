@@ -454,26 +454,14 @@ function ready() {
         public: false
       })
       .success( function(response) {
-        // success = false;
+        App.id = response.id;
         console.log(response);
         FulcrumStyler.hideLoading();
-        App.id = response.id;
-         // = '?id=' + App.id;
-        // if (window.history.replaceState) {
-        //   var location = window.location,
-        //     url = location.search;
-        //     debugger;
-        //   window.history.replaceState({
-        //     path: url
-        //   }, '', url);
-        // }
-        // debugger;
 
         updateSaveStatus(response.modified);
         alertify.success('Your map was saved!');
         success = true;
-        // window.open('https://web.fulcrumapp.com/shares/' + this.id.replace('template-', '') + '.html?urlParams.id=' + urlParams.id, '_blank');
-
+        
         if (typeof callback === 'function') {
           callback(success);
         }
@@ -482,66 +470,6 @@ function ready() {
         var error = 'Sorry, there was an unhandled error while saving your map. Please try again.';
         alertify.error(error);
       });
-
-      // $.ajax({
-      //   data: {
-      //     // description: description,
-      //     // isPublic: true,
-      //     // isShared: true,
-      //     json: JSON.stringify(NPMap),
-      //     mapId: mapId || null,
-      //     // name: title
-      //   },
-      //   dataType: 'json',
-      //   error: function() {
-      //     FulcrumStyler.hideLoading();
-      //     alertify.error('You must provide you Fulcrum data share id to save the map.');
-
-      //     if (typeof callback === 'function') {
-      //       callback(false);
-      //     }
-      //   },
-      //   success: function(response) {
-      //     var error = 'Sorry, there was an unhandled error while saving your map. Please try again.',
-      //       success = false;
-
-      //     FulcrumStyler.hideLoading();
-
-      //     if (response) {
-      //       if (response.success === true) {
-      //         if (!mapId && window.history.replaceState) {
-      //           var location = window.location,
-      //             url = location.protocol + '//' + location.host + location.pathname + '?mapId=' + response.mapId;
-      //             console.log(url);
-      //           window.history.replaceState({
-      //             path: url
-      //           }, '', url);
-      //         }
-
-      //         mapId = response.mapId;
-      //         updateSaveStatus(response.modified);
-      //         alertify.success('Your map was saved!');
-      //         success = true;
-      //       } else if (response.success === false && response.error) {
-      //         if (response.type === 'login') {
-      //           $modalSignIn.modal('show');
-      //         } else {
-      //           alertify.error(response.error);
-      //         }
-      //       } else {
-      //         alertify.error(error);
-      //       }
-      //     } else {
-      //       alertify.error(error);
-      //     }
-
-      //     if (typeof callback === 'function') {
-      //       callback(success);
-      //     }
-      //   },
-      //   type: 'POST',
-      //   url: 'https://web.fulcrumapp.com/shares/'
-      // });
     }
     function unescapeHtml(unsafe) {
       return unsafe
@@ -549,7 +477,6 @@ function ready() {
         .replace(/&lt;/g, '<')
         .replace(/&gt;/g, '>')
         .replace(/&quot;/g, '\"');
-        //.replace(/&#039;/g, '\'');
     }
     function updateInitialCenterAndZoom() {
       $lat.html(NPMap.center.lat.toFixed(2));
@@ -562,17 +489,17 @@ function ready() {
       disableSave();
     }
 
-    $(document).ready(function() {
-      if (mapId) {
-        descriptionSet = true;
-        settingsSet = true;
-        titleSet = true;
-      // } else {
-      //   setTimeout(function() {
-      //     $('#metadata .title a').editable('toggle');
-      //   }, 200);
-      }
-    });
+    // $(document).ready(function() {
+    //   if (mapId) {
+    //     descriptionSet = true;
+    //     settingsSet = true;
+    //     titleSet = true;
+    //   // } else {
+    //   //   setTimeout(function() {
+    //   //     $('#metadata .title a').editable('toggle');
+    //   //   }, 200);
+    //   }
+    // });
 
     return {
       _afterUpdateCallbacks: {},
@@ -621,7 +548,6 @@ function ready() {
             //   }
             // }, false);
 
-
             Dropzone.options.dropzone = {
               accept: function(file, done) {
                 console.log(file);
@@ -642,10 +568,6 @@ function ready() {
           //     .on('shown.bs.modal', function() {
           //       $($('#modal-signin .modal-body')[0]).html('<iframe id="iframe" src="https://insidemaps.nps.gov/account/logon/?iframe=true" style="height:202px;"></iframe>');
           //     });
-          }
-        },
-        metadata: {
-          init: function() {
           }
         },
         steps: {
@@ -1377,7 +1299,7 @@ function ready() {
             $buttonExport.on('click', function() {
               if ( $('#sharing-code').is(':hidden') ) {
                 $('#sharing-code').slideDown('fast');
-                $('#generate-result').val('<iframe height="500px" frameBorder="0" width="100%" src="http://bl.ocks.org/' + App.id + '"></iframe>').select();
+                $('#generate-result').val('<iframe height="500px" frameBorder="0" width="100%" src="http://bl.ocks.org/anonymous/raw/' + App.id + '"></iframe>').select();
                 if ($modalExport) {
                   $modalExport.modal('show');
                 } else {
@@ -1521,7 +1443,6 @@ function ready() {
 var App = {
   id: '',
   mapId: decodeURI((RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]),
-  export: 'https://api.github.com/gists/' + this.id
 }
 
 if (App.mapId === 'null' || App.mapId === 'fulcrum-data-id') {
