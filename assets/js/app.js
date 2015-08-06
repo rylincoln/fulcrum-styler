@@ -11,6 +11,7 @@ function ready() {
       $buttonExport = $('#embed'),
       $mapSize = $('.change-size'),
       $buttonSave = $('#button-save'),
+      $buttonRefresh = $('#button-refresh'),
       $iframe = $('#iframe-map'),
       $lat = $('.lat'),
       $lng = $('.lng'),
@@ -33,21 +34,22 @@ function ready() {
       settingsSet = false,
       settingsZ = null,
       stepLis = $('#steps li'),
-      // title = null,
-      // titleSet = false,
-      // titleZ = null,
-      $modalAddLayer, $modalEditBaseMaps, $modalExport, $modalViewConfig, $modalfilterLayer;
+      // title = href like in share-maps
+      $modalAddLayer, $modalEditBaseMaps;
 
     function disableSave() {
-      $buttonSave.prop('disabled', true);
+      //work on this... 
+      $buttonSave.css('color:#808080');
+      // $buttonSave.css('pointer:#808080');
+      $buttonSave.attr('disabled', true);
     }
     function enableSave() {
       var iframe = document.getElementById('iframe-map'),
-              bottom = iframe.contentDocument.getElementsByClassName('leaflet-control-attribution')[0], 
-              disclaimer = bottom.getElementsByTagName('a')[0];
-              disclaimer.innerHTML = '';
+        bottom = iframe.contentDocument.getElementsByClassName('leaflet-control-attribution')[0], 
+        disclaimer = bottom.getElementsByTagName('a')[0];
+        disclaimer.innerHTML = '';
 
-      $buttonSave.prop('disabled', false);
+      $buttonSave.attr('disabled', false);
     }
     function escapeHtml(unsafe) {
       return unsafe
@@ -532,6 +534,17 @@ function ready() {
         'stroke-opacity': 0.8,
         'stroke-width': 3
       },
+      changeCluster: function(){
+        if ($('#fulcrum-cluster').prop('checked')) {
+          NPMap.overlays[0].cluster = {
+            clusterIcon: '#6c6c6c'
+          };
+        } else {
+          NPMap.overlays[0].cluster = false;
+        }
+
+        FulcrumStyler.updateMap()
+      },
       ui: {
         app: {
           init: function() {
@@ -586,7 +599,7 @@ function ready() {
                   $next = $($el.parent().parent().next()),
                   $popover = $next.parents('.popover');
 
-                if ($el.prop('checked')) {
+                if ($el.attr('checked')) {
                   if ($next.is(':hidden')) {
                     $next.show();
                     $popover.css({
@@ -605,9 +618,9 @@ function ready() {
               changeEnableTooltips: function(el) {
                 var $el = $(el),
                   $tip = $($($el.parent().parent().next().children('input')[0])[0]),
-                  checked = $el.prop('checked');
+                  checked = $el.attr('checked');
 
-                $tip.prop('disabled', !checked);
+                $tip.attr('disabled', !checked);
 
                 if (!checked) {
                   $tip.val('');
@@ -904,7 +917,7 @@ function ready() {
                           }
 
                           if (typeof config.width === 'number') {
-                            $('#' + name + '_autoWidth').prop('checked', false).trigger('change');
+                            $('#' + name + '_autoWidth').attr('checked', false).trigger('change');
                             $('#' + name + '_fixedWidth').val(config.width);
                           }
                         } else if (typeof config === 'string') {
@@ -932,7 +945,7 @@ function ready() {
                         config = overlay.tooltip;
                        
                         if (config) {
-                          $($('#' + name + '_layer-configure-interactivity .checkbox input')[0]).prop('checked', true).trigger('change');
+                          $($('#' + name + '_layer-configure-interactivity .checkbox input')[0]).attr('checked', true).trigger('change');
                           $('#' + name + '_tooltip').val(unescapeHtml(config));
                         }
                       }
@@ -1127,16 +1140,15 @@ function ready() {
 
               if (children.length === 0) {
                 $buttonAddAnotherLayer.hide();
-                $buttonCreateDatasetAgain.hide();
                 $buttonEditBaseMapsAgain.hide();
                 previous.show();
               } else {
                 $buttonAddAnotherLayer.show();
-                $buttonCreateDatasetAgain.show();
                 $buttonEditBaseMapsAgain.show();
                 previous.hide();
                 $.each(children, function(i, li) {
                   $($(li).children('.letter')[0]).text(abcs[i]);
+                  debugger;
                 });
               }
             },
@@ -1228,7 +1240,7 @@ function ready() {
             $.each($('form'), function(i, form) {
               $.each($(form).find('input'), function(j, input) {
                 $(input).on('change', function() {
-                  var checked = $(this).prop('checked'),
+                  var checked = $(this).attr('checked'),
                     value = this.value;
 
                     if (value === 'overviewControl') {
@@ -1466,9 +1478,9 @@ if (App.mapId === 'null' || App.mapId === 'fulcrum-data-id') {
     },
     div: 'map',
     overlays: [{
-      cluster: {
-        clusterIcon: '#6c6c6c'
-      },
+      // cluster: {
+      //   
+      // },
       name: 'Fulcrum App',
       type: 'geojson',
       url: 'https://web.fulcrumapp.com/shares/' + App.mapId + '.geojson'

@@ -243,7 +243,9 @@ iframe {
   background: rgba(59,178,208,1);
   color: #fff;
 }
-
+/*#button-save, a.button-refresh{
+  padding: 10px;
+}*/
 .setup.buttons:hover, .buttons.embed:hover {
   background: rgba(59,178,208,1);
   color: white !important;
@@ -309,6 +311,7 @@ input[type="radio"], input[type="checkbox"] {
 .modal.in .modal-dialog {
   overflow: auto !important;
 }
+
 @media (max-width: 992px) {
   .navbar .navbar-brand {
     font-size: 20px;
