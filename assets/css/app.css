@@ -306,6 +306,9 @@ input[type="radio"], input[type="checkbox"] {
 .center-block{
   margin: 0 auto 0 35%;
 }
+.modal.in .modal-dialog {
+  overflow: auto !important;
+}
 @media (max-width: 992px) {
   .navbar .navbar-brand {
     font-size: 20px;
