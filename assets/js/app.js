@@ -41,7 +41,7 @@ function ready() {
       //work on this... 
       $buttonSave.css('color:#808080');
       // $buttonSave.css('pointer:#808080');
-      $buttonSave.attr('disabled', true);
+      $buttonSave.prop('disabled', true);
     }
     function enableSave() {
       var iframe = document.getElementById('iframe-map'),
@@ -49,7 +49,7 @@ function ready() {
         disclaimer = bottom.getElementsByTagName('a')[0];
         disclaimer.innerHTML = '';
 
-      $buttonSave.attr('disabled', false);
+      $buttonSave.prop('disabled', false);
     }
     function escapeHtml(unsafe) {
       return unsafe
@@ -599,7 +599,7 @@ function ready() {
                   $next = $($el.parent().parent().next()),
                   $popover = $next.parents('.popover');
 
-                if ($el.attr('checked')) {
+                if ($el.prop('checked')) {
                   if ($next.is(':hidden')) {
                     $next.show();
                     $popover.css({
@@ -618,9 +618,9 @@ function ready() {
               changeEnableTooltips: function(el) {
                 var $el = $(el),
                   $tip = $($($el.parent().parent().next().children('input')[0])[0]),
-                  checked = $el.attr('checked');
+                  checked = $el.prop('checked');
 
-                $tip.attr('disabled', !checked);
+                $tip.prop('disabled', !checked);
 
                 if (!checked) {
                   $tip.val('');
@@ -917,7 +917,7 @@ function ready() {
                           }
 
                           if (typeof config.width === 'number') {
-                            $('#' + name + '_autoWidth').attr('checked', false).trigger('change');
+                            $('#' + name + '_autoWidth').prop('checked', false).trigger('change');
                             $('#' + name + '_fixedWidth').val(config.width);
                           }
                         } else if (typeof config === 'string') {
@@ -945,7 +945,7 @@ function ready() {
                         config = overlay.tooltip;
                        
                         if (config) {
-                          $($('#' + name + '_layer-configure-interactivity .checkbox input')[0]).attr('checked', true).trigger('change');
+                          $($('#' + name + '_layer-configure-interactivity .checkbox input')[0]).prop('checked', true).trigger('change');
                           $('#' + name + '_tooltip').val(unescapeHtml(config));
                         }
                       }
@@ -1237,12 +1237,12 @@ function ready() {
             }
           },
           init: function() {
+            debugger;
             $.each($('form'), function(i, form) {
               $.each($(form).find('input'), function(j, input) {
                 $(input).on('change', function() {
-                  var checked = $(this).attr('checked'),
+                  var checked = $(this).prop('checked'),
                     value = this.value;
-
                     if (value === 'overviewControl') {
                       if (checked) {
                         NPMap[value] = {
@@ -1262,11 +1262,16 @@ function ready() {
                     } else {
                       NPMap[value] = checked;
                     }
+
+                    if (value === 'fulcrum-cluster'){
+                      debugger;
+                      
+                    }
                     FulcrumStyler.updateMap();
                   });
                 });
               });
-            },
+          },
           load: function() {
             $.each($('form'), function(i, form) {
               $.each($(form).find('input'), function(j, input) {
