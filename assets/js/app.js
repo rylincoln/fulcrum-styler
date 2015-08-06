@@ -1237,7 +1237,6 @@ function ready() {
             }
           },
           init: function() {
-            debugger;
             $.each($('form'), function(i, form) {
               $.each($(form).find('input'), function(j, input) {
                 $(input).on('change', function() {
