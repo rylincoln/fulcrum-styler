@@ -1407,8 +1407,7 @@ function ready() {
             }
             var iframe = document.getElementById('iframe-map'),
               bottom = iframe.contentDocument.getElementsByClassName('leaflet-control-attribution')[0], 
-              disclaimer = bottom.getElementsByTagName('a')[0];
-              disclaimer.innerHTML = '';
+              disclaimer = bottom.getElementsByTagName('a')[0].innerHTML = '';
 
             if (!manualRefresh) {
               if (firstLoad) {
