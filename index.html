@@ -50,9 +50,9 @@
           </div>
           <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.clickLayerChangeStyle(this);"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;Style Layer</a></li>
-              <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.clickLayerConfigureInteractivity(this);" id="popup"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Popups</a></li>
-              <li class="hidden-xs"><a><input id="fulcrum-cluster" type="checkbox" onchange="FulcrumStyler.changeCluster();"></input>&nbsp;&nbsp;Cluster?</a></li>
+              <li class="hidden-xs"><a class="links" href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.changeStyle(this);"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;Style Layer</a></li>
+              <li class="hidden-xs"><a class="links" href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.clickLayerConfigureInteractivity(this);" id="popup"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Popups</a></li>
+              <li class="hidden-xs"><a class="fulcrum-cluster"><input id="fulcrum-cluster" type="checkbox" onchange="FulcrumStyler.changeCluster();"></input>&nbsp;&nbsp;Cluster?</a></li>
             <!--   <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="button-filterLayer"><i class="fa fa-pencil"></i>&nbsp;&nbsp;Filter Layer</a></li> -->
               <li class="hidden-xs"><a id="button-refresh"><i class="fa fa-refresh"></i></a></li>
               <li class="hidden-xs"><a id="button-save"><i class="fa fa-save"></i></a></li>
@@ -83,9 +83,9 @@
       <div id="set-center-and-zoom">
         <h3 class="panel-title">Map Center & Zoom</h3>
           <a href="#" class="setup buttons" id="fulcrum-zoom">Zoom to Fulcrum Layer</a>
+          <a href="#" class="setup buttons">Set Center & Zoom</a>
           <a href="#" class="setup buttons">Set Center to <span id="current-lat">39.00</span>, <span id="current-lng">-96.00</span></a>
           <a href="#" class="setup buttons">Set Zoom to <span id="current-zoom">4</span></a>
-          <a href="#" class="setup buttons">Set Center & Zoom</a>
           <a href="#" class="setup buttons">Restrict Bounds</a>
         </div>
         <div class="centering">

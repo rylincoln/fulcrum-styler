@@ -166,8 +166,8 @@ function ready() {
                     '<label class="col-sm-6 control-label" for="' + getName('marker-library', 'point') + '">Library</label>' +
                     '<div class="col-sm-6">' +
                       '<select class="form-control marker-library" id="' + getName('marker-library', 'point') + '" onchange="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.changeMarkerLibrary(this);return false;">' +
-                        '<option value="letters">Letters</option>' +
                         '<option value="maki">Icons</option>' +
+                        '<option value="letters">Letters</option>' +
                         '<option value="npmaki">Park Icons</option>' +
                         '<option value="numbers">Numbers</option>' +
                       '</select>' +
@@ -200,18 +200,7 @@ function ready() {
             }
 
             break;
-          // case 'cluster':
-          // debugger;
-          //   panel += '' +
-          //     '<fieldset>' +
-          //       '<div class="form-group">' +
-          //           '<div class="checkbox">'+
-          //           '<label>'
-          //           '<input id="geojson-cluster" type="checkbox"></input> Should points in this overlay be clustered?'+
-          //         '</label>'+
-          //       '</div>'+
-          //     '<fieldset>';
-          //   break;
+
           case 'polygon':
             panel += '' +
               '<fieldset>' +
@@ -387,16 +376,11 @@ function ready() {
       }
 
       // TODO: If the overlay is clustered, add a "Cluster" tab.
-      //if fulcrum overlay then cluster, point
+      // if fulcrum overlay then cluster, point
       return '' +
         '<form class="change-style form-horizontal" id="' + name + '_layer-change-style" role="form">' +
-          // '<ul class="nav nav-tabs" style="padding-left:5px;">' +
-            // createTab('point', 'Point') +
-            // createTab('cluster', 'Cluster') +
-          // '</ul>' +
           '<div class="tab-content">' +
             createPanel('point') +
-            // createPanel('cluster') +
           '</div>' +
         '</form>' +
       '';
@@ -491,18 +475,6 @@ function ready() {
       disableSave();
     }
 
-    // $(document).ready(function() {
-    //   if (mapId) {
-    //     descriptionSet = true;
-    //     settingsSet = true;
-    //     titleSet = true;
-    //   // } else {
-    //   //   setTimeout(function() {
-    //   //     $('#metadata .title a').editable('toggle');
-    //   //   }, 200);
-    //   }
-    // });
-
     return {
       _afterUpdateCallbacks: {},
       _defaultStyles: {
@@ -548,19 +520,6 @@ function ready() {
       ui: {
         app: {
           init: function() {
-            // var backButtons = $('section .step .btn-link'),
-            //   eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent',
-            //   eventer = window[eventMethod],
-            //   messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message',
-            //   stepButtons = $('section .step .btn-primary');
-
-            // eventer(messageEvent, function(e) {
-            //   if (e.data === 'logged_in') {
-            //     $modalSignIn.modal('hide');
-            //     alertify.log('You are now logged in. Please try to save again.', 'success', 6000);
-            //   }
-            // }, false);
-
             Dropzone.options.dropzone = {
               accept: function(file, done) {
                 console.log(file);
@@ -571,16 +530,6 @@ function ready() {
               maxFilesize: 5,
               uploadMultiple: false
             };
-
-          //   $modalSignIn.modal({
-          //     show: false
-          //   })
-          //     .on('hidden.bs.modal', function() {
-          //       $($('#modal-signin .modal-body')[0]).html(null);
-          //     })
-          //     .on('shown.bs.modal', function() {
-          //       $($('#modal-signin .modal-body')[0]).html('<iframe id="iframe" src="https://insidemaps.nps.gov/account/logon/?iframe=true" style="height:202px;"></iframe>');
-          //     });
           }
         },
         steps: {
@@ -710,17 +659,16 @@ function ready() {
                 $('#mask').hide();
                 FulcrumStyler.updateMap();
               },
-              clickLayerChangeStyle: function(el) {
+              changeStyle: function (el){
                 var $el = $(el);
 
                 if ($el.data('popover-created')) {
                   $el.popover('toggle');
                 } else {
-                  // rework so that you can add and style other layers... if certain button is clicked
                   var layer = document.getElementById('iframe-map').contentWindow.NPMap.config.overlays[0],
                     overlay = NPMap.overlays[0],
                     name = 'fulcrum';
-                    //get name of fulcrum app
+  
                     overlay.type = 'geojson';
 
                   $el.popover({
@@ -813,6 +761,139 @@ function ready() {
                                     $field.html(optionsMaki);
                                   } else {
                                     FulcrumStyler.ui.steps.addAndCustomizeData.filterColors(style['marker-color']);
+
+                                    if (typeof value === 'string') {
+                                      if (value.indexOf('letter') > -1) {
+                                        $field.html(optionsLettersFiltered.join(''));
+                                      } else if (value.indexOf('number') > -1) {
+                                        $field.html(optionsNumbersFiltered.join(''));
+                                      } else {
+                                        $field.html(optionsNpmakiFiltered.join(''));
+                                      }
+                                    } else {
+                                      $field.html(optionsNpmakiFiltered.join(''));
+                                    }
+                                  }
+
+                                  $field.val(value);
+                                } else {
+                                  $field.val(value);
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    });
+                  $el.popover('show');
+                  $('.popover.right.in').css({
+                    'z-index': 1031
+                  });
+                  $el.data('popover-created', true);
+                  $activeChangeStyleButton = $el;
+                }
+              },
+              clickLayerChangeStyle: function(el) {
+                var $el = $(el);
+
+                if ($el.data('popover-created')) {
+                  $el.popover('toggle');
+                } else {
+                  var index = getLayerIndexFromButton(el),
+                    layer = document.getElementById('iframe-map').contentWindow.NPMap.config.overlays[index],
+                    name = 'overlay-index-' + index,
+                    overlay = NPMap.overlays[index];
+
+                  $el.popover({
+                    animation: false,
+                    container: 'body',
+                    content: '' +
+                      generateLayerChangeStyle(name, layer) +
+                      '<div style="text-align:center;">' +
+                        '<button class="btn btn-primary" onclick="Builder.ui.steps.addAndCustomizeData.handlers.clickApplyStyles(\'' + name + '\');" type="button">Apply</button>' +
+                        '<button class="btn btn-default" onclick="Builder.ui.steps.addAndCustomizeData.handlers.cancelApplyStyles();" style="margin-left:5px;">Cancel</button>' +
+                      '</div>' +
+                    '',
+                    html: true,
+                    placement: 'right',
+                    title: null,
+                    trigger: 'manual'
+                  })
+                    .on('hide.bs.popover', function() {
+                      $activeChangeStyleButton = null;
+                    })
+                    .on('shown.bs.popover', function() {
+                      var styles = overlay.styles,
+                        $field, prop, style, type, value;
+
+                      $activeChangeStyleButton = $el;
+                      $('#mask').show();
+                      $.each($('#' + name + '_layer-change-style .colorpicker'), function(i, el) {
+                        var $el = $(el),
+                          obj = {
+                            customswatches: false,
+                            hsvpanel: true,
+                            previewformat: 'hex',
+                            size: 'sm',
+                            sliders: false,
+                            swatches: colors
+                          };
+
+                        if (overlay.type !== 'cartodb' && $el.attr('id').toLowerCase().indexOf('marker-color') > -1) {
+                          obj.onchange = function(container, color) {
+                            Builder.ui.steps.addAndCustomizeData.filterColors(color);
+                          };
+                        }
+
+                        $(el).ColorPickerSliders(obj);
+                      });
+
+                      if (overlay.type === 'cartodb') {
+                        for (prop in styles) {
+                          $field = $('#' + name + '_' + prop);
+
+                          if ($field) {
+                            value = overlay.styles[prop];
+
+                            if (prop === 'fill' || prop === 'marker-color' || prop === 'stroke') {
+                              $field.trigger('colorpickersliders.updateColor', value);
+                            } else {
+                              $field.val(value);
+                            }
+                          }
+                        }
+                      } else {
+                        for (type in styles) {
+                          style = styles[type];
+
+                          for (prop in style) {
+                            $field = $('#' + name + '_' + type + '_' + prop);
+
+                            if ($field) {
+                              value = style[prop];
+
+                              if (prop === 'fill' || prop === 'marker-color' || prop === 'stroke') {
+                                $field.trigger('colorpickersliders.updateColor', value);
+                              } else if (prop === 'marker-library') {
+                                var symbol = style['marker-symbol'];
+
+                                if (typeof symbol === 'string') {
+                                  if (symbol.indexOf('letter') > -1) {
+                                    $field.val('letters');
+                                  } else if (symbol.indexOf('number') > -1) {
+                                    $field.val('numbers');
+                                  } else {
+                                    $field.val(value);
+                                  }
+                                } else {
+                                  $field.val(value);
+                                }
+                              } else {
+                                if (prop === 'marker-symbol') {
+                                  if (style['marker-library'] === 'maki') {
+                                    $field.html(optionsMaki);
+                                  } else {
+                                    Builder.ui.steps.addAndCustomizeData.filterColors(style['marker-color']);
 
                                     if (typeof value === 'string') {
                                       if (value.indexOf('letter') > -1) {
@@ -1058,6 +1139,7 @@ function ready() {
                     FulcrumStyler.ui.steps.addAndCustomizeData.refreshUl();
                   }
                 });
+
               $('#addAnotherLayer, #addLayer').on('click', function() {
                 if ($modalAddLayer) {
                   $modalAddLayer.modal('show');
@@ -1163,21 +1245,6 @@ function ready() {
               var buttonBlocks = $('#set-center-and-zoom .buttons');
               
               $(buttonBlocks[1]).on('click', function() {
-                var center = getLeafletMap().getCenter();
-
-                NPMap.center = {
-                  lat: center.lat,
-                  lng: center.lng
-                };
-                updateInitialCenterAndZoom();
-                FulcrumStyler.updateMap();
-              });
-              $(buttonBlocks[2]).on('click', function() {
-                NPMap.zoom = getLeafletMap().getZoom();
-                updateInitialCenterAndZoom();
-                FulcrumStyler.updateMap();
-              });
-              $(buttonBlocks[3]).on('click', function() {
                 var map = getLeafletMap(),
                   center = map.getCenter();
 
@@ -1187,6 +1254,21 @@ function ready() {
                 };
                 NPMap.zoom = map.getZoom();
 
+                updateInitialCenterAndZoom();
+                FulcrumStyler.updateMap();
+              });
+              $(buttonBlocks[2]).on('click', function() {
+                var center = getLeafletMap().getCenter();
+
+                NPMap.center = {
+                  lat: center.lat,
+                  lng: center.lng
+                };
+                updateInitialCenterAndZoom();
+                FulcrumStyler.updateMap();
+              });
+              $(buttonBlocks[3]).on('click', function() {
+                NPMap.zoom = getLeafletMap().getZoom();
                 updateInitialCenterAndZoom();
                 FulcrumStyler.updateMap();
               });
@@ -1305,8 +1387,80 @@ function ready() {
               $('#export-panel').css('display', 'block');
 
               $('.ssk').click(function(){
-                $('.ssk-facebook')[0].href = 'http://www.facebook.com/share.php?u=http%3A%2F%2Fbl.ocks.org%2Fanonymous%2Fraw%2F' + App.id;
-                https://twitter.com/intent/tweet?text=Fulcrum%20Styler&url=http%3A%2F%2Fbl.ocks.org%2Fanonymous%2F&original_referer=
+                // if already save, patch to app.js
+                (function (exports) {
+                  function urlsToAbsolute(nodeList) {
+                    if (!nodeList.length) {
+                      return [];
+                    }
+                    var attrName = 'href';
+                    if (nodeList[0].__proto__ === HTMLImageElement.prototype 
+                    || nodeList[0].__proto__ === HTMLScriptElement.prototype) {
+                      attrName = 'src';
+                    }
+                    nodeList = [].map.call(nodeList, function (el, i) {
+                      var attr = el.getAttribute(attrName);
+                      if (!attr) {
+                        return;
+                      }
+                      var absURL = /^(https?|data):/i.test(attr);
+                      if (absURL) {
+                        return el;
+                      } else {
+                        return el;
+                      }
+                    });
+                    return nodeList;
+                  }
+
+                  function screenshotPage() {
+                    debugger;
+                    
+                    urlsToAbsolute(document.images);
+                    urlsToAbsolute(document.querySelectorAll("link[rel='stylesheet']"));
+                    var screenshot = document.documentElement.cloneNode(true);
+                    var b = document.createElement('base');
+                    b.href = 'http%3A%2F%2Fbl.ocks.org%2Fanonymous%2Fraw%2F' + App.id;
+                    var head = screenshot.querySelector('head');
+                    head.insertBefore(b, head.firstChild);
+                    screenshot.style.pointerEvents = 'none';
+                    screenshot.style.overflow = 'hidden';
+                    screenshot.style.webkitUserSelect = 'none';
+                    screenshot.style.mozUserSelect = 'none';
+                    screenshot.style.msUserSelect = 'none';
+                    screenshot.style.oUserSelect = 'none';
+                    screenshot.style.userSelect = 'none';
+                    screenshot.dataset.scrollX = window.scrollX;
+                    screenshot.dataset.scrollY = window.scrollY;
+                    var script = document.createElement('script');
+                    script.textContent = '(' + addOnPageLoad_.toString() + ')();';
+                    screenshot.querySelector('body').appendChild(script);
+                    debugger;
+                    var blob = new Blob([screenshot.outerHTML], {
+                      type: 'text/html'
+                    });
+                    return blob;
+                  }
+
+                  function addOnPageLoad_() {
+                    window.addEventListener('DOMContentLoaded', function (e) {
+                      var scrollX = document.documentElement.dataset.scrollX || 0,
+                        scrollY = document.documentElement.dataset.scrollY || 0;
+                      window.scrollTo(scrollX, scrollY);
+                    });
+                  }
+
+                  function generate() {
+                      window.URL = window.URL || window.webkitURL;
+                      window.open(window.URL.createObjectURL(screenshotPage()));
+                  }
+                  exports.screenshotPage = screenshotPage;
+                  exports.generate = generate;
+                })(window);
+                generate();
+                debugger;
+                $('.ssk-facebook')[0].href = 'http://www.facebook.com/share.php?u=<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;width&amp;layout=standard&amp;action=like&amp;show_faces=true&amp;share=true&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:80px;" allowTransparency="true"></iframe>'
+                //'http://www.facebook.com/share.php?u=http%3A%2F%2Fbl.ocks.org%2Fanonymous%2Fraw%2F' + App.id;
                 $('.ssk-twitter')[0].href = 'https://twitter.com/intent/tweet?text=This%20is%20the%20data%20we%20have%20collected:&url=http%3A%2F%2Fbl.ocks.org%2Fanonymous%2Fraw%2F' + App.id;
                 $('.ssk-email').href = 'mailto:?subject=|Data collected with Fulcrum|';
                 window.open($(this).attr('href'),'Data collected with Fulcrum','toolbar=0,resizable=1,status=0,width=640,height=528');
@@ -1336,41 +1490,10 @@ function ready() {
               }
             });
 
-            // $('#button-config').on('click', function() {
-            //   loadModule('FulcrumStyler.ui.modal.viewConfig', function() {
-            //     $modalViewConfig = $('#modal-viewConfig');
-            //   });
-            // });
-
             $('#button-refresh').on('click', function() {
               FulcrumStyler.updateMap(null, true);
             });
             $('#button-save').on('click', saveMap);
-            // $('#button-settings').on('click', function() {
-            //   var $this = $(this),
-            //     $span = $($this.children('span')[2]);
-            //
-            //   if ($this.hasClass('active')) {
-            //     $span.popover('hide');
-            //     $this.removeClass('active');
-            //   } else {
-            //     $span.popover('show');
-            //     $this.addClass('active');
-            //   }
-            // });
-            // $($('#button-settings span')[2]).popover({
-            //   animation: false,
-            //   container: '#metadata .buttons',
-            //   content: '<div class="checkbox"><label><input type="checkbox" value="public" checked="checked" disabled>Is this map public?</label></div><div class="checkbox"><label><input type="checkbox" value="shared" checked="checked" disabled>Share this map with others?</label></div><div style="text-align:center;"><button type="button" class="btn btn-primary" onclick="FulcrumStyler.ui.toolbar.handlers.clickSettings(this);">Acknowledge</button></div>',
-            //   html: true,
-            //   placement: 'bottom',
-            //   trigger: 'manual'
-            // })
-            //   .on('shown.bs.popover', function() {
-            //     if (settingsSet) {
-            //       $('#metadata .buttons .popover .btn-primary').hide();
-            //     }
-            //   });
           }
         }
       },
@@ -1482,9 +1605,6 @@ if (App.mapId === 'null' || App.mapId === 'fulcrum-data-id') {
     },
     div: 'map',
     overlays: [{
-      // cluster: {
-      //   
-      // },
       name: 'Fulcrum App',
       type: 'geojson',
       url: 'https://web.fulcrumapp.com/shares/' + App.mapId + '.geojson'

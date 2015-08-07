@@ -109,6 +109,19 @@ FulcrumStyler.ui.modal.editBaseMaps = (function() {
     $modal.modal('hide');
   }
   function update() {
+    
+    // for (var basemap in document.getElementById('iframe-map').contentWindow.L.npmap.preset.baselayers) {
+    //   for (var l in basemap) {
+    //     for (var k in l){
+    //       for (var attribution in k){
+    //         for (var p in attribution){
+    //         attribution[p]] = "";
+    //         debugger;
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
     $.each($('#modal-editBaseMaps div.basemap'), function(i, div) {
       var checked = false,
         id = div.id;
