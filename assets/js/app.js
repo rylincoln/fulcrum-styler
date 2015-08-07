@@ -506,6 +506,38 @@ function ready() {
         'stroke-opacity': 0.8,
         'stroke-width': 3
       },
+      heatMap: function(el){
+        var cfg = {
+          // radius should be small ONLY if scaleRadius is true (or small radius is intended)
+          // if scaleRadius is false it will be the constant radius used in pixels
+          "radius": 2,
+          "maxOpacity": .8, 
+          // scales the radius based on map zoom
+          "scaleRadius": true, 
+          // if set to false the heatmap uses the global maximum for colorization
+          // if activated: uses the data maximum within the current map boundaries 
+          //   (there will always be a red spot with useLocalExtremas true)
+          "useLocalExtrema": true,
+          // which field name in your data represents the latitude - default "lat"
+          latField: 'lat',
+          // which field name in your data represents the longitude - default "lng"
+          lngField: 'lng',
+          // which field name in your data represents the data value - default "value"
+          valueField: 'count'
+        };
+        if ($('#fulcrum-heat').prop('checked')) {
+          // remove cluster
+          //  add heatmap
+        } else {
+          // var heatmapLayer = new HeatmapOverlay(cfg);
+          L.heatLayer(NPMap.overlays[0].getLatLngs(), {
+            radius: 25
+          }).addTo(NPMap.config.L);
+          debugger;
+        }
+
+        FulcrumStyler.updateMap();
+      },
       changeCluster: function(){
         if ($('#fulcrum-cluster').prop('checked')) {
           NPMap.overlays[0].cluster = {
