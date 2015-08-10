@@ -249,7 +249,8 @@ iframe {
   margin: 5px 7px;
   padding: 10px !important;
 }
-a.fulcrum-cluster:hover{
+a.fulcrum-cluster:hover, 
+a.fulcrum-heat:hover{
   color:#000 !important;
 }
 #fulcrum-zoom{
@@ -358,17 +359,3 @@ input[type="radio"], input[type="checkbox"] {
     display: none !important;
   }
 }
-
-.leaflet-container .leaflet-control-attribution {
-  margin: 0;
-  padding: 0 5px;
-
-  font: 11px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
-  color: #333;
-
-  background-color: red !important;
-
-  -moz-box-shadow: 0 0 7px #ccc;
-  -webkit-box-shadow: 0 0 7px #ccc;
-  box-shadow: 0 0 7px #ccc;
-  }
