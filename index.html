@@ -53,7 +53,6 @@
               <li class="hidden-xs"><a class="links" href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.changeStyle(this);"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;Style Layer</a></li>
               <li class="hidden-xs"><a class="links" href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.clickLayerConfigureInteractivity(this);" id="popup"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Popups</a></li>
               <li class="hidden-xs"><a class="fulcrum-cluster"><input id="fulcrum-cluster" type="checkbox" onchange="FulcrumStyler.changeCluster(this);"></input>&nbsp;&nbsp;Cluster?</a></li>
-              <li class="hidden-xs"><a class="fulcrum-heat"><input id="fulcrum-heat" type="checkbox"></input>&nbsp;&nbsp;HeatMap?</a></li>
             <!--   <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="button-filterLayer"><i class="fa fa-pencil"></i>&nbsp;&nbsp;Filter Layer</a></li> -->
               <li class="hidden-xs"><a id="button-refresh"><i class="fa fa-refresh"></i></a></li>
               <li class="hidden-xs"><a id="button-save"><i class="fa fa-save"></i></a></li>
@@ -182,10 +181,6 @@
       </div>
       </div>
     <div id="map">
-      <div id="heat-options">
-        <label>Radius </label><input type="range" id="radius" value="25" min="10" max="50"><br>
-        <label>Blur </label><input type="range" id="blur" value="15" min="10" max="50">
-      </div>
       <iframe id="iframe-map"></iframe>
     </div>
     </section>
