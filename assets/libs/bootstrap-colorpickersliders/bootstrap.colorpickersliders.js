@@ -251,7 +251,6 @@
             color_picker_html = '';
 
         if (settings.sliders) {
-
           if (settings.order.opacity !== false) {
             sliders[settings.order.opacity] = '<div class="cp-slider cp-opacity cp-transparency"><span>' + settings.labels.opacity + '</span><div class="cp-marker"></div></div>';
           }
@@ -271,7 +270,6 @@
           if (settings.order.preview !== false) {
             sliders[settings.order.preview] = '<div class="cp-preview cp-transparency"><input type="text" readonly="readonly"></div>';
           }
-
         }
 
         if (settings.grouping) {
@@ -297,10 +295,10 @@
 
         if (settings.hsvpanel) {
           color_picker_html += '<div class="cp-hsvpanel">' +
-              '<div class="cp-hsvpanel-sv"><span></span><div class="cp-marker-point"></div></div>' +
-              '<div class="cp-hsvpanel-h"><span></span><div class="cp-hsvmarker-vertical"></div></div>' +
-              //'<div class="cp-hsvpanel-a cp-transparency"><span></span><div class="cp-hsvmarker-vertical"></div></div>' +
-              '</div>';
+            '<div class="cp-hsvpanel-sv"><span></span><div class="cp-marker-point"></div></div>' +
+            '<div class="cp-hsvpanel-h"><span></span><div class="cp-hsvmarker-vertical"></div></div>' +
+            //'<div class="cp-hsvpanel-a cp-transparency"><span></span><div class="cp-hsvmarker-vertical"></div></div>' +
+            '</div>';
         }
 
         if (settings.sliders) {
@@ -310,12 +308,9 @@
             if (typeof sliders[i] === 'undefined') {
               continue;
             }
-
             color_picker_html += sliders[i];
           }
-
           color_picker_html += '</div>';
-
         }
 
         if (settings.swatches) {

@@ -1457,13 +1457,6 @@ function ready() {
               if ( $('#sharing-code').is(':hidden') ) {
                 $('#sharing-code').slideDown('fast');
                 $('#generate-result').val('<iframe height="500px" frameBorder="0" width="100%" src="http://bl.ocks.org/anonymous/raw/' + App.id + '"></iframe>').select();
-                if ($modalExport) {
-                  $modalExport.modal('show');
-                } else {
-                  loadModule('FulcrumStyler.ui.modal.export', function() {
-                    $modalExport = $('#modal-export');
-                  });
-                }
               } else {
                 $('#sharing-code').hide();
               }
