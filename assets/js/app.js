@@ -424,7 +424,7 @@ function ready() {
               'content': '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"><title>Fulcrum Data Collection</title><link rel=\"stylesheet\" href=\"style.css\"></head><body><div id=\"map\" /><script src=\"app.js\"></script></body></html>'
             },
             'style.css': {
-              'content': 'body {margin: 0;padding: 0;} #map {bottom: 0;position: absolute;top: 0;width: 100%;}'
+              'content': 'body {margin: 0;padding: 0;} #map {bottom: 0;position: absolute;top: 0;width: 100%;}.leaflet-container .leaflet-control-attribution {display:none !important;}'
             }
           }
         };
@@ -516,6 +516,58 @@ function ready() {
         }
 
         FulcrumStyler.updateMap()
+      },
+      saveMap: function(callback) {
+        debugger;
+
+        var $this = $(this),
+          id = App.mapId,
+          datum = {
+            'description': 'the mapping config',
+            'public': true,
+            'files': {
+              'app.js': {
+                'content': 'var NPMap = '+ JSON.stringify(NPMap) + ';' +
+                'var s = document.createElement(\"script\");'+
+                's.src = \"http://www.nps.gov/npmap/npmap.js/2.0.0/npmap-bootstrap.min.js\";'+
+                'document.body.appendChild(s);'
+              },
+              'index.html': {
+                'content': '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"><title>Fulcrum Data Collection</title><link rel=\"stylesheet\" href=\"style.css\"></head><body><div id=\"map\" /><script src=\"app.js\"></script></body></html>'
+              },
+              'style.css': {
+                'content': 'body {margin: 0;padding: 0;} #map {bottom: 0;position: absolute;top: 0;width: 100%;}'
+              }
+            }
+          };
+
+        FulcrumStyler.showLoading();
+        $this.blur();
+
+        $.ajax({
+          url: 'https://api.github.com/gists',
+          type: 'POST',
+          dataType: 'json',
+          data: JSON.stringify(datum),
+          public: false
+        })
+        .success( function(response) {
+          window.App.id = response.id;
+          console.log(response);
+          FulcrumStyler.hideLoading();
+
+          updateSaveStatus(response.modified);
+          alertify.success('Your map was saved!');
+          success = true;
+          
+          if (typeof callback === 'function') {
+            callback(success);
+          }
+        })
+        .error( function(e) {
+          var error = 'Sorry, there was an unhandled error while saving your map. Please try again.';
+          alertify.error(error);
+        });
       },
       ui: {
         app: {

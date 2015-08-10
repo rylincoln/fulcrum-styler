@@ -90,18 +90,75 @@
                   ]);
                 };
 
-                var hotness = L.heatLayer(latLngs,{radius:30}).addTo(map);
 
                 if (heat[0].checked) {
+                var heated = L.heatLayer(latLngs,{radius:25, blur:15}).addTo(map);
                   map.removeLayer(NPMap.config.overlays[0].L);
-                  map.addLayer(hotness);
-                  NPMap.config.overlays[1] = hotness;
-                  debugger;
+                  NPMap.config.overlays[0].visible = false;
+                  map.addLayer(heated);
+                  NPMap.config.overlays[1] = heated;
+
+                  function blur(){
+                    heated.setOptions({blur: $('#blur')[0].value}); 
+                  }
+                  function radius(){
+                    heated.setOptions({radius: $('#radius')[0].value});
+                  }
+
+                  $('#heat-options').css('display','block');
+                  $('input[type=range]').on('input', function (heated) {
+                    if (this.id === 'radius'){
+                      radius();
+                    } else {
+                      blur();
+                    }
+                  });
+
+                  var datum = {
+                    'description': 'the mapping config',
+                    'public': true,
+                    'files': {
+                      'app.js': {
+                        'content': 'var NPMap = '+ NPMap.config + ';' +
+                        'var s = document.createElement(\"script\");'+
+                        's.src = \"http://www.nps.gov/npmap/npmap.js/2.0.0/npmap-bootstrap.min.js\";'+
+                        'document.body.appendChild(s);'
+                      }
+                    }
+                  };
+
+                  parent.FulcrumStyler.showLoading();
+                  // $this.blur();
+
+                  // $.ajax({
+                  //   url: 'https://api.github.com/gists',
+                  //   type: 'POST',
+                  //   dataType: 'json',
+                  //   data: JSON.stringify(datum),
+                  //   public: false
+                  // }).success( function(response) {
+                  //   window.App.id = response.id;
+                  //   console.log(response);
+                  //   parent.FulcrumStyler.hideLoading();
+
+                  //   // updateSaveStatus(response.modified);
+                  //   alertify.success('Your map was saved!');
+                  //   success = true;
+                    
+                  //   if (typeof callback === 'function') {
+                  //     callback(success);
+                  //   }
+                  // }).error( function(e) {
+                  //   var error = 'Sorry, there was an unhandled error while saving your map. Please try again.';
+                  //   alertify.error(error);
+                  // });
+          
+                  //disable popups
+                  //disable style
+                  //disable basemaps
                 } else {
                   parent.FulcrumStyler.updateMap();
-                  // NPMap.config.overlays[0].L.addTo(map);
-                  // debugger;
-                  // map.removeLayer(hotness);
+                  $('#heat-options').css('display','none');
                 }
               }
             });

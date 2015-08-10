@@ -326,6 +326,15 @@ input[type="radio"], input[type="checkbox"] {
 .modal.in .modal-dialog {
   overflow: auto !important;
 }
+#heat-options{
+  display: none;
+  position: absolute;
+  top: 70px;
+  height:100px;
+  width:200px;
+  padding:20px;
+  z-index:40;
+}
 
 @media (max-width: 992px) {
   .navbar .navbar-brand {
