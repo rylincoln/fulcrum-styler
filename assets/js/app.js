@@ -1295,7 +1295,7 @@ function ready() {
           setCenterAndZoom: {
             init: function() {
               var buttonBlocks = $('#set-center-and-zoom .buttons');
-              
+
               $(buttonBlocks[1]).on('click', function() {
                 var map = getLeafletMap(),
                   center = map.getCenter();
