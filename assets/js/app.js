@@ -9,7 +9,7 @@ function ready() {
       $buttonAddAnotherLayer = $('#addAnotherLayer'),
       $buttonEditBaseMapsAgain = $('#editBaseMapsAgain'),
       $buttonExport = $('#embed'),
-      $mapSize = $('.change-size'),
+      // $mapSize = $('.change-size'),
       $buttonSave = $('#button-save'),
       $buttonRefresh = $('#button-refresh'),
       $iframe = $('#iframe-map'),
@@ -33,8 +33,9 @@ function ready() {
       optionsNumbersFiltered = [],
       settingsSet = false,
       settingsZ = null,
-      stepLis = $('#steps li'),
-      // title = href like in share-maps
+      title = null,
+      titleSet = false,
+      titleZ = null,
       $modalAddLayer, $modalEditBaseMaps;
 
     function disableSave() {
@@ -512,7 +513,7 @@ function ready() {
             clusterIcon: '#6c6c6c',
             maxClusterRadius: 12
           };
-
+          $('#cluster-options').css('display','block');
           $('input[type=range]').on('input', function() {
             if (this.id === 'size'){
               NPMap.overlays[0].cluster.maxClusterRadius = parseInt($('#size')[0].value);
@@ -532,6 +533,7 @@ function ready() {
           });
 
         } else {
+          $('#cluster-options').css('display','none');
           NPMap.overlays[0].cluster = false;
         }
 
@@ -590,16 +592,75 @@ function ready() {
       ui: {
         app: {
           init: function() {
-            Dropzone.options.dropzone = {
-              accept: function(file, done) {
-                console.log(file);
-                done();
-              },
-              clickable: false,
-              createImageThumbnails: false,
-              maxFilesize: 5,
-              uploadMultiple: false
-            };
+            // Dropzone.options.dropzone = {
+            //   accept: function(file, done) {
+            //     console.log(file);
+            //     done();
+            //   },
+            //   clickable: false,
+            //   createImageThumbnails: false,
+            //   maxFilesize: 5,
+            //   uploadMultiple: false
+            // };
+            firstLoad = true;
+            title = NPMap.name;
+
+            $('#metadata .title a').text(title).editable({
+              animation: false,
+              emptytext: 'Untitled Map',
+              validate: function(value) {
+                if ($.trim(value) === '') {
+                  return 'Please enter a title for your map.';
+                }
+              }
+            })
+              .on('hidden', function() {
+                var newDescription = $('#metadata .description a').text(),
+                  newTitle = $('#metadata .title a').text(),
+                  next = $(this).next();
+
+                if (!newDescription || newDescription === 'Add a description to give your map context.') {
+                  $('#metadata .description a').editable('toggle');
+                } else {
+                  if (newTitle !== title) {
+                    enableSave();
+                  }
+                }
+
+                if (!titleSet) {
+                  next.css({
+                    'z-index': titleZ
+                  });
+                  $(next.find('button')[1]).css({
+                    display: 'block'
+                  });
+                  titleSet = true;
+                }
+
+                title = newTitle;
+                NPMap.name = title;
+              })
+              .on('shown', function() {
+                var next = $(this).next();
+
+                if (!titleSet) {
+                  titleZ = next.css('z-index');
+                  next.css({
+                    'z-index': 1031
+                  });
+                  $(next.find('button')[1]).css({
+                    display: 'none'
+                  });
+                }
+
+                next.find('.editable-clear-x').remove();
+                next.find('input').css({
+                  'padding-right': '10px'
+                });
+              });
+
+
+
           }
         },
         steps: {
@@ -1300,7 +1361,6 @@ function ready() {
               } else {
                 $buttonAddAnotherLayer.show();
                 $buttonEditBaseMapsAgain.show();
-                debugger;
                 previous.hide();
                 $.each(children, function(i, li) {
                   $($(li).children('.letter')[0]).text(abcs[i]);
@@ -1457,6 +1517,7 @@ function ready() {
               $('#map').css('left','0px');
               $('#map').css('right','230px');
               $('#export-panel').css('display', 'block');
+              $('#cluster-options').css('display', 'none');
 
               $('.ssk').click(function(){
                 $('.ssk-facebook')[0].href = 'http://www.facebook.com/share.php?u=http%3A%2F%2Fbl.ocks.org%2Fanonymous%2Fraw%2F' + App.id;

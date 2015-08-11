@@ -59,10 +59,6 @@
             // });
           });
 
-           cluster.on('click', function(){
-            $('#cluster-options').css('display','block');
-          });
-
           map.on('moveend', updateCurrent);
           updateCurrent();
           callback();

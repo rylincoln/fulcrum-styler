@@ -50,7 +50,7 @@
           </div>
           <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="hidden-xs"><a class="links" href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.changeStyle(this);"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;Style Layer</a></li>
+              <li class="hidden-xs"><a class="links" href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.changeStyle(this);"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;Style Markers</a></li>
               <li class="hidden-xs"><a class="links" href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="FulcrumStyler.ui.steps.addAndCustomizeData.handlers.clickLayerConfigureInteractivity(this);" id="popup"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit Popups</a></li>
               <li class="hidden-xs"><a class="fulcrum-cluster"><input id="fulcrum-cluster" type="checkbox" onchange="FulcrumStyler.changeCluster(this);"></input>&nbsp;&nbsp;Cluster?</a></li>
             <!--   <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="button-filterLayer"><i class="fa fa-pencil"></i>&nbsp;&nbsp;Filter Layer</a></li> -->
@@ -184,8 +184,11 @@
       </div>
     <div id="map">
       <div id="cluster-options">
-        <label>Size </label><input type="range" id="size" value="12" min="0" max="100"><br>
+        <label>Cluster Size</label><input type="range" id="size" value="12" min="0" max="100"><br>
         <!-- <label>Color </label><input type="text" class="form-control" id="large" value="rgb(251, 167, 219)"> -->
+      </div>
+      <div id="title">
+        <a href="#" data-placement="right" data-title="Enter a Title" data-type="text" class="editable editable-click editable-unsaved editable-open" data-original-title="" title="" >Title</a>
       </div>
       <div id="fulcrum-attribution" style="margin-right: 0px; max-width: 1213px;zIndex:40">Powered by <a href="http://fulcrumapp.com/terms-of-service/" target="_blank">Fulcrum</a></div>
       <iframe id="iframe-map"></iframe>

@@ -6,7 +6,6 @@ FulcrumStyler.ui = FulcrumStyler.ui || {};
 FulcrumStyler.ui.modal = FulcrumStyler.ui.modal || {};
 FulcrumStyler.ui.modal.addLayer = (function() {
   var $attribution = $('#layerAttribution'),
-    $description = $('#layerDescription'),
     $name = $('#layerName'),
     $type = $('#layerType'),
     types = {
@@ -173,7 +172,6 @@ FulcrumStyler.ui.modal.addLayer = (function() {
 
   function resetFields() {
     $attribution.val(null);
-    $description.val(null);
     $name.val(null);
     $.each(types, function(type) {
       types[type].reset();
@@ -264,319 +262,297 @@ FulcrumStyler.ui.modal.addLayer = (function() {
         NPMap.overlays = [];
       }
 
-      if ($('#catalog').is(':visible')) {
-        if ($('#overlays').val().length) {
-          switch ($('#catalog-source').val()) {
-          case 'places':
-            config = document.getElementById('iframe-map').contentWindow.L.npmap.preset.overlays.places['points-of-interest'];
-            break;
+      var attribution = $attribution.val() || null,
+        fields = [$attribution, $name],
+        name = $name.val() || null;
+
+      if (!name) {
+        errors.push($name);
+      }
+
+      if ($('#arcgisserver').is(':visible')) {
+        (function() {
+          var clickable = types.arcgisserver.fields.$clickable.prop('checked'),
+            layers = types.arcgisserver.fields.$layers.val(),
+            url = types.arcgisserver.fields.$url.val();
+
+          $.each(types.arcgisserver.fields, function(field) {
+            fields.push(field);
+          });
+
+          if (!layers) {
+            errors.push(types.arcgisserver.fields.$layers);
+          } else {
+            layers = layers.join(',');
           }
 
+          if (!url) {
+            errors.push(types.arcgisserver.fields.$url);
+          }
+
+          config = {
+            layers: layers,
+            opacity: parseInt(types.arcgisserver.fields.$opacity.val(), 10) / 100,
+            tiled: types.arcgisserver._tiled,
+            type: 'arcgisserver',
+            url: url
+          };
+
+          if (clickable === false) {
+            config.clickable = false;
+          }
+        })();
+      } else if ($('#cartodb').is(':visible')) {
+        (function() {
+          var clickable = types.cartodb.fields.$clickable.prop('checked'),
+            detectRetina = types.cartodb.fields.$detectRetina.prop('checked'),
+            table = types.cartodb.fields.$table.val(),
+            user = types.cartodb.fields.$user.val();
+
+          $.each(types.cartodb.fields, function(field) {
+            fields.push(field);
+          });
+
+          if (table) {
+            table = table.toLowerCase();
+          } else {
+            errors.push(types.cartodb.fields.$table.val());
+          }
+
+          if (user) {
+            user = user.toLowerCase();
+          } else {
+            errors.push(types.cartodb.fields.$user.val());
+          }
+
+          config = {
+            opacity: parseInt(types.cartodb.fields.$opacity.val(), 10) / 100,
+            table: table,
+            type: 'cartodb',
+            user: user
+          };
+
+          if (clickable === false) {
+            config.clickable = false;
+          }
+
+          if (detectRetina === true) {
+            config.detectRetina = true;
+          }
+        })();
+      } else if ($('#csv').is(':visible')) {
+        (function() {
+          var clickable = types.csv.fields.$clickable.prop('checked'),
+            cluster = types.csv.fields.$cluster.prop('checked'),
+            url = types.csv.fields.$url.val();
+
+          $.each(types.csv.fields, function(field) {
+            fields.push(field);
+          });
+
+          if (!url) {
+            errors.push(types.csv.fields.$url);
+          }
+
+          config = {
+            type: 'csv',
+            url: url
+          };
+
+          if (clickable === false) {
+            config.clickable = false;
+          }
+
+          if (cluster) {
+            config.cluster = true;
+          }
+        })();
+      } else if ($('#geojson').is(':visible')) {
+        (function() {
+          var clickable = types.geojson.fields.$clickable.prop('checked'),
+            cluster = types.geojson.fields.$cluster.prop('checked'),
+            url = types.geojson.fields.$url.val();
+
+          $.each(types.geojson.fields, function(field) {
+            fields.push(field);
+          });
+
+          if (!url) {
+            errors.push(types.geojson.fields.$url);
+          }
+
+          config = {
+            type: 'geojson',
+            url: url
+          };
+
+          if (clickable === false) {
+            config.clickable = false;
+          }
+
+          if (cluster) {
+            config.cluster = true;
+          }
+        })();
+      } else if ($('#kml').is(':visible')) {
+        (function() {
+          var clickable = types.kml.fields.$clickable.prop('checked'),
+            cluster = types.kml.fields.$cluster.prop('checked'),
+            url = types.kml.fields.$url.val();
+
+          $.each(types.kml.fields, function(field) {
+            fields.push(field);
+          });
+
+          if (!url) {
+            errors.push(types.kml.fields.$url);
+          }
+
+          config = {
+            type: 'kml',
+            url: url
+          };
+
+          if (clickable === false) {
+            config.clickable = false;
+          }
+
+          if (cluster) {
+            config.cluster = true;
+          }
+        })();
+      } else if ($('#mapbox').is(':visible')) {
+        (function() {
+          var clickable = types.mapbox.fields.$clickable.prop('checked'),
+            detectRetina = types.mapbox.fields.$detectRetina.prop('checked'),
+            id = types.mapbox.fields.$id.val();
+
+          $.each(types.mapbox.fields, function(field) {
+            fields.push(field);
+          });
+
+          if (!id) {
+            errors.push(types.mapbox.fields.$id.val());
+          }
+
+          config = {
+            id: id,
+            opacity: parseInt(types.mapbox.fields.$opacity.val(), 10) / 100,
+            type: 'mapbox'
+          };
+
+          if (clickable === false) {
+            config.clickable = false;
+          }
+
+          if (detectRetina === true) {
+            config.detectRetina = true;
+          }
+        })();
+      } else if ($('#spot').is(':visible')) {
+        (function() {
+          var clickable = types.spot.fields.$clickable.prop('checked'),
+            cluster = types.spot.fields.$cluster.prop('checked'),
+            id = types.spot.fields.$id.val();
+
+          $.each(types.spot.fields, function(field) {
+            fields.push(field);
+          });
+
+          if (!id) {
+            errors.push(types.kml.fields.$id);
+          }
+
+          config = {
+            id: id,
+            type: 'spot'
+          };
+
+          if (clickable === false) {
+            config.clickable = false;
+          }
+
+          if (cluster) {
+            config.cluster = true;
+          }
+        })();
+      } else if ($('#tiled').is(':visible')) {
+        (function() {
+          var url = types.tiled.fields.$url.val();
+
+          $.each(types.tiled.fields, function(field) {
+            fields.push(field);
+          });
+
+          if (!url) {
+            errors.push(types.tiled.fields.$url.val());
+          }
+
+          config = {
+            opacity: parseInt(types.tiled.fields.$opacity.val(), 10) / 100,
+            type: 'tiled',
+            url: url
+          };
+        })();
+      } else if ($('#wms').is(':visible')) {
+        /*
+          http://nowcoast.noaa.gov/wms/com.esri.wms.Esrimap/obs?request=GetCapabilities&service=WMS
+          
+          attribution: 'NOAA',
+          crs: null, (not implemented)
+          format: 'image/png',
+          layers: 'RAS_RIDGE_NEXRAD',
+          opacity: 0.5,
+          styles: '', (not implemented)
+          transparent: true,
+          type: 'wms',
+          url: 'http://nowcoast.noaa.gov/wms/com.esri.wms.Esrimap/obs',
+          version: '1.1.1' (autopopulate, no input)
+        */
+      }
+
+      if (!errors.length) {
+        var $layers = $('#layers'),
+          type = config.type;
+
+        if (attribution) {
+          config.attribution = attribution;
+        }
+
+        config.name = name;
+
+        if (styles) {
+          config.styles = styles;
+        } else if (type === 'csv' || type === 'geojson' || type === 'kml' || type === 'spot') {
+          config.styles = $.extend({}, FulcrumStyler._defaultStyles);
+        } else if (type === 'cartodb') {
+          config.styles = $.extend({}, FulcrumStyler._defaultStylesCollapsed);
+        }
+
+        // TODO: Loop through all properties and "sanitize" them.
+
+        if (FulcrumStyler.ui.modal.addLayer._editingIndex === -1) {
           FulcrumStyler.addOverlay(config);
         } else {
-          errors.push($('#catalog-source'));
-        }
-      } else {
-        var attribution = $attribution.val() || null,
-          description = $description.val() || null,
-          fields = [$attribution, $description, $name],
-          name = $name.val() || null;
+          var $li = $($layers.children()[FulcrumStyler.ui.modal.addLayer._editingIndex]),
+            $interactivity = $($li.find('.interactivity')[0]);
 
-        if (!name) {
-          errors.push($name);
-        }
+          NPMap.overlays[FulcrumStyler.ui.modal.addLayer._editingIndex] = config;
+          $($li.find('.name')[0]).text(config.name);
 
-        if ($('#arcgisserver').is(':visible')) {
-          (function() {
-            var clickable = types.arcgisserver.fields.$clickable.prop('checked'),
-              layers = types.arcgisserver.fields.$layers.val(),
-              url = types.arcgisserver.fields.$url.val();
-
-            $.each(types.arcgisserver.fields, function(field) {
-              fields.push(field);
-            });
-
-            if (!layers) {
-              errors.push(types.arcgisserver.fields.$layers);
-            } else {
-              layers = layers.join(',');
-            }
-
-            if (!url) {
-              errors.push(types.arcgisserver.fields.$url);
-            }
-
-            config = {
-              layers: layers,
-              opacity: parseInt(types.arcgisserver.fields.$opacity.val(), 10) / 100,
-              tiled: types.arcgisserver._tiled,
-              type: 'arcgisserver',
-              url: url
-            };
-
-            if (clickable === false) {
-              config.clickable = false;
-            }
-          })();
-        } else if ($('#cartodb').is(':visible')) {
-          (function() {
-            var clickable = types.cartodb.fields.$clickable.prop('checked'),
-              detectRetina = types.cartodb.fields.$detectRetina.prop('checked'),
-              table = types.cartodb.fields.$table.val(),
-              user = types.cartodb.fields.$user.val();
-
-            $.each(types.cartodb.fields, function(field) {
-              fields.push(field);
-            });
-
-            if (table) {
-              table = table.toLowerCase();
-            } else {
-              errors.push(types.cartodb.fields.$table.val());
-            }
-
-            if (user) {
-              user = user.toLowerCase();
-            } else {
-              errors.push(types.cartodb.fields.$user.val());
-            }
-
-            config = {
-              opacity: parseInt(types.cartodb.fields.$opacity.val(), 10) / 100,
-              table: table,
-              type: 'cartodb',
-              user: user
-            };
-
-            if (clickable === false) {
-              config.clickable = false;
-            }
-
-            if (detectRetina === true) {
-              config.detectRetina = true;
-            }
-          })();
-        } else if ($('#csv').is(':visible')) {
-          (function() {
-            var clickable = types.csv.fields.$clickable.prop('checked'),
-              cluster = types.csv.fields.$cluster.prop('checked'),
-              url = types.csv.fields.$url.val();
-
-            $.each(types.csv.fields, function(field) {
-              fields.push(field);
-            });
-
-            if (!url) {
-              errors.push(types.csv.fields.$url);
-            }
-
-            config = {
-              type: 'csv',
-              url: url
-            };
-
-            if (clickable === false) {
-              config.clickable = false;
-            }
-
-            if (cluster) {
-              config.cluster = true;
-            }
-          })();
-        } else if ($('#geojson').is(':visible')) {
-          (function() {
-            var clickable = types.geojson.fields.$clickable.prop('checked'),
-              cluster = types.geojson.fields.$cluster.prop('checked'),
-              url = types.geojson.fields.$url.val();
-
-            $.each(types.geojson.fields, function(field) {
-              fields.push(field);
-            });
-
-            if (!url) {
-              errors.push(types.geojson.fields.$url);
-            }
-
-            config = {
-              type: 'geojson',
-              url: url
-            };
-
-            if (clickable === false) {
-              config.clickable = false;
-            }
-
-            if (cluster) {
-              config.cluster = true;
-            }
-          })();
-        } else if ($('#kml').is(':visible')) {
-          (function() {
-            var clickable = types.kml.fields.$clickable.prop('checked'),
-              cluster = types.kml.fields.$cluster.prop('checked'),
-              url = types.kml.fields.$url.val();
-
-            $.each(types.kml.fields, function(field) {
-              fields.push(field);
-            });
-
-            if (!url) {
-              errors.push(types.kml.fields.$url);
-            }
-
-            config = {
-              type: 'kml',
-              url: url
-            };
-
-            if (clickable === false) {
-              config.clickable = false;
-            }
-
-            if (cluster) {
-              config.cluster = true;
-            }
-          })();
-        } else if ($('#mapbox').is(':visible')) {
-          (function() {
-            var clickable = types.mapbox.fields.$clickable.prop('checked'),
-              detectRetina = types.mapbox.fields.$detectRetina.prop('checked'),
-              id = types.mapbox.fields.$id.val();
-
-            $.each(types.mapbox.fields, function(field) {
-              fields.push(field);
-            });
-
-            if (!id) {
-              errors.push(types.mapbox.fields.$id.val());
-            }
-
-            config = {
-              id: id,
-              opacity: parseInt(types.mapbox.fields.$opacity.val(), 10) / 100,
-              type: 'mapbox'
-            };
-
-            if (clickable === false) {
-              config.clickable = false;
-            }
-
-            if (detectRetina === true) {
-              config.detectRetina = true;
-            }
-          })();
-        } else if ($('#spot').is(':visible')) {
-          (function() {
-            var clickable = types.spot.fields.$clickable.prop('checked'),
-              cluster = types.spot.fields.$cluster.prop('checked'),
-              id = types.spot.fields.$id.val();
-
-            $.each(types.spot.fields, function(field) {
-              fields.push(field);
-            });
-
-            if (!id) {
-              errors.push(types.kml.fields.$id);
-            }
-
-            config = {
-              id: id,
-              type: 'spot'
-            };
-
-            if (clickable === false) {
-              config.clickable = false;
-            }
-
-            if (cluster) {
-              config.cluster = true;
-            }
-          })();
-        } else if ($('#tiled').is(':visible')) {
-          (function() {
-            var url = types.tiled.fields.$url.val();
-
-            $.each(types.tiled.fields, function(field) {
-              fields.push(field);
-            });
-
-            if (!url) {
-              errors.push(types.tiled.fields.$url.val());
-            }
-
-            config = {
-              opacity: parseInt(types.tiled.fields.$opacity.val(), 10) / 100,
-              type: 'tiled',
-              url: url
-            };
-          })();
-        } else if ($('#wms').is(':visible')) {
-          /*
-            http://nowcoast.noaa.gov/wms/com.esri.wms.Esrimap/obs?request=GetCapabilities&service=WMS
-            
-            attribution: 'NOAA',
-            crs: null, (not implemented)
-            format: 'image/png',
-            layers: 'RAS_RIDGE_NEXRAD',
-            opacity: 0.5,
-            styles: '', (not implemented)
-            transparent: true,
-            type: 'wms',
-            url: 'http://nowcoast.noaa.gov/wms/com.esri.wms.Esrimap/obs',
-            version: '1.1.1' (autopopulate, no input)
-          */
-        }
-
-        if (!errors.length) {
-          var $layers = $('#layers'),
-            type = config.type;
-
-          if (attribution) {
-            config.attribution = attribution;
-          }
-
-          if (description) {
-            config.description = description;
-          }
-
-          config.name = name;
-
-          if (styles) {
-            config.styles = styles;
-          } else if (type === 'csv' || type === 'geojson' || type === 'kml' || type === 'spot') {
-            config.styles = $.extend({}, FulcrumStyler._defaultStyles);
-          } else if (type === 'cartodb') {
-            config.styles = $.extend({}, FulcrumStyler._defaultStylesCollapsed);
-          }
-
-          // TODO: Loop through all properties and "sanitize" them.
-
-          if (FulcrumStyler.ui.modal.addLayer._editingIndex === -1) {
-            FulcrumStyler.addOverlay(config);
+          if (typeof config.clickable === 'undefined' || config.clickable === true) {
+            $interactivity.show();
           } else {
-            var $li = $($layers.children()[FulcrumStyler.ui.modal.addLayer._editingIndex]),
-              $interactivity = $($li.find('.interactivity')[0]);
-
-            NPMap.overlays[FulcrumStyler.ui.modal.addLayer._editingIndex] = config;
-            $($li.find('.name')[0]).text(config.name);
-
-            if (config.description) {
-              $($li.find('.description')[0]).text(config.description);
-            }
-
-            if (typeof config.clickable === 'undefined' || config.clickable === true) {
-              $interactivity.show();
-            } else {
-              $interactivity.hide();
-              delete config.popup;
-              delete config.tooltip;
-            }
+            $interactivity.hide();
+            delete config.popup;
+            delete config.tooltip;
           }
         }
       }
-
+      console.log(errors.length);
       if (errors.length) {
         $.each(errors, function(i, $el) {
+          console.log($el);
           $el.parent().addClass('has-error');
         });
       }
@@ -605,8 +581,8 @@ FulcrumStyler.ui.modal.addLayer = (function() {
 
       for (var prop in layer) {
         var value = layer[prop];
-
-        if (prop === 'attribution' || prop === 'description' || prop === 'name') {
+        console.log(value);
+        if (prop === 'attribution' || prop === 'name') {
           $('#layer' + (prop.charAt(0).toUpperCase() + prop.slice(1))).val(value);
         } else {
           if (prop === 'clickable' || prop === 'cluster' || prop === 'detectRetina') {
@@ -620,7 +596,6 @@ FulcrumStyler.ui.modal.addLayer = (function() {
       }
 
       $('#layerType').attr('disabled', 'disabled');
-      $('#modal-addLayer-description').html('Use the form below to update your overlay.');
       $('#modal-addLayer-title').text('Update Overlay');
       $('#modal-addLayer .btn-primary').text('Save Overlay');
 

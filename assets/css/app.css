@@ -122,6 +122,11 @@ header {
   top: 0;
   width: 100%;
 }
+.title{
+  font-size: 1.6em;
+  line-height: 25px;
+  margin: 12px 0 0 0;
+}
 .navbar-inverse{
   background-color: #AAA;
   border-color: #B0B0B0;
@@ -257,11 +262,11 @@ a.fulcrum-heat:hover{
   background: rgba(59,178,208,1);
   color: #000;
 }
-
 /*#button-save, a.button-refresh{
   padding: 10px;
 }*/
-.setup.buttons:hover, .buttons.embed:hover, #editBaseMapsAgain:hover, #addAnotherLayer:hover {
+.setup.buttons:hover, .buttons.embed:hover, 
+#editBaseMapsAgain:hover, #addAnotherLayer:hover {
   background: rgba(59,178,208,1);
   color: white !important;
 }
@@ -335,6 +340,20 @@ input[type="radio"], input[type="checkbox"] {
   padding:20px;
   z-index:40;
 }
+#title{
+  position: absolute;
+  top: 0;
+  left:0;
+  display: inline-block;
+  line-height: 13px;
+  overflow: hidden;
+  background: #fff;
+  background: rgba(255, 255, 255, 0.7);
+  font: 24px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+.editable-click, a.editable-click, a.editable-click:hover {
+  border-bottom: none !important;
+}
 #fulcrum-attribution{
   position: absolute;
   bottom: 0;
@@ -352,9 +371,9 @@ input[type="radio"], input[type="checkbox"] {
 }
 
 /* Layers */
- section div:first-child {
-    display: block;
-  }
+section div:first-child {
+  display: block;
+}
 
 #layers {
   color: #454545;
