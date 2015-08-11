@@ -1187,6 +1187,7 @@ function ready() {
                 listNodeName: 'ul'
               })
                 .on('change', function() {
+                  debugger;
                   var children = $ul.children(),
                     overlays = [];
 
@@ -1228,15 +1229,15 @@ function ready() {
                   });
                 }
               });
-              $('#filterLayer, #filterLayerAgain').on('click', function() {
-                if ($modalfilterLayer) {
-                  $modalfilterLayer.modal('show');
-                } else {
-                  loadModule('FulcrumStyler.ui.modal.filterLayer', function() {
-                    $modalfilterLayer = $('#modal-filterLayer');
-                  });
-                }
-              });
+              // $('#filterLayer, #filterLayerAgain').on('click', function() {
+              //   if ($modalfilterLayer) {
+              //     $modalfilterLayer.modal('show');
+              //   } else {
+              //     loadModule('FulcrumStyler.ui.modal.filterLayer', function() {
+              //       $modalfilterLayer = $('#modal-filterLayer');
+              //     });
+              //   }
+              // });
             },
             load: function() {
               if ($.isArray(NPMap.overlays)) {
@@ -1248,7 +1249,6 @@ function ready() {
               }
             },
             overlayToLi: function(overlay) {
-              debugger;
               var interactive = (overlay.type !== 'tiled' && (typeof overlay.clickable === 'undefined' || overlay.clickable === true)),
                 styleable = (overlay.type === 'cartodb' || overlay.type === 'csv' || overlay.type === 'geojson' || overlay.type === 'kml' || overlay.type === 'spot'),
                 index;
@@ -1300,6 +1300,7 @@ function ready() {
               } else {
                 $buttonAddAnotherLayer.show();
                 $buttonEditBaseMapsAgain.show();
+                debugger;
                 previous.hide();
                 $.each(children, function(i, li) {
                   $($(li).children('.letter')[0]).text(abcs[i]);

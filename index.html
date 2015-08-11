@@ -64,8 +64,16 @@
     <section>
       <div class="content">
       <h3 class="panel-title">Map Base</h3>
-        <a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" class="setup buttons" id="editBaseMaps"><i class="fa fa-edit"></i>&nbsp;&nbsp;Change Basemaps</a>
-        <a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" class="setup buttons" id="addLayer"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;Add Another Layer</a>
+      <div>
+        <a href="#" class="setup buttons" id="editBaseMaps"><i class="fa fa-edit"></i>&nbsp;&nbsp;Change Basemaps</a>
+        <a href="#" class="setup buttons" id="addLayer"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;Add Another Layer</a>
+      </div>
+      <div class="dd">
+        <ul id="layers" class="dd-list">
+        </ul>
+      </div>
+      <a id="editBaseMapsAgain">Edit Basemaps</a>
+      <a id="addAnotherLayer">Add an Overlay</a>
         <!--
             <p style="margin-top:5px;">Or upload your GeoJSON, KML, Shapefile, or File Geodatabase by dropping it into the rectangle below.</p>
             <div id="dropzone">
@@ -74,12 +82,6 @@
               </form>
             </div>
             -->
-          <div class="dd">
-            <ul id="overlays" class="dd-list">
-            </ul>
-          </div>
-          <a id="editBaseMapsAgain">Edit Basemaps</a>
-          <a id="addAnotherLayer">Add an Overlay</a>
       <div id="set-center-and-zoom">
         <h3 class="panel-title">Map Center & Zoom</h3>
           <a href="#" class="setup buttons" id="fulcrum-zoom">Zoom to Fulcrum Layer</a>
