@@ -33,7 +33,6 @@ function ready() {
       optionsNumbersFiltered = [],
       settingsSet = false,
       settingsZ = null,
-      title = null,
       titleSet = false,
       titleZ = null,
       $modalAddLayer, $modalEditBaseMaps;
@@ -421,7 +420,7 @@ function ready() {
               'document.body.appendChild(s);'
             },
             'index.html': {
-              'content': '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"><title>Fulcrum Data Collection</title><link rel=\"stylesheet\" href=\"style.css\"></head><body><div id=\"map\" /><script src=\"app.js\"></script></body></html>'
+              'content': '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"><title>' + title + '</title><link rel=\"stylesheet\" href=\"style.css\"></head><body><div id=\"map\" /><script src=\"app.js\"></script></body></html>'
             },
             'style.css': {
               'content': 'body {margin: 0;padding: 0;} #map {bottom: 0;position: absolute;top: 0;width: 100%;}.leaflet-container .leaflet-control-attribution {display:none !important;}'
@@ -556,7 +555,7 @@ function ready() {
                 'content': '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"><title>Fulcrum Data Collection</title><link rel=\"stylesheet\" href=\"style.css\"></head><body><div id=\"map\" /><script src=\"app.js\"></script></body></html>'
               },
               'style.css': {
-                'content': 'body {margin: 0;padding: 0;} #map {bottom: 0;position: absolute;top: 0;width: 100%;}'
+                'content': 'body {margin: 0;padding: 0;} #map {bottom: 0;position: absolute;top: 0;width: 100%;}#title {position: absolute;top: 10px;left: 10px;background: #fff;background: rgba(255, 255, 255, 0.7);font: 24px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;}'
               }
             }
           };
@@ -603,61 +602,52 @@ function ready() {
             //   uploadMultiple: false
             // };
             firstLoad = true;
-            title = NPMap.name;
-
-            $('#metadata .title a').text(title).editable({
+            App.title = NPMap.name;
+           
+            $('#title a').text(App.title).editable({
               animation: false,
               emptytext: 'Untitled Map',
               validate: function(value) {
                 if ($.trim(value) === '') {
-                  return 'Please enter a title for your map.';
+                  return 'Name your map!';
                 }
               }
             })
               .on('hidden', function() {
-                var newDescription = $('#metadata .description a').text(),
-                  newTitle = $('#metadata .title a').text(),
-                  next = $(this).next();
+                var newTitle = $('.title a').text();
 
-                if (!newDescription || newDescription === 'Add a description to give your map context.') {
-                  $('#metadata .description a').editable('toggle');
-                } else {
-                  if (newTitle !== title) {
-                    enableSave();
-                  }
+                if (newTitle !== App.title) {
+                  saveMap();
                 }
-
+  
                 if (!titleSet) {
                   next.css({
                     'z-index': titleZ
                   });
-                  $(next.find('button')[1]).css({
-                    display: 'block'
-                  });
                   titleSet = true;
                 }
 
-                title = newTitle;
-                NPMap.name = title;
+                App.title = newTitle;
+                NPMap.name = App.title;
               })
-              .on('shown', function() {
-                var next = $(this).next();
+              // .on('shown', function() {
+                // var next = $(this).next();
 
-                if (!titleSet) {
-                  titleZ = next.css('z-index');
-                  next.css({
-                    'z-index': 1031
-                  });
-                  $(next.find('button')[1]).css({
-                    display: 'none'
-                  });
-                }
+                // if (!titleSet) {
+                //   titleZ = next.css('z-index');
+                //   next.css({
+                //     'z-index': 1031
+                //   });
+                  // $(next.find('button')[1]).css({
+                  //   display: 'none'
+                  // });
+                // }
 
-                next.find('.editable-clear-x').remove();
-                next.find('input').css({
-                  'padding-right': '10px'
-                });
-              });
+                // next.find('.editable-clear-x').remove();
+                // next.find('input').css({
+                //   'padding-right': '10px'
+                // });
+              // });
 
 
 
@@ -1621,6 +1611,7 @@ function ready() {
 
   FulcrumStyler.ui.steps.addAndCustomizeData.init();
   FulcrumStyler.ui.steps.setCenterAndZoom.init();
+  FulcrumStyler.ui.app.init();
   FulcrumStyler.ui.steps.init();
   FulcrumStyler.ui.toolbar.init();
 
@@ -1640,7 +1631,8 @@ function ready() {
 }
 
 var App = {
-  mapId: decodeURI((RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1])
+  mapId: decodeURI((RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]),
+  title: ''
 }
 
 if (App.mapId === 'null' || App.mapId === 'fulcrum-data-id') {
@@ -1658,7 +1650,7 @@ if (App.mapId === 'null' || App.mapId === 'fulcrum-data-id') {
     },
     div: 'map',
     overlays: [{
-      name: 'Fulcrum App',
+      name: App.title,
       type: 'geojson',
       url: 'https://web.fulcrumapp.com/shares/' + App.mapId + '.geojson'
     }],

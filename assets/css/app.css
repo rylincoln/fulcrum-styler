@@ -342,11 +342,8 @@ input[type="radio"], input[type="checkbox"] {
 }
 #title{
   position: absolute;
-  top: 0;
-  left:0;
-  display: inline-block;
-  line-height: 13px;
-  overflow: hidden;
+  top: 10px;
+  left: 10px;
   background: #fff;
   background: rgba(255, 255, 255, 0.7);
   font: 24px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
@@ -371,7 +368,7 @@ input[type="radio"], input[type="checkbox"] {
 }
 
 /* Layers */
-section div:first-child {
+.content section div:first-child {
   display: block;
 }
 
