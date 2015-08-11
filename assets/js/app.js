@@ -15,7 +15,7 @@ function ready() {
       $iframe = $('#iframe-map'),
       $lat = $('.lat'),
       $lng = $('.lng'),
-      $layers = $('#layers'),
+      $layers = $('#layers'), //same thing
       $ul = $('#layers'),
       $zoom = $('.zoom'),
       abcs = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'],
@@ -35,6 +35,7 @@ function ready() {
       settingsZ = null,
       titleSet = false,
       titleZ = null,
+      saveMapInterval = 0,
       $modalAddLayer, $modalEditBaseMaps;
 
     function disableSave() {
@@ -427,34 +428,57 @@ function ready() {
             }
           }
         };
+      saveMapInterval = saveMapInterval + 1;
 
       FulcrumStyler.showLoading();
-      $this.blur();
+      console.log(saveMapInterval);
 
-      $.ajax({
-        url: 'https://api.github.com/gists',
-        type: 'POST',
-        dataType: 'json',
-        data: JSON.stringify(datum),
-        public: false
-      })
-      .success( function(response) {
-        window.App.id = response.id;
-        console.log(response);
-        FulcrumStyler.hideLoading();
+      if (saveMapInterval === 0){
+        $.ajax({
+          url: 'https://api.github.com/gists',
+          type: 'POST',
+          dataType: 'json',
+          data: JSON.stringify(datum),
+          public: false
+        })
+        .success( function(response) {
+          window.App.id = response.id;
+          console.log(response);
+          FulcrumStyler.hideLoading();
 
-        updateSaveStatus(response.modified);
-        alertify.success('Your map was saved!');
-        success = true;
-        
-        if (typeof callback === 'function') {
-          callback(success);
-        }
-      })
-      .error( function(e) {
-        var error = 'Sorry, there was an unhandled error while saving your map. Please try again.';
-        alertify.error(error);
-      });
+          updateSaveStatus(response.modified);
+          alertify.success('Your map was saved!');
+          success = true;
+          
+          if (typeof callback === 'function') {
+            callback(success);
+          }
+        })
+        .error( function(e) {
+          var error = 'Sorry, there was an unhandled error while saving your map. Please try again.';
+          alertify.error(error);
+        });
+      } else {
+        $.ajax({
+          url: 'https://api.github.com/gists/' + App.id,
+          type: 'PATCH',
+          dataType: 'json',
+          data: JSON.stringify(datum),
+          public: false
+        })
+        .success( function(response) {
+          alertify.success('Your map was saved!');
+          success = true;
+          
+          if (typeof callback === 'function') {
+            callback(success);
+          }
+        })
+        .error( function(e) {
+          var error = 'Sorry, there was an unhandled error while saving your map. Please try again.';
+          alertify.error(error);
+        });
+      }
     }
     function unescapeHtml(unsafe) {
       return unsafe
@@ -589,69 +613,44 @@ function ready() {
         });
       },
       ui: {
-        app: {
-          init: function() {
-            // Dropzone.options.dropzone = {
-            //   accept: function(file, done) {
-            //     console.log(file);
-            //     done();
-            //   },
-            //   clickable: false,
-            //   createImageThumbnails: false,
-            //   maxFilesize: 5,
-            //   uploadMultiple: false
-            // };
-            firstLoad = true;
-            App.title = NPMap.name;
+        init: function() {
+          // Dropzone.options.dropzone = {
+          //   accept: function(file, done) {
+          //     console.log(file);
+          //     done();
+          //   },
+          //   clickable: false,
+          //   createImageThumbnails: false,
+          //   maxFilesize: 5,
+          //   uploadMultiple: false
+          // };
+          App.title = NPMap.name;
            
-            $('#title a').text(App.title).editable({
-              animation: false,
-              emptytext: 'Untitled Map',
-              validate: function(value) {
-                if ($.trim(value) === '') {
-                  return 'Name your map!';
-                }
+          $('#title a').text(App.title).editable({
+            animation: false,
+            emptytext: 'Untitled Map',
+            validate: function(value) {
+              if ($.trim(value) === '') {
+                return 'Name your map!';
               }
-            })
-              .on('hidden', function() {
-                var newTitle = $('.title a').text();
+            }
+          }).on('hidden', function() {
+            var newTitle = $('.title a').text();
 
-                if (newTitle !== App.title) {
-                  saveMap();
-                }
-  
-                if (!titleSet) {
-                  next.css({
-                    'z-index': titleZ
-                  });
-                  titleSet = true;
-                }
+            if (newTitle !== App.title) {
+              saveMap();
+            }
 
-                App.title = newTitle;
-                NPMap.name = App.title;
-              })
-              // .on('shown', function() {
-                // var next = $(this).next();
+            if (!titleSet) {
+              next.css({
+                'z-index': titleZ
+              });
+              titleSet = true;
+            }
 
-                // if (!titleSet) {
-                //   titleZ = next.css('z-index');
-                //   next.css({
-                //     'z-index': 1031
-                //   });
-                  // $(next.find('button')[1]).css({
-                  //   display: 'none'
-                  // });
-                // }
-
-                // next.find('.editable-clear-x').remove();
-                // next.find('input').css({
-                //   'padding-right': '10px'
-                // });
-              // });
-
-
-
-          }
+            App.title = newTitle;
+            NPMap.name = App.title;
+          })
         },
         steps: {
           addAndCustomizeData: {
@@ -1611,7 +1610,7 @@ function ready() {
 
   FulcrumStyler.ui.steps.addAndCustomizeData.init();
   FulcrumStyler.ui.steps.setCenterAndZoom.init();
-  FulcrumStyler.ui.app.init();
+  FulcrumStyler.ui.init();
   FulcrumStyler.ui.steps.init();
   FulcrumStyler.ui.toolbar.init();
 

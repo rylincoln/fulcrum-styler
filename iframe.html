@@ -16,7 +16,7 @@
         position: absolute;
         top: 0;
       }
-      .leaflet-container .leaflet-control-attribution {
+      div.leaflet-container .leaflet-control-attribution {
         display:none !important;
       }
     </style>
@@ -50,14 +50,14 @@
             map.fitBounds(NPMap.config.overlays[0].L.getBounds());
             $('.setup.buttons')[3].style.backgroundColor = 'rgba(59,178,208,1)';
             return false;
-
-            // NPMap.config.overlays[0].L.eachLayer( function(layer){
-            //   if (layer._latlng.lat === 0) {
-            //     map.removeLayer(layer);
-            //     layer.clearLayers
-            //   }
-            // });
           });
+
+          // NPMap.config.overlays[0].L.eachLayer( function(layer){
+          //   if (layer._latlng.lat === 0) {
+          //     map.removeLayer(layer);
+          //     layer.clearLayers
+          //   }
+          // });  
 
           map.on('moveend', updateCurrent);
           updateCurrent();
