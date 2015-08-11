@@ -79,7 +79,6 @@ FulcrumStyler.ui.modal.editBaseMaps = (function() {
               clone.popup = {
                 title: '{{name}}'
               };
-              // debugger;
 
               if ($(inputs[1]).prop('checked')) {
                 layers.unshift(clone);

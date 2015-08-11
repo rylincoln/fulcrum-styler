@@ -255,7 +255,7 @@ a.fulcrum-heat:hover{
 }
 #fulcrum-zoom{
   background: rgba(59,178,208,1);
-  color: #fff;
+  color: #000;
 }
 
 /*#button-save, a.button-refresh{
@@ -326,14 +326,29 @@ input[type="radio"], input[type="checkbox"] {
 .modal.in .modal-dialog {
   overflow: auto !important;
 }
-#heat-options{
+#cluster-options{
   display: none;
   position: absolute;
-  top: 70px;
+  top: 0px;
   height:100px;
   width:200px;
   padding:20px;
   z-index:40;
+}
+#fulcrum-attribution{
+  position: absolute;
+  bottom: 0;
+  right:0;
+  display: inline-block;
+  line-height: 13px;
+  overflow: hidden;
+  padding: 3px 5px;
+  text-align: right;
+  white-space: nowrap;
+  background: #fff;
+  background: rgba(255, 255, 255, 0.7);
+  margin: 0;
+  font: 12px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
 
 @media (max-width: 992px) {

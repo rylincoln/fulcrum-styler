@@ -39,8 +39,7 @@ function ready() {
 
     function disableSave() {
       //work on this... 
-      $buttonSave.css('color:#808080');
-      // $buttonSave.css('pointer:#808080');
+      $buttonSave.css('color','#808080');
       $buttonSave.prop('disabled', true);
     }
     function enableSave() {
@@ -508,9 +507,30 @@ function ready() {
       },
       changeCluster: function(el){
         if (el.checked) {
+          $('#fulcrum-options').css('display','block');
           NPMap.overlays[0].cluster = {
-            clusterIcon: '#6c6c6c'
+            clusterIcon: '#6c6c6c',
+            maxClusterRadius: 12
           };
+
+          $('input[type=range]').on('input', function() {
+            if (this.id === 'size'){
+              NPMap.overlays[0].cluster.maxClusterRadius = parseInt($('#size')[0].value);
+            } else {
+              $("input#large").ColorPickerSliders({
+                size: 'lg',
+                placement: 'bottom',
+                swatches: false,
+                order: {
+                  cie: 1
+                }
+              });
+              debugger;
+              NPMap.overlays[0].cluster.clusterIcon = $("input#large").value;
+            }
+            FulcrumStyler.updateMap();
+          });
+
         } else {
           NPMap.overlays[0].cluster = false;
         }
@@ -518,8 +538,6 @@ function ready() {
         FulcrumStyler.updateMap()
       },
       saveMap: function(callback) {
-        debugger;
-
         var $this = $(this),
           id = App.mapId,
           datum = {
@@ -1222,12 +1240,15 @@ function ready() {
             },
             load: function() {
               if ($.isArray(NPMap.overlays)) {
-                $.each(NPMap.overlays, function(i, overlay) {
-                  FulcrumStyler.ui.steps.addAndCustomizeData.overlayToLi(overlay);
-                });
+                if (!NPMap.overlays[0]){
+                  $.each(NPMap.overlays, function(i, overlay) {
+                    FulcrumStyler.ui.steps.addAndCustomizeData.overlayToLi(overlay);
+                  });
+                }
               }
             },
             overlayToLi: function(overlay) {
+              debugger;
               var interactive = (overlay.type !== 'tiled' && (typeof overlay.clickable === 'undefined' || overlay.clickable === true)),
                 styleable = (overlay.type === 'cartodb' || overlay.type === 'csv' || overlay.type === 'geojson' || overlay.type === 'kml' || overlay.type === 'spot'),
                 index;
@@ -1307,6 +1328,8 @@ function ready() {
                 NPMap.zoom = map.getZoom();
 
                 updateInitialCenterAndZoom();
+                this.style.backgroundColor = '';
+                $('#fulcrum-zoom:hover').css('background-color','#ddd');
                 FulcrumStyler.updateMap();
               });
               $(buttonBlocks[2]).on('click', function() {
@@ -1396,10 +1419,6 @@ function ready() {
                       NPMap[value] = checked;
                     }
 
-                    if (value === 'fulcrum-cluster'){
-                      debugger;
-                      
-                    }
                     FulcrumStyler.updateMap();
                   });
                 });
@@ -1572,8 +1591,8 @@ if (App.mapId === 'null' || App.mapId === 'fulcrum-data-id') {
       'cartodb-positron'
     ],
     center: {
-      lat: 39.37,
-      lng: -105.7
+      lat: 0,
+      lng: 0
     },
     div: 'map',
     overlays: [{
@@ -1586,7 +1605,8 @@ if (App.mapId === 'null' || App.mapId === 'fulcrum-data-id') {
     },
      smallzoomControl: {
       position: 'topright'
-    }
+    },
+    zoom: 2
   };
   ready();
 }

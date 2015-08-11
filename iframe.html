@@ -27,7 +27,7 @@
       var $ = window.parent.$,
         NPMap = JSON.parse(JSON.stringify(parent.NPMap)),
         mapId = JSON.parse(JSON.stringify(parent.App)).mapId,
-        heat = $('#fulcrum-heat');
+        cluster = $('#fulcrum-cluster');
 
       NPMap.hooks = {
         init: function(callback) {
@@ -46,7 +46,9 @@
           }
 
           zoom.on('click', function() {
+            $('#fulcrum-zoom').css('background-color','#ddd');
             map.fitBounds(NPMap.config.overlays[0].L.getBounds());
+            $('.setup.buttons')[3].style.backgroundColor = 'rgba(59,178,208,1)';
             return false;
 
             // NPMap.config.overlays[0].L.eachLayer( function(layer){
@@ -55,6 +57,10 @@
             //     layer.clearLayers
             //   }
             // });
+          });
+
+           cluster.on('click', function(){
+            $('#cluster-options').css('display','block');
           });
 
           map.on('moveend', updateCurrent);
